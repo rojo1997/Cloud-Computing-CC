@@ -10,12 +10,12 @@ El proyecto que realizaremos ha sido denominado **ReFood** de acorde al objetivo
 #### Arquitectura
 Para el desarrollo del servicio descrito se empleará una **arquitectura basada en microservicios**, sobre la que desarrollaremos 4 micro-servicios. Aprovecharemos una de las ventajas que nos ofrece esta arquitectura para desarrollar los micro-servicios en el lenguaje que mejor nos permita realizar cada una de las funciones de éstos. Adicionalmente consideraremos un 5º micro-servicio de **Log**.
 
-Cada uno de estos micro-servicios estará accesible mediante una **API GrahpQL**, aprovechando las ventajas de esta tecnología frente a las de tipo **REST**, que nos permitirá realizar las consultas de una manera más sencilla y eficaz, gracias a que nos facilita obtener los datos que deseemos con tan solo una consulta, sin necesidad de realizar diversos 'Request', ni de disponer de varios **Endpoints**.
+Cada uno de estos micro-servicios, salvo el de análisis, estará accesible mediante una **API GrahpQL**, aprovechando las ventajas de esta tecnología frente a las de tipo **REST**, que nos permitirá realizar las consultas de una manera más sencilla y eficaz, gracias a que nos facilita obtener los datos que deseemos con tan solo una consulta, sin necesidad de realizar diversos 'Request', ni de disponer de varios **Endpoints**. Respecto al micro-servicio de **análisis de productos**, se empleará una **API Rest**, mostrando el uso de tecnologías diferentes independientemente del micro-servicio, y aprovechando una vez más las características de esta arquitectura.
 
-La comunicación interna entre los diversos micro-servicios se realizará siguiendo el protocolo **[AMQP](https://en.wikipedia.org/wiki/Advanced_Message_Queuing_Protocol)**.
+La **comunicación interna** entre los diversos **micro-servicios** se realizará siguiendo el protocolo **[AMQP](https://en.wikipedia.org/wiki/Advanced_Message_Queuing_Protocol)**.
 Nos basaremos así en una **comunicación asíncrona** implementando una **cola de mensajes** donde los micro-servicios podrán suscribirse a los diversos canales para actuar en consecuencia. Para ello haremos uso de una capa de abstracción, empleando un **agente de mensajes** como [RabbitMq](https://www.rabbitmq.com/).
 
-Como se ha mencionado, se planea que se puedan usar diferentes lenguajes en el servicio, por lo que la idea será emplear **Node JS** para los 3 primeros micro-servicios y **Python** para el 4º de los micro-servicios, aprovechando las ventajas de cada uno de estos lenguajes en relación a las funcionalidades de los micro-servicios, como se definen a continuación:
+Como se ha mencionado, se planea que se puedan usar diferentes lenguajes en el servicio, por lo que la idea será emplear **Node JS** para los 3 primeros micro-servicios, junto con el micro-servicio de log, y **Python** para el 4º de los micro-servicios, aprovechando las ventajas de cada uno de estos lenguajes en relación a las funcionalidades de los micro-servicios, como se definen a continuación:
 
 * **Microsercicio 1**: Gestión de usuarios (tipos supermercado y comprador)
   * Registro de usuarios
@@ -31,7 +31,7 @@ Como se ha mencionado, se planea que se puedan usar diferentes lenguajes en el s
   * Registrar alertas de posibles recetas
 * **Microservicio 4**: Análisis de productos
   * Buscar posibles recetas con productos rebajados disponibles
-* **Microservicio 5**: Log del servicio.
+* **Microservicio 5**: Log del servicio
   * Registro de operación
   * Consulta de log del servicio
 
@@ -99,12 +99,13 @@ Como **almacén de datos**, utilizaremos para cada uno de los micro-servicios de
 
 #### Testeo
 Para la fase de testeo de nuestro servicio, contaremos con la ayuda del paquete **'easygraphql-tester'**, que nos proporcionará funciones para comprobar de una manera sencilla la respuesta esperada a cada una de las consultas.
+Para el caso del micro-servicio en python **API Rest**, haremos uso de la librería '**pytest**'.
 
 #### Resumen de lenguajes y tecnologías empleadas
 Como ya se ha indicado, en el desarrollo de los micro-servicios emplearemos los **lenguajes** de programación **Node JS** y **Python**.  
 Como **tecnologías** emplearemos **Express** para NodeJs y **Flask** en el caso de Python. Del lado de almacén de datos, usaremos **Mongoose** como ODM que nos permitirá definir los modelos de datos de nuestro servicio, junto con **GraphQL**. Respecto a la implementación de la comunicación entre micro-servicios, haremos uso de librerías como '**pika**' o '**amqplib**', que nos ofrece **RabbitMq**.
 
-Puede obtener más información en el siguiente enlace, donde se encuentra toda la [documentación del proyecto]().
+Puede obtener más información en el siguiente enlace, donde se encuentra toda la [documentación del proyecto](https://github.com/yoskitar/Cloud-Computing-CC/tree/master/Documentacion).
 
 ## Justificaciones
 [Justificaciones adicionales referentes a los diversos hitos de la asignatura.](https://github.com/yoskitar/Cloud-Computing-CC/tree/master/Justificaciones)
