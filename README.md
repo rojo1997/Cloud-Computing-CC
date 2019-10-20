@@ -99,7 +99,7 @@ Como **almacén de datos**, utilizaremos para cada uno de los micro-servicios de
 
 #### Testeo
 Para la fase de testeo de nuestro servicio, contaremos con la ayuda del paquete **'easygraphql-tester'**, que nos proporcionará funciones para comprobar de una manera sencilla la respuesta esperada a cada una de las consultas.
-Para el caso del micro-servicio en python **API Rest**, haremos uso de la librería '**pytest**'.
+Para el caso del micro-servicio en python empleando **Flask**, haremos uso de la librería '**pytest**'.
 
 #### Resumen de lenguajes y tecnologías empleadas
 Como ya se ha indicado, en el desarrollo de los micro-servicios emplearemos los **lenguajes** de programación **Node JS** y **Python**.  
