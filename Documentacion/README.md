@@ -1,6 +1,22 @@
 # Documentación del Proyecto
 Este documento se irá completando progresivamente durante el desarrollo del proyecto con las diversas actualizaciones que se vayan introduciendo, referentes al avance en el temario de la asignatura y de los diferentes hitos.
+
 ## REFOOD
+### Tabla de contenidos
+ 1. [Idea principal]()  
+ 2. [Breve descripción]()  
+ 3. [Resumen]()  
+ 4. [DDD - Entidades e historias de usuario]()  
+ 5. [Descripción técnica]()  
+   - 5.1. [Arquitectura]()  
+   - 5.2. [Especificación de funcionalidades]()  
+   - 5.3. [Servicios]()   
+      - 5.3.1 [Configuración distribuida]()  
+      - 5.3.2 [Logs]()  
+      - 5.3.3 [Almacén de datos]()  
+  - 5.4. [Testeo]()  
+  - 5.5. [Resumen de lenguajes y tecnologías]()
+
 ### Idea principal sobre la que se basará el servicio
 La idea inicial para el desarrollo de este proyecto la he heredado de un proyecto propio personal, sobre el que basé igualmente mi [trabajo de fin de grado](). Esta idea consiste en el desarrollo de un sistema para la **gestión de eventos**. Concretamente, en el TFG, se desarrollo un modelo basado en la generación y definición de unas entidades que se denominaron **'servicios'** y **'micro-servicios'**, que permitía una fácil adaptación de cualquier problema **'productor-consumidor'**, con la finalidad de poder **explotar los datos recogidos**.
 
@@ -12,6 +28,26 @@ El proyecto que realizaremos ha sido denominado **ReFood** de acorde al objetivo
 
 Como ya adelantábamos en la descripción inicial del proyecto, los supermercados ya realizan este proceso de bajar productos de precio cuya fecha de caducidad se encuentra próxima, pero pecan en un aspecto fundamental, y es en la difusión de esa posible oferta o reducción del precio, puesto que tan solo si te desplazas al supermercado a comprar algún otro producto y lo ves rebajado, podrás incluirlo en tu compra.
 
+### Entidades e historias de usuario (DDD)
+En nuestro problema encontramos 3 entidades principales:
+* **Producto**: Un producto es un alimento rebajado de precio, que la empresa o supermercado introduce en nuestro sistema para que la gente tenga conciencia de esta rebaja, relacionada con la cercanía de la fecha máxima de consumo del producto, y se incite a su compra a través de dicha rebaja. He de aclarar que se consideran productos, y no existencias, ya que cada existencia individual de un producto podrá tener un precio distinto, sin ser dependiente de que se trate del mismo producto.
+
+  * Un usuario perteneciente a un supermercado o empresa relacionada con la venta de alimentos introduce un producto rebajado de precio en nuestro catálogo.
+  * Un usuario perteneciente a un supermercado o empresa relacionada con la venta de alimentos modifica el estado de un producto indicando si se encuentra disponible, reservado o comprado.
+  * Un usuario consulta uno o varios productos disponibles en el catálogo.  
+
+
+* **Alerta**: Una alerta atiende a su propia definición, siendo un aviso que se crea para los usuarios, indicándoles que producto se encuentra rebajado, además de información relativa al precio, descripción, y localización (supermercado que lo ha puesto a la venta) del producto.
+
+  * Un usuario introduce un producto en el catálogo y se crea una alerta con la información relativa.
+  * Un usuario consulta las alertas de productos y recetas que se han creado.
+
+
+* **Receta**: Una receta atiende a una serie de pasos en los que intervienen un conjunto de productos para la elaboración de una comida. El interés de esta entidad en el dominio de nuestro problema será poder analizar que recetas se pueden realizar en función de los productos rebajados, con el objetivo de incentivar a su compra a través de estas sugerencias.
+
+  * Un usuario introduce un producto en el catálogo y se analiza si existe alguna receta que se pueda elaborar con los productos rebajados disponibles.
+
+
 ### Descripción técnica del servicio
 #### Arquitectura
 Para el desarrollo del servicio descrito se empleará una **arquitectura basada en microservicios**, sobre la que desarrollaremos 4 micro-servicios. Aprovecharemos una de las ventajas que nos ofrece esta arquitectura para desarrollar los micro-servicios en el lenguaje que mejor nos permita realizar cada una de las funciones de éstos. Adicionalmente consideraremos un 5º micro-servicio de **Log**.
@@ -21,7 +57,7 @@ Cada uno de estos micro-servicios, salvo el de análisis, estará accesible medi
 La **comunicación interna** entre los diversos **micro-servicios** se realizará siguiendo el protocolo **[AMQP](https://en.wikipedia.org/wiki/Advanced_Message_Queuing_Protocol)**.
 Nos basaremos así en una **comunicación asíncrona** implementando una **cola de mensajes** donde los micro-servicios podrán suscribirse a los diversos canales para actuar en consecuencia. Para ello haremos uso de una capa de abstracción, empleando un **agente de mensajes** como [RabbitMq](https://www.rabbitmq.com/).
 
-Como se ha mencionado, se planea que se puedan usar diferentes lenguajes en el servicio, por lo que la idea será emplear **Node JS** para los 3 primeros micro-servicios, junto con el micro-servicio de log, y **Python** para el 4º de los micro-servicios, aprovechando las ventajas de cada uno de estos lenguajes en relación a las funcionalidades de los micro-servicios, como se definen a continuación:
+Como se ha mencionado, se planea que se puedan usar diferentes lenguajes en el servicio, por lo que la idea será emplear **Node JS** para los 2 primeros micro-servicios y **Python** para el 3º de los micro-servicios, aprovechando las ventajas de cada uno de estos lenguajes en relación a las funcionalidades de los micro-servicios, como se definen a continuación:
 
 * **Microsercicio 1**: Gestión de usuarios (tipos supermercado y comprador)
   * Registro de usuarios
@@ -44,26 +80,8 @@ Como se ha mencionado, se planea que se puedan usar diferentes lenguajes en el s
 A continuación se muestra un diagrama donde se refleja la arquitectura descrita:
 ![Arquitectura del servicio](https://raw.githubusercontent.com/yoskitar/Cloud-Computing-CC/master/Justificaciones/imagenes/Arquitectura%20CC-Project-ReFood.png)
 
-
 #### Especificación de funcionalidades
-* **Microsercicio 1**
-  * **Registro de usuarios**:
-      * **Descripción**: Función para la inserción de usuarios en el servicio.
-      * **Datos de entrada**: Email, contraseña, tipo de usuario (productor-consumidor)  
-      * **Salida**: Confirmación de operación, identificador de usuario, errores
-  * **Borrado de usuarios**:
-      * **Descripción**: Función para la eliminación de usuarios en el servicio.
-      * **Datos de entrada**: Email o identificador único de usuario (UUID)
-      * **Salida**: Confirmación de operación, errores
-  * **Consulta de usuarios**:
-      * **Descripción**: Función para obtener una lista de usuarios del servicio.
-      * **Datos de entrada**: Emails o UUIDs de usuarios a consultar, o vacío en caso de obtener la lista completa.
-      * **Salida**: Confirmación de operación, lista de usuarios, errores
-  * **Autenticación de usuarios**:
-    * **Descripción**: Función para la autorización y autenticación de usuarios en el servicio.
-    * **Datos de entrada**: Token de autenticación del usuario
-    * **Salida**: Confirmación de operación, errores
-* **Microservicio 2**
+* **Microservicio 1**
   * **Registrar producto rebajado**:
     * **Descripción**: Función para insertar un nuevo producto rebajado
     * **Datos de entrada**: Nombre del producto, categoría, precio inicial, precio rebajado.
@@ -76,32 +94,34 @@ A continuación se muestra un diagrama donde se refleja la arquitectura descrita
     * **Descripción**: Función para obtener los productos rebajados
     * **Datos de entrada**: Identificador del producto o  vacío en caso de obtener lista completa
     * **Salida**: Confirmación de operación, lista de productos, errores
-* **Microservicio 3**
+* **Microservicio 2**
   * **Registrar alertas de productos**:
     * **Descripción**: Función para insertar alertas de productos rebajados para usuarios de posible interés.
     * **Datos de entrada**: UUIDs de usuarios, identificadores de productos
     * **Salida**: Confirmación de operación, lista de identificadores de alertas, errores
+  * **Consultar alertas**:
+      * **Descripción**: Función para obtener las alertas de productos
+      * **Datos de entrada**: Identificador de alerta o  vacío en caso de obtener lista completa
+      * **Salida**: Confirmación de operación, lista de alertas, errores
   * **Registrar alertas de posibles recetas**:
     * **Descripción**: Función para insertar alertas de recetas para usuarios de posible interés, en relación a los productos rebajados disponibles.
     * **Datos de entrada**: UUIDs de usuarios, identificadores de productos, identificadores de recetas
     * **Salida**: Confirmación de operación, lista de identificadores de alertas, errores
-* **Microservicio 4**
+* **Microservicio 3**
   * **Buscar posibles recetas con productos rebajados disponibles**:
     * **Descripción**: Función para analizar los productos rebajados disponibles y buscar posibles recetas que se puedan realizar con ellos.
     * **Datos de entrada**: Identificadores de productos disponibles
     * **Salida**: Confirmación de operación, lista de identificadores de recetas, errores
-* **Microservicio 5**
-    * **Registro de operación**:
-      * **Descripción**: Función para registrar las operaciones y estado del servicio.
-      * **Datos de entrada**: Operación realizada, estado de la operación.
-      * **Salida**: Confirmación de operación, errores
-    * **Consulta de log del servicio**:
-      * **Descripción**: Función para consultar el log del servicio
-      * **Datos de entrada**: Vacío.
-      * **Salida**: Log del servicio
 
-#### Almacén de datos
-Como **almacén de datos**, utilizaremos para cada uno de los micro-servicios definidos, una base de datos **NoSQL**, empleando **MongoDB**. La idea será emplear el lenguaje de consulta **GraphQL**, junto con su API, que nos facilitará testear en una primera instancia, las diversas consultas que implementemos.
+#### Servicios
+##### Configuración distribuida
+Como servicio de configuración distribuida emplearemos **etcd**, que nos ofrece las funcionalidades necesarias para conectar nuestros micro-servicios y de la que se puede encontrar numerosos ejemplos para su [implementación y documentación](https://www.npmjs.com/package/node-etcd).
+
+##### Logs
+Como servicio de **logs** emplearemos por un lado, para los micro-servicios en NodeJs, el paquete [**'Winston'**](https://www.npmjs.com/package/winston), y para el micro-servicio en Python, usaremos [**'Logging'**](https://realpython.com/python-logging/). La elección de éstos se ha realizado en base a la documentación y literatura existente en la web, que la ilustra de manera sencilla y con numerosos ejemplos.
+
+##### Almacén de datos
+Como **almacén de datos**, utilizaremos para cada uno de los micro-servicios definidos, una base de datos **NoSQL**, basada en **documentos**, debido a la naturaleza de nuestros micro-servicios, que trabajarán con **catálogos** y modelos de datos de diferente estructura, aprovechando así dos de los [puntos fuertes](https://aws.amazon.com/es/nosql/document/) de este tipo de bases de datos. En base a ello, usaremos **MongoDB**. La idea será emplear el lenguaje de consulta **GraphQL**, junto con su API, que nos facilitará testear en una primera instancia, las diversas consultas que implementemos.
 
 #### Testeo
 Para la fase de testeo de nuestro servicio, contaremos con la ayuda del paquete **'easygraphql-tester'**, que nos proporcionará funciones para comprobar de una manera sencilla la respuesta esperada a cada una de las consultas.
@@ -109,4 +129,4 @@ Para el caso del micro-servicio en python empleando **Flask**, haremos uso de la
 
 #### Resumen de lenguajes y tecnologías empleadas
 Como ya se ha indicado, en el desarrollo de los micro-servicios emplearemos los **lenguajes** de programación **Node JS** y **Python**.  
-Como **tecnologías** emplearemos **Express** para NodeJs y **Flask** en el caso de Python. Del lado de almacén de datos, usaremos **Mongoose** como ODM que nos permitirá definir los modelos de datos de nuestro servicio, junto con **GraphQL**. Respecto a la implementación de la comunicación entre micro-servicios, haremos uso de librerías como '**pika**' o '**amqplib**', que nos ofrece **RabbitMq**.
+Como **tecnologías** emplearemos **Express**, junto con el paquete **express-graphql** para NodeJs y **Flask** en el caso de Python. Del lado de almacén de datos, usaremos **Mongoose** como ODM que nos permitirá definir los modelos de datos de nuestro servicio, junto con **GraphQL**. Respecto a la implementación de la comunicación entre micro-servicios, haremos uso de librerías como '**pika**' o '**amqplib**', que nos ofrece **RabbitMq**.
