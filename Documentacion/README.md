@@ -3,19 +3,19 @@ Este documento se irá completando progresivamente durante el desarrollo del pro
 
 ## REFOOD
 ### Tabla de contenidos
- 1. [Idea principal]()  
- 2. [Breve descripción]()  
- 3. [Resumen]()  
- 4. [DDD - Entidades e historias de usuario]()  
- 5. [Descripción técnica]()  
-   - 5.1. [Arquitectura]()  
-   - 5.2. [Especificación de funcionalidades]()  
-   - 5.3. [Servicios]()   
-      - 5.3.1 [Configuración distribuida]()  
-      - 5.3.2 [Logs]()  
-      - 5.3.3 [Almacén de datos]()  
-  - 5.4. [Testeo]()  
-  - 5.5. [Resumen de lenguajes y tecnologías]()
+ 1. **Idea principal**  
+ 2. **Breve descripción**  
+ 3. **Resumen**    
+ 4. **DDD - Entidades e historias de usuario**  
+ 5. **Descripción técnica**  
+   - 5.1. **Arquitectura**  
+   - 5.2. **Especificación de funcionalidades**  
+   - 5.3. **Servicios**   
+      - 5.3.1 **Configuración distribuida**  
+      - 5.3.2 **Logs**  
+      - 5.3.3 **Almacén de datos**  
+  - 5.4. **Testeo**  
+  - 5.5. **Resumen de lenguajes y tecnologías**
 
 ### Idea principal sobre la que se basará el servicio
 La idea inicial para el desarrollo de este proyecto la he heredado de un proyecto propio personal, sobre el que basé igualmente mi [trabajo de fin de grado](). Esta idea consiste en el desarrollo de un sistema para la **gestión de eventos**. Concretamente, en el TFG, se desarrollo un modelo basado en la generación y definición de unas entidades que se denominaron **'servicios'** y **'micro-servicios'**, que permitía una fácil adaptación de cualquier problema **'productor-consumidor'**, con la finalidad de poder **explotar los datos recogidos**.
