@@ -33,19 +33,44 @@ En nuestro problema encontramos 3 entidades principales:
 * **Producto**: Un producto es un alimento rebajado de precio, que la empresa o supermercado introduce en nuestro sistema para que la gente tenga conciencia de esta rebaja, relacionada con la cercanía de la fecha máxima de consumo del producto, y se incite a su compra a través de dicha rebaja. He de aclarar que se consideran productos, y no existencias, ya que cada existencia individual de un producto podrá tener un precio distinto, sin ser dependiente de que se trate del mismo producto.
 
   * Un usuario perteneciente a un supermercado o empresa relacionada con la venta de alimentos introduce un producto rebajado de precio en nuestro catálogo.
+    * [Issue #x](): Creación de API GRAPH para micro-servicio de gestión de productos.
+    * [Issue #x](): Creación del modelo de datos de producto.
+    * [Issue #x](): Definición de mutación 'agregar producto' de producto.
+    * [Issue #x](): Implementación de resolver definido.
+    * [Issue #x](): Testeo de resolver.
   * Un usuario perteneciente a un supermercado o empresa relacionada con la venta de alimentos modifica el estado de un producto indicando si se encuentra disponible, reservado o comprado.
-  * Un usuario consulta uno o varios productos disponibles en el catálogo.  
+    * [Issue #x](): Definición de mutación 'modificar producto' de producto.
+    * [Issue #x](): Implementación de resolver definido.
+    * [Issue #x](): Testeo de resolver.
+  * Un usuario consulta uno o varios productos disponibles en el catálogo.
+    * [Issue #x](): Definición de query 'get producto' de producto.
+    * [Issue #x](): Implementación de resolver definido.
+    * [Issue #x](): Testeo de resolver.
 
 
 * **Alerta**: Una alerta atiende a su propia definición, siendo un aviso que se crea para los usuarios, indicándoles que producto se encuentra rebajado, además de información relativa al precio, descripción, y localización (supermercado que lo ha puesto a la venta) del producto.
 
   * Un usuario introduce un producto en el catálogo y se crea una alerta con la información relativa.
+    * [Issue #x](): Creación de API GRAPH para micro-servicio de gestión de alertas.
+    * [Issue #x](): Creación del modelo de datos de alerta.
+    * [Issue #x](): Definición de mutación 'crear alerta' de alerta.
+    * [Issue #x](): Implementación de resolver definido.
+    * [Issue #x](): Testeo de resolver.
   * Un usuario consulta las alertas de productos y recetas que se han creado.
+    * [Issue #x](): Definición de query 'get alerta' de alerta.
+    * [Issue #x](): Implementación de resolver definido.
+    * [Issue #x](): Testeo de resolver.
 
 
 * **Receta**: Una receta atiende a una serie de pasos en los que intervienen un conjunto de productos para la elaboración de una comida. El interés de esta entidad en el dominio de nuestro problema será poder analizar que recetas se pueden realizar en función de los productos rebajados, con el objetivo de incentivar a su compra a través de estas sugerencias.
 
   * Un usuario introduce un producto en el catálogo y se analiza si existe alguna receta que se pueda elaborar con los productos rebajados disponibles.
+    * [Issue #x](): Creación de API GRAPH para micro-servicio de análisis de productos.
+    * [Issue #x](): Creación del modelo de datos de receta.
+    * [Issue #x](): Definición de query 'get receta' de receta.
+    * [Issue #x](): Implementación de resolver definido.
+    * [Issue #x](): Implementación de función de analisis.
+    * [Issue #x](): Testeo del micro-servicio.
 
 
 ### Descripción técnica del servicio
