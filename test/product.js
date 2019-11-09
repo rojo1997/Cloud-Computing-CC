@@ -340,6 +340,21 @@ describe('Test my mutations', () => {
       .then(result => console.log(result))
       .catch(err => console.log(err))
     })
+
+    it('Valid mutation modifyProductState resolver', () => {
+
+      const validQuery = `
+        mutation modifyProductState($_id: String!, $state: String!){
+          modifyProductState(_id: $_id, state: $state){
+            success
+          }
+        }
+      `
+      testerM.graphql(validQuery, undefined, undefined, 
+        {_id:"identificador", state:"Reservado"})
+      .then(result => console.log(result))
+      .catch(err => console.log(err))
+    })
   })
 
 })
