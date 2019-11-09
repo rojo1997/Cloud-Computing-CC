@@ -99,6 +99,36 @@ describe('Test my queries', () => {
       .then(result => console.log(result))
       .catch(err => console.log(err))
     })
+
+    it('Valid query product resolver by id argument', () => {
+
+      const validQuery = `
+        query productById($_id: String!) {
+          productById(_id: $_id) {
+            _id
+            name
+          }
+        }
+      `
+      tester.graphql(validQuery, undefined, undefined, { _id: "identificador" })
+      .then(result => console.log(result))
+      .catch(err => console.log(err))
+    })
+
+    it('Valid query all products resolver', () => {
+
+      const validQuery = `
+        query products{
+          products{
+            _id
+            name
+          }
+        }
+      `
+      tester.graphql(validQuery, undefined, undefined, {})
+      .then(result => console.log(result))
+      .catch(err => console.log(err))
+    })
   })
 
 })
