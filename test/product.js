@@ -318,6 +318,28 @@ describe('Test my mutations', () => {
         state: "Reservado"
       })
     })
+
+    it('Valid mutation registerProduct resolver', () => {
+
+      const validQuery = `
+        mutation registerProduct($name: String!, $description: iDescription!, $state: String, $owner: String){
+          registerProduct(name: $name, description: $description, state: $state, owner: $owner){
+            success
+          }
+        }
+      `
+      testerM.graphql(validQuery, undefined, undefined, 
+        {name:"Setas", 
+        description:{
+          textDescription: "Variedad de setas",
+          price: 2.15,
+          reducedPrice: 1.75,
+          expiration: "11/11/19"}, 
+        state:"Disponible", 
+        owner:"Productor"})
+      .then(result => console.log(result))
+      .catch(err => console.log(err))
+    })
   })
 
 })
