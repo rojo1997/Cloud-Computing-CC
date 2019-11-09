@@ -84,6 +84,21 @@ describe('Test my queries', () => {
       `
       tester.test(true, validQuery)
     })
+
+    it('Valid query product resolver by name argument', () => {
+
+      const validQuery = `
+        query productByName($name: String!) {
+          productByName(name: $name) {
+            _id
+            name
+          }
+        }
+      `
+      tester.graphql(validQuery, undefined, undefined, { name: "nombre" })
+      .then(result => console.log(result))
+      .catch(err => console.log(err))
+    })
   })
 
 })
