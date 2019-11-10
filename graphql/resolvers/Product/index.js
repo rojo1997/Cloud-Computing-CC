@@ -36,10 +36,6 @@ const resolvers = {
                 const newProduct = new Product(args);
                 const stored = await newProduct.save();
                 
-                if(otherErrors.length){ 
-                    throw otherErrors;
-                }
-
                 return {
                     success:true,
                     productResponse: newProduct,
