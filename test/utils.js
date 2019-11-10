@@ -23,6 +23,18 @@ describe("Test de Utils", function(){
             expect(errorFormated.length).to.equal(2);
         })
 
+        it("Valid only otherErrors format", function(){
+            var otherErrors = [
+                {
+                    path: "[Update product state]", 
+                    message: "Product not found"
+                }
+            ];
+
+            const errorFormated = formatErrors([],otherErrors);
+            expect(errorFormated).to.equal(otherErrors);
+        })
+
         it("Valid unknown error", function(){
             
             const errorFormated = formatErrors([],[]);
