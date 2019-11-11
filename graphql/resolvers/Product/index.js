@@ -28,20 +28,27 @@ const resolvers = {
         }
     },
     Mutation: {
+        //Registrar producto
         registerProduct: async (root, args) => {
             
             const otherErrors = [];
             try{
-            
+                // Creamos el producto con el modelo de datos definido
+                //en la carpeta models
                 const newProduct = new Product(args);
+                // Guardamos el producto en la colección Products
+                // de la BD.
                 const stored = await newProduct.save();
                 
+                //Devolvemos el estado de éxito y el objeto creado
                 return {
                     success:true,
                     productResponse: newProduct,
                     errors:[]
                 }
             }catch(error){
+                //Capturamos el error producido y lo devolvemos junto
+                //al estado de éxito no satisfactorio
                 return {
                     success:false,
                     productResponse: null,
