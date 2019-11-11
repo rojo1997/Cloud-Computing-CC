@@ -4,6 +4,7 @@ const ObjectID = require('mongodb').ObjectID;
 
 const resolvers = {
     Query: {
+        //Obtener un producto por el identificador
         productById: async (root, args) => {
                 return new Promise((resolve, reject) => {
                     Product.findOne({args}).exec((err, res) => {
@@ -11,6 +12,7 @@ const resolvers = {
                     });
                 });
         },
+        //Obtener una lista de productos por nombre
         productByName: async (root, args) => {
                 return new Promise((resolve, reject) => {
                     Product.find(args).exec((err, res) => {
@@ -18,6 +20,7 @@ const resolvers = {
                     });
                 });
         },
+        //Obtener una lista de todos los productos
         products: async () => {
                 return new Promise((resolve, reject) => {
                     Product.find()
