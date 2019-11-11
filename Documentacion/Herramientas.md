@@ -14,7 +14,7 @@ Adicionalmente, se han llevado a cabo **tests de cobertura**, que nos permitirá
 
 Para ello hemos utilizado [**Nyc**](https://github.com/istanbuljs/nyc) como cliente de línea de órdenes para [**Istanbul**](https://istanbul.js.org/) que trabaja bien con **mocha**, y que hemos integrado con [**Codecov**](https://github.com/istanbuljs/nyc/blob/master/docs/setup-codecov.md), que nos permitirá **reportar** los **resultados** del test de **cobertura** a la plataforma, desde la que podremos obtener información de un modo más visual en relación a dichos test realizados.
 
-Puede consultar [**más información sobre los test**]() que se han desarrollado.
+Puede consultar [**más información sobre los test**](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/Documentacion/Tests.md) que se han desarrollado.
 
 ### Construcción
 
