@@ -120,7 +120,7 @@ Al igual que antes, el lenguaje empleado sera Node Js, pero en este caso, ejecut
 > Si desea obtener más información, consulte la [**documentación completa del proyecto**](https://github.com/yoskitar/Cloud-Computing-CC/tree/master/Documentacion).
 
 ## Justificaciones
-[Justificaciones adicionales referentes a los diversos hitos de la asignatura.](https://github.com/yoskitar/Cloud-Computing-CC/tree/master/Justificaciones)
+[Justificaciones adicionales de la asignatura.](https://github.com/yoskitar/Cloud-Computing-CC/tree/master/Justificaciones)
 
 ## Licencia
 Para el desarrollo de este proyecto se ha seleccionado la licencia **GNU General Public License v3.0**, que es una de las menos restrictivas, permitiendo y garantizando el objetivo de software libre, al evitar la distribución de versiones de código cerrado.
