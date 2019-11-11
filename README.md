@@ -29,9 +29,9 @@ Para el desarrollo y ejecución de los tests elaborados, se han empleado las sig
 
 * **En primer lugar**, hemos utilizado [**easygraphql-tester**](https://easygraphql.com/docs/getting-started/overview) que es una librería para Node Js creada para realizar **tests de GraphQL** basados en los **schemas**, que nos permitirá testear tanto estos schemas, como los **resolvers** (queries y mutaciones) que hallamos definido y desarrollado. Podremos comprobar así que las definiciones de tipos, campos requeridos o argumentos sean los correctos, entre otros.
 
-> Esta documentación ha sido elaborada gracias a la documentación oficial. Si desea conocer más acerca del uso o posibilidades de esta librería visite [**EasyGraphQL**](https://easygraphql.com/docs/easygraphql-tester/overview/).
+> Esta documentación ha sido elaborada gracias a la documentación oficial. Si desea conocer más acerca del uso o posibilidades de esta librería, visite [**EasyGraphQL**](https://easygraphql.com/docs/easygraphql-tester/overview/).
 
-* **En un segundo nivel superior** , hemos utilizado [**Mocha**](https://mochajs.org/) como marco de pruebas que usa un sistema denominado **Behavior Driven Development** o BDD, que nos permitirá definir nuestros tests de una manera descriptiva empleando un lenguaje natural.
+* **En un segundo nivel superior** , hemos utilizado [**Mocha**](https://mochajs.org/) como marco de pruebas que usa un sistema denominado **Behavior Driven Development** o BDD, que nos permitirá **definir** nuestros **tests** de una manera descriptiva empleando un **lenguaje natural**.
 
 Adicionalmente, se han llevado a cabo **tests de cobertura**, que nos permitirán obtener un **porcentaje** relativo al número de **líneas** de nuestro **código testeadas**, lo que nos será de gran utilidad para **comprobar** que partes de nuestro **código** se encuentran **sin testear**. Además nos permite incluir varias opciones como por ejemplo, que el test realizado no resulte satisfactorio a no ser que se supere un mínimo de cobertura (porcentaje de código testeado), o en caso de que esa cobertura se vea decrementada, con lo que **aseguramos** unos **mínimos de calidad**.
 
@@ -70,7 +70,7 @@ Como ya hemos mencionado, en esta sección podremos definir órdenes como una se
 ```
 npm test 
 ```
-Así tras ejecutar esta orden, se realizarán los test y se enviarán los reportes del test de cobertura adiconal a la plataforma de [**codecov.io**](https://codecov.io/gh/yoskitar/Cloud-Computing-CC).
+Así tras ejecutar esta orden, se realizarán los test y se enviarán los reportes del test de cobertura adicional a la plataforma de [**codecov.io**](https://codecov.io/gh/yoskitar/Cloud-Computing-CC).
 
 
 > Puede consultar el archivo [**package.json**](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/package.json) si aún no lo ha hecho para una mejor comprensión, donde se encuentran los aspectos detallados anteriormente.
