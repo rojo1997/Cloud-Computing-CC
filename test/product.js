@@ -2,6 +2,7 @@ const EasyGraphQLTester = require('easygraphql-tester');
 const ProductSchema = require('../graphql/types/Product/index');
 const ProductResolver = require('../graphql/resolvers/Product/index');
 
+//Definición de tests para queries
 describe('Test my queries', () => {
   let tester
 
@@ -19,7 +20,7 @@ describe('Test my queries', () => {
             }
         }
       `
-      
+
       tester.test(false, invalidQuery)
     })
 
@@ -133,6 +134,7 @@ describe('Test my queries', () => {
 
 })
 
+//Definición de tests para mutaciones
 describe('Test my mutations', () => {
   let testerM
 
