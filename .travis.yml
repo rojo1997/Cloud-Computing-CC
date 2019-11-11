@@ -7,12 +7,12 @@ language: node_js
 # - "v13.0.1" --> Actual de desarrollo
 # - "v12.13.0" --> Erbium
 # - "v10.17.0" --> Dubnium
-# - "v8.16.2" --> Carbon
+
 node_js: 
   - "v13.0.1"
   - "v12.13.0"
   - "v10.17.0"
-  - "v8.16.2"
+  
 
 # Antes de ejecutar las acciones que deseamos, en nuestro caso los test,
 # debemos de instalar las dependencias necesarias. Para ello hacemos uso
