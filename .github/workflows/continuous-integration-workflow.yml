@@ -1,0 +1,34 @@
+name: Test with gitHub Actions
+# Se ejecutará el workflow cuando se realice un push
+on: [push]
+
+jobs:
+  build:
+    # Se ejecutaŕa en el so linux
+    runs-on: ubuntu-latest
+    # Ejecutaremos los test para la versiones especificadas
+    strategy:
+      matrix:
+        #Especificamos las versiones de node
+        node: [8.16.2]
+
+    steps:
+      # Es necesario clonar el código del repositorio para ejecutar
+      # los test y al usar integración continua, por lo que debemos de
+      # incluir la acción standar checkout antes que otras acciones.
+      # Al usar v1 nos aseguramos de que estamos usando una versión
+      # estable de checkout action.
+      - uses: actions/checkout@v1
+
+      # Establecemos las versiones indicadas en matrix
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+
+      # Instalamos las dependencias necesarias
+      - name: Install Dependencies
+        run: npm install
+
+      # Ejecutamos los tests
+      - name: Run tests
+        run: npm test
