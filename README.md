@@ -2,13 +2,11 @@
 Repositorio para el desarrollo del proyecto y ejercicios pertenecientes a la asignatura de Cloud Comuting (CC-UGR).
 
 ## Tabla de contenidos
-1. **REFOOD**  
+ 1. **REFOOD**  
   1.1. **Descripción**  
   1.2. **Arquitectura**  
   1.3. **Herramientas para TDD**  
-      1.3.1 **Test**  
-      1.3.2 **Construcción**  
-  1.3. **Integración continua**  
+  1.4. **Integración continua**  
 3. **Justificaciones**
 4. **Licencia**  
 
@@ -29,11 +27,11 @@ Puede obtener más información en el siguiente enlace, donde se encuentra toda 
 #### Tests
 Para el desarrollo y ejecución de los tests elaborados, se han empleado las siguientes herramientas o paquetes:
 
-En primer lugar, hemos utilizado [**easygraphql-tester**](https://easygraphql.com/docs/getting-started/overview) que es una librería para Node Js creada para realizar **tests de GraphQL** basados en los **schemas**, que nos permitirá testear tanto estos schemas, como los **resolvers** (queries y mutaciones) que hallamos definido y desarrollado. Podremos comprobar así que las definiciones de tipos, campos requeridos o argumentos sean los correctos, entre otros.
+* **En primer lugar**, hemos utilizado [**easygraphql-tester**](https://easygraphql.com/docs/getting-started/overview) que es una librería para Node Js creada para realizar **tests de GraphQL** basados en los **schemas**, que nos permitirá testear tanto estos schemas, como los **resolvers** (queries y mutaciones) que hallamos definido y desarrollado. Podremos comprobar así que las definiciones de tipos, campos requeridos o argumentos sean los correctos, entre otros.
 
 > Esta documentación ha sido elaborada gracias a la documentación oficial. Si desea conocer más acerca del uso o posibilidades de esta librería visite [**EasyGraphQL**](https://easygraphql.com/docs/easygraphql-tester/overview/).
 
-En un segundo nivel superior, hemos utilizado [**Mocha**](https://mochajs.org/) como marco de pruebas que usa un sistema denominado **Behavior Driven Development** o BDD, que nos permitirá definir nuestros tests de una manera descriptiva empleando un lenguaje natural.
+* **En un segundo nivel superior** , hemos utilizado [**Mocha**](https://mochajs.org/) como marco de pruebas que usa un sistema denominado **Behavior Driven Development** o BDD, que nos permitirá definir nuestros tests de una manera descriptiva empleando un lenguaje natural.
 
 Adicionalmente, se han llevado a cabo **tests de cobertura**, que nos permitirán obtener un **porcentaje** relativo al número de **líneas** de nuestro **código testeadas**, lo que nos será de gran utilidad para **comprobar** que partes de nuestro **código** se encuentran **sin testear**. Además nos permite incluir varias opciones como por ejemplo, que el test realizado no resulte satisfactorio a no ser que se supere un mínimo de cobertura (porcentaje de código testeado), o en caso de que esa cobertura se vea decrementada, con lo que **aseguramos** unos **mínimos de calidad**.
 
