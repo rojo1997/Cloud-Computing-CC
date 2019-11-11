@@ -9,6 +9,15 @@
 // Se ha definido la mutación 'modifyProductState' que nos permite
 // modificar el estado de un producto y actualizarlo en la BD.
 
+// Se ha definido la query 'getProductById' que nos permite
+// obtener un producto de la BD por el campo 'id'.
+
+// Se ha definido la query 'getProductByName' que nos permite
+// obtener una lista de productos de la BD por el campo 'nombre'.
+
+// Se ha definido la query 'products' que nos permite
+// obtener una lista de todos los productos de la BD.
+
 const schema = `
 type Product{
     _id: ID!
