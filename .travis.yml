@@ -3,6 +3,11 @@ language: node_js
 
 # Indicamos las versiones del lenguaje sobre las que
 # ejecutaremos las órdenes que indiquemos en 'script'
+# Concretamente estamos ejecutando con las versiones de node:
+# - "v13.0.1" --> Actual de desarrollo
+# - "v12.13.0" --> Erbium
+# - "v10.17.0" --> Dubnium
+# - "v8.16.2" --> Carbon
 node_js: 
   - "v13.0.1"
   - "v12.13.0"

@@ -85,7 +85,12 @@ En este archivo de configuración encontramos diferentes secciones:
 * **before_install**: Se indican las acciones necesarias a llevar a cabo antes de la ejecución de los scripts. En nuestro caso, la instalación de las dependencias necesarias con la orden `npm install`. **No es necesario instalar npm** ya que viene por **defecto instalado** en la **configuración** de **travisCI**.
 * **script**: Aquí definiremos las órdenes que se llevarán a cabo, como por ejemplo, `npm test`, que lanzará la orden declarada en el package.json y que ejecutará los tests.
 
-En nuestro caso, el lenguaje será `node_js`, y las **versiones mínima y máxima**  irán desde la versión sobre la que se está desarrollando localmente el proyecto (13.0.1), hasta la versión **X**. Antes de que se ejecute la órden indicada en script, se ejcutará el comando `npm install` que instalará las dependencias requeridas, y posteriormente se ejecutará la orden `npm test`, que ejecutará los test y enviará los resultados del test de cobertura a la plataforma de [codecov](https://codecov.io/gh/yoskitar/Cloud-Computing-CC).
+En nuestro caso, el lenguaje será `node_js`, y las **versiones mínima y máxima**  irán desde la versión sobre la que se está desarrollando localmente el proyecto (13.0.1), hasta la versión 8.16.2 (Carbon). Antes de que se ejecute la órden indicada en script, se ejcutará el comando `npm install` que instalará las dependencias requeridas, y posteriormente se ejecutará la orden `npm test`, que ejecutará los test y enviará los resultados del test de cobertura a la plataforma de [codecov](https://codecov.io/gh/yoskitar/Cloud-Computing-CC).
+* Versiones de node testeadas:
+  * v13.0.1 --> Actual de desarrollo
+  * v12.13.0 --> Erbium
+  * v10.17.0 --> Dubnium
+  * v8.16.2 --> Carbon
 
 > Puede consultar el archivo [**.travis.yml**](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/.travis.yml) si aún no lo ha hecho para una mejor comprensión, donde se encuentran los aspectos detallados anteriormente.
 
