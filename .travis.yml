@@ -5,6 +5,9 @@ language: node_js
 # ejecutaremos las órdenes que indiquemos en 'script'
 node_js: 
   - "v13.0.1"
+  - "v12.13.0"
+  - "v10.17.0"
+  - "v8.16.2"
 
 # Antes de ejecutar las acciones que deseamos, en nuestro caso los test,
 # debemos de instalar las dependencias necesarias. Para ello hacemos uso
