@@ -1,10 +1,23 @@
+# Especificamos el lenguaje de programación empleado
 language: node_js
 
+# Indicamos las versiones del lenguaje sobre las que
+# ejecutaremos las órdenes que indiquemos en 'script'
 node_js: 
   - "v13.0.1"
 
+# Antes de ejecutar las acciones que deseamos, en nuestro caso los test,
+# debemos de instalar las dependencias necesarias. Para ello hacemos uso
+# de 'npm install' que comprobará e instalará las dependencias necesarias
+# indicadas en el archivo de construcción package.json del proyecto.
+# npm no es necesario instalarlo ya que viene por defecto en la configuración
+# del sistema de travis-CI.
 before_install:
   - npm install
-  
+
+# Ejecutamos los test desarrollados, llamando con npm a la orden test
+# definida en el package.json que ejecutará los comandos indicados para
+# la realización de dichos test y enviar los resultados de cobertura a la
+# plataforma codecov.
 script: 
   - npm test
