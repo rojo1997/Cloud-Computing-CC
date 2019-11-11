@@ -19,7 +19,7 @@ describe('Test my queries', () => {
             }
         }
       `
-      // First arg: false, there is no invalidField on the schema.
+      
       tester.test(false, invalidQuery)
     })
 
