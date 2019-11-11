@@ -4,35 +4,28 @@ import expressGraphQL from "express-graphql";
 import bodyParser from "body-parser";
 import cors from "cors";
 import "dotenv/config";
-import { graphqlUploadExpress } from 'graphql-upload'
 
+//importamos los schemas definidos 
 import schema from "./graphql/";
-
+//Creamos la aplicación express
 const app = express();
 const PORT = process.env.PORT;
 //const db = process.env.DB;
 
-
-app.use(auth.checkHeaders);
 app.use(
     "/graphql",
     cors(),
     bodyParser.urlencoded({extended:true}),
     bodyParser.json(),
-    graphqlUploadExpress(),
     expressGraphQL((req)=>{
       return {
         schema,
-        /*context:{
-          SECRET: process.env.SECRET,
-          user: req.user
-        },*/
         graphiql: true
       }
     })
   );
 
-// Connect to MongoDB with Mongoose.
+// Conectar a MongoDB empleando el cliente Mongoose.
 /*mongoose
   .connect(
     db,
@@ -43,16 +36,9 @@ app.use(
   )
   .then(() => {
     console.log(new Date().toString() + ": " + "MongoDB connected");
-    //setInterval(checkConsumesState,86400000);
-    setTimeout(function () {
-      checkConsumesState()
-    }, 10000);
-    setTimeout(function () {
-      setRecommendations(5)
-    }, 5000);
-
   }).catch(err => console.log(err));*/
 
+  //Levantamos el servidor express en el puerto 4000
   app.listen(PORT|4000, () => {
     console.log(new Date().toString() + ": " + `Server running on port ${PORT}`);
   });
