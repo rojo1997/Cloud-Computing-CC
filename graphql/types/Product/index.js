@@ -6,6 +6,9 @@
 // Se ha definido la mutación 'registerProduct' que nos permite
 // registrar un nuevo producto en la colección de la BD.
 
+// Se ha definido la mutación 'modifyProductState' que nos permite
+// modificar el estado de un producto y actualizarlo en la BD.
+
 const schema = `
 type Product{
     _id: ID!
