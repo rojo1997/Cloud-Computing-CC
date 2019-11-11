@@ -56,32 +56,42 @@ const resolvers = {
                 }
             }
         },
+        //Modificar estado de consumo de un producto
         modifyProductState: async (root, args) => {
             
             const otherErrors = [];
             try{
             
                 const idObj = await new ObjectID(args.id);
+                //Actualizamos el producto cuyo identificador
+                //coincida con el pasado como argumento, cambiando
+                //el estado por el nuevo indicado en el argumento.
                 const updateProduct = await Product.updateOne(
                     { _id: idObj }, 
                     { state: args.state } 
                 );
-
+                
+                //En caso de que el producto no exista, se devuelve el
+                //error correspondiente
                 if(updateProduct.nModified != 1){
                     otherErrors.push({path: '[Update product state]', 
                     message: 'Product not found'});
                 }
 
+                //Lanzamos la excepción se se ha dado
                 if(otherErrors.length){ 
                     throw otherErrors;
                 }
                 
+                //Devolvemos el estado de éxito y el objeto actualizado
                 return {
                     success:true,
                     productResponse: newProduct,
                     errors:[]
                 }
             }catch(error){
+                //Capturamos el error producido y lo devolvemos junto
+                //al estado de éxito no satisfactorio
                 return {
                     success:false,
                     productResponse: null,
