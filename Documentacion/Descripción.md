@@ -1,0 +1,12 @@
+# REFOOD
+## Descripción Inicial 
+### Idea principal sobre la que se basará el servicio
+La idea inicial para el desarrollo de este proyecto la he heredado de un proyecto propio personal, sobre el que basé igualmente mi [trabajo de fin de grado](). Esta idea consiste en el desarrollo de un sistema para la **gestión de eventos**. Concretamente, en el TFG, se desarrollo un modelo basado en la generación y definición de unas entidades que se denominaron **'servicios'** y **'micro-servicios'**, que permitía una fácil adaptación de cualquier problema **'productor-consumidor'**, con la finalidad de poder **explotar los datos recogidos**.
+
+### Breve descripción del servicio
+El **servicio** que desarrollaremos se basará en la **idea** anterior pero de una manera mucho más **simplificada**. En lugar de reutilizar la misma idea del sistema de gestión de eventos, partiremos de una idea que últimamente ha cobrado fuerza entre varios restaurantes, como es la posibilidad de **vender comida a un menor precio antes de desecharla**, pero adaptada al sector de los **supermercados**. Actualmente vemos como estos supermercados ya ponen en práctica esta idea, pero de un modo que no consigue en muchos casos su objetivo, ya que en las últimas horas al cierre, bajan productos de precio; evidentemente, si no vas al supermercado a comprar y ves estas ofertas, el método no podrá cumplir su objetivo. Se tratará de suplir así esta carencia con el sistema que pretendemos desarrollar. Como **clientes** en nuestro problema tendríamos a esos productores y consumidores de los productos, aunque por simplificar el dominio del problema, supondremos que nosotros seremos el único tipo de usuario, actuando como clientes para ambos tipos.
+
+### Resumen
+El proyecto que realizaremos ha sido denominado **ReFood** de acorde al objetivo principal del servicio, que es evitar desechar alimentos, poniéndolos a la venta a un menor precio, de manera que se incite a los consumidores a llevárselos antes de que perezcan.
+
+Como ya adelantábamos en la descripción inicial del proyecto, los supermercados ya realizan este proceso de bajar productos de precio cuya fecha de caducidad se encuentra próxima, pero pecan en un aspecto fundamental, y es en la difusión de esa posible oferta o reducción del precio, puesto que tan solo si te desplazas al supermercado a comprar algún otro producto y lo ves rebajado, podrás incluirlo en tu compra.
