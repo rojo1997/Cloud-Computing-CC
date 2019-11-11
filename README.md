@@ -5,9 +5,10 @@ Repositorio para el desarrollo del proyecto y ejercicios pertenecientes a la asi
 1. **REFOOD**  
   1.1. **Descripción**  
   1.2. **Arquitectura**  
-  1.3. **Servicios**  
-  1.3. **Testeo**  
-  1.4. **Resumen de lenguajes y tecnologías empleadas**  
+  1.3. **Herramientas para TDD**  
+      1.3.1 **Test**  
+      1.3.2 **Construcción**  
+  1.3. **Integración continua**  
 3. **Justificaciones**
 4. **Licencia**  
 
@@ -71,7 +72,7 @@ Como ya hemos mencionado, en esta sección podremos definir órdenes como una se
 ```
 npm test 
 ```
-Así traes ejecutar esta orden, se realizarán los test y se enviarán los reportes del test de cobertura adiconal a la plataforma de [**codecov.io**](https://codecov.io/gh/yoskitar/Cloud-Computing-CC).
+Así tras ejecutar esta orden, se realizarán los test y se enviarán los reportes del test de cobertura adiconal a la plataforma de [**codecov.io**](https://codecov.io/gh/yoskitar/Cloud-Computing-CC).
 
 
 > Puede consultar el archivo [**package.json**](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/package.json) si aún no lo ha hecho para una mejor comprensión, donde se encuentran los aspectos detallados anteriormente.
