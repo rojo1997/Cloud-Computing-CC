@@ -1,7 +1,7 @@
-import { mergeTypes } from "merge-graphql-schemas";
+const mergeTypes = require("merge-graphql-schemas").mergeTypes;
 
-import Product from "./Product/";
+const Product = require("./Product/");
 
 const typeDefs = [Product];
 
-export default mergeTypes(typeDefs, { all: true });
+module.exports = mergeTypes(typeDefs, { all: true });
