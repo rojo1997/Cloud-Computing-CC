@@ -6,8 +6,8 @@ const resolvers = {
     Query: {
         //Obtener un producto por el identificador
         productById: async (root, args) => {
-                return new Promise((resolve, reject) => {
-                    Product.findOne({args}).exec((err, res) => {
+                return new Promise( (resolve, reject) => {
+                    Product.findOne({_id: args._id}).exec((err, res) => {
                         err ? reject(err) : resolve(res);
                     });
                 });

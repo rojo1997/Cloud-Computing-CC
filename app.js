@@ -28,7 +28,7 @@ app.use(
 
   //Levantamos el servidor express en el puerto 4000
   app.listen(PORT|4000, () => {
-    console.log(new Date().toString() + ": " + `Server running on port ${PORT}`);
+    //console.log(new Date().toString() + ": " + `Server running on port ${PORT}`);
     // Conectar a MongoDB empleando el cliente Mongoose.
     mongoose.connect(db,
       {
@@ -37,6 +37,8 @@ app.use(
         useUnifiedTopology: true
       }
     ).then(() => {
-      console.log(new Date().toString() + ": " + "MongoDB connected");
+      //console.log(new Date().toString() + ": " + "MongoDB connected");
     }).catch(err => console.log(err));
   });
+
+  module.exports = app;
