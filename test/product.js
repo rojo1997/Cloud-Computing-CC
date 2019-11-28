@@ -97,8 +97,6 @@ describe('Test my queries', () => {
         }
       `
       tester.graphql(validQuery, undefined, undefined, { name: "nombre" })
-      .then(result => console.log(result))
-      .catch(err => console.log(err))
     })
 
     it('Valid query product resolver by id argument', () => {
@@ -112,8 +110,6 @@ describe('Test my queries', () => {
         }
       `
       tester.graphql(validQuery, undefined, undefined, { _id: "identificador" })
-      .then(result => console.log(result))
-      .catch(err => console.log(err))
     })
 
     it('Valid query all products resolver', () => {
@@ -127,8 +123,6 @@ describe('Test my queries', () => {
         }
       `
       tester.graphql(validQuery, undefined, undefined, {})
-      .then(result => console.log(result))
-      .catch(err => console.log(err))
     })
   })
 
@@ -339,8 +333,6 @@ describe('Test my mutations', () => {
           expiration: "11/11/19"}, 
         state:"Disponible", 
         owner:"Productor"})
-      .then(result => console.log(result))
-      .catch(err => console.log(err))
     })
 
     it('Valid mutation modifyProductState resolver', () => {
@@ -354,8 +346,6 @@ describe('Test my mutations', () => {
       `
       testerM.graphql(validQuery, undefined, undefined, 
         {_id:"identificador", state:"Reservado"})
-      .then(result => console.log(result))
-      .catch(err => console.log(err))
     })
   })
 
