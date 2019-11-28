@@ -13,13 +13,13 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 #Instalamos las dependencias especificadas en el 
 #package.json
-RUN npm install
+RUN npm install --production
 #Copiamos el contenido del código de la aplicación 
 #al directorio de trabajo definido dentro del contenedor
 COPY . .
 #Indicamos a modo informativo el puerto interno
 #de nuestro microservicio
-EXPOSE 4000
+EXPOSE 8080
 #Definimos la acción a ejecutar, que en nuestro caso,
 #será el comando start definido en los scripts del 
 #package.json de nuestro microservicio, encargado de 
