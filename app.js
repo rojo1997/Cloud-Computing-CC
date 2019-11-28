@@ -27,7 +27,7 @@ app.use(
 
 
   //Levantamos el servidor express en el puerto 4000
-  app.listen(PORT|4000, () => {
+  app.listen(PORT|8080, () => {
     //console.log(new Date().toString() + ": " + `Server running on port ${PORT}`);
     // Conectar a MongoDB empleando el cliente Mongoose.
     mongoose.connect(db,
