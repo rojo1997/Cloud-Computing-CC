@@ -350,32 +350,5 @@ describe('Test my mutations', () => {
     })
   })
 
-  describe('Should return success for registerProduct', () => {
-    it('Should return success', () => {
-      
-      const validMutation = `
-        mutation registerProduct($name: String!, $description: iDescription!, $state: String, $owner: String){
-          registerProduct(name: $name, description: $description, state: $state, owner: $owner){
-            success
-          }
-        }
-      `
-      const input = {
-        name: "test",
-        description: {
-          textDescription: "Producto de test",
-          price: 5.0,
-          reducedPrice: 4.0,
-          expiration: "Hoy"
-        },
-        state: "Disponible",
-        owner: "Tester"
-      }
-
-      const { data: { registerProduct } } = testerM.mock({ query: validMutation, variables: input });
-
-      expect(registerProduct.success).to.equal(true);
-    })
-  })
-
 })
+

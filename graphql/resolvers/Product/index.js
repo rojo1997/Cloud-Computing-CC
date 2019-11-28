@@ -38,7 +38,7 @@ const resolvers = {
             try{
                 // Creamos el producto con el modelo de datos definido
                 //en la carpeta models
-                const newProduct = new Product(args);
+                const newProduct = await new Product(args);
                 // Guardamos el producto en la colección Products
                 // de la BD.
                 const stored = await newProduct.save();
@@ -65,7 +65,7 @@ const resolvers = {
             const otherErrors = [];
             try{
             
-                const idObj = await new ObjectID(args.id);
+                const idObj = await new ObjectID(args._id);
                 //Actualizamos el producto cuyo identificador
                 //coincida con el pasado como argumento, cambiando
                 //el estado por el nuevo indicado en el argumento.
@@ -89,7 +89,7 @@ const resolvers = {
                 //Devolvemos el estado de éxito y el objeto actualizado
                 return {
                     success:true,
-                    productResponse: newProduct,
+                    productResponse: updateProduct,
                     errors:[]
                 }
             }catch(error){

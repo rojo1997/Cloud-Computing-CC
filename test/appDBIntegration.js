@@ -16,5 +16,18 @@ describe('Test DB Integration ', () => {
         done(); 
       })
     })
+
+    it('Valid expected query modifyProductState', (done) => {
+      const mutation = {
+        "query": "mutation modifyProductState($_id: String!, $state: String!) { modifyProductState(_id: $_id, state: $state){ success } }",
+        "operationName": "modifyProductState",
+        "variables": "{ \"_id\": \"5ddda274409f381160c8452b\", \"state\": \"Agotado\" }"
+      }
+      request(app).post('/graphql').send(mutation).end(function(err, res) { 
+        expect(res.body.data.modifyProductState.success).to.be.a('boolean'); 
+        done(); 
+      })
+    })
+    
   })
 })
