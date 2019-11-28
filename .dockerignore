@@ -1,0 +1,14 @@
+node_modules
+npm-debug.log
+.env
+.github
+.nyc_output
+Documentacion
+Justificaciones
+test
+.gitignore
+.travis.yml
+README.md
+coverage
+Dockerfile
+.dockerignore
