@@ -21,7 +21,7 @@ describe('Test DB Integration ', () => {
       const mutation = {
         "query": "mutation modifyProductState($_id: String!, $state: String!) { modifyProductState(_id: $_id, state: $state){ success } }",
         "operationName": "modifyProductState",
-        "variables": "{ \"_id\": \"5ddda274409f381160c8452b\", \"state\": \"Agotado\" }"
+        "variables": "{ \"_id\": \"5ddda274409f381160c8452b\", \"state\": \"Disponible\" }"
       }
       request(app).post('/graphql').send(mutation).end(function(err, res) { 
         expect(res.body.data.modifyProductState.success).to.be.a('boolean'); 
