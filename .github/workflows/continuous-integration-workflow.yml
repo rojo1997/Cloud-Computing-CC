@@ -32,7 +32,9 @@ jobs:
 
       # Ejecutamos los tests
       #Previamente establecemos las variables de entorno definidas en la sección 'secrets' de github
-      #para hacer uso de ellas en el test del micro-servicio
+      #para hacer uso de ellas en el test del micro-servicio. Para ello deberemos de emplear la etiqueta
+      #'env', junto a la asignación y definición de las variables de entorno deseadas, previo a ejecutar
+      #el comando 'run' que hará uso de éstas, al necesitarlas para ejecutar los tests.
       - name: Run tests
         env:
           PORT: ${{ secrets.PORT }}
