@@ -1,6 +1,7 @@
 const EasyGraphQLTester = require('easygraphql-tester');
 const ProductSchema = require('../graphql/types/Product/index');
 const ProductResolver = require('../graphql/resolvers/Product/index');
+var expect = require("chai").expect;
 
 //Definición de tests para queries
 describe('Test my queries', () => {
@@ -346,6 +347,34 @@ describe('Test my mutations', () => {
       `
       testerM.graphql(validQuery, undefined, undefined, 
         {_id:"identificador", state:"Reservado"})
+    })
+  })
+
+  describe('Should return success for registerProduct', () => {
+    it('Should return success', () => {
+      
+      const validMutation = `
+        mutation registerProduct($name: String!, $description: iDescription!, $state: String, $owner: String){
+          registerProduct(name: $name, description: $description, state: $state, owner: $owner){
+            success
+          }
+        }
+      `
+      const input = {
+        name: "test",
+        description: {
+          textDescription: "Producto de test",
+          price: 5.0,
+          reducedPrice: 4.0,
+          expiration: "Hoy"
+        },
+        state: "Disponible",
+        owner: "Tester"
+      }
+
+      const { data: { registerProduct } } = testerM.mock({ query: validMutation, variables: input });
+
+      expect(registerProduct.success).to.equal(true);
     })
   })
 
