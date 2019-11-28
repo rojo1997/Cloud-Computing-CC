@@ -29,7 +29,17 @@ jobs:
       # Instalamos las dependencias necesarias
       - name: Install Dependencies
         run: npm install
+      #Establecemos las variables de entorno definidas en la sección 'secrets' de github
+      #para hacer uso de ellas en el test del micro-servicio
+      - name: Set env variables
+        env:
+          PORT: ${{ secrets.PORT }}
+          DB: ${{ secrets.DB }}
 
       # Ejecutamos los tests
       - name: Run tests
         run: npm test
+
+
+        steps:
+  
