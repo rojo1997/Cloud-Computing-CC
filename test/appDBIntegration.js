@@ -2,9 +2,11 @@ const app = require('../app.js');
 var request = require('supertest');
 var expect = require("chai").expect;
 
-describe('Test DB Integration ', () => {
 
-  describe('Should pass if the mutations are valid', () => {
+describe('Test DB Integration ', () => {
+  //Definición de test para integración de los resolvers definidos
+  //con la integración de la BD.
+  describe('Should pass if the resolvers integration is valid', () => {
     it('Valid expected query productByName', (done) => {
       const mutationPBN = {
         "query": "query productByName($name: String!) { productByName(name: $name){ name } }",
@@ -17,7 +19,7 @@ describe('Test DB Integration ', () => {
       })
     })
 
-    it('Valid expected query modifyProductState', (done) => {
+    it('Valid expected mutation modifyProductState', (done) => {
       const mutationMPS = {
         "query": "mutation modifyProductState($_id: String!, $state: String!) { modifyProductState(_id: $_id, state: $state){ success } }",
         "operationName": "modifyProductState",
@@ -29,7 +31,7 @@ describe('Test DB Integration ', () => {
       })
     })
 
-    it('Valid expected query registerProduct', (done) => {
+    it('Valid expected mutation registerProduct', (done) => {
       const mutationRP = {
         "query": "mutation registerProduct($name: String!, $description: iDescription!, $state: String, $owner: String) { registerProduct(name: $name, description: $description, state: $state, owner: $owner){ success } }",
         "operationName": "registerProduct",
