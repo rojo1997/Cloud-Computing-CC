@@ -3,12 +3,11 @@ const validate = require ('mongoose-validator');
 
 const Schema = mongoose.Schema;
 
-// Creación del esquema de producto.
+//Creación del esquema de producto.
 //Con el uso de 'validate' podemos comprobar que se cumplen los 
 //pre-requisitos que deseemos desde el propio modelo de datos,
 //sin necesitar funciones o código adicional.
 const ProductSchema = new Schema({
-  //data user
 	name: {
 		type: String,
 		validate: [
@@ -54,5 +53,5 @@ const ProductSchema = new Schema({
 
 //Creación del modelo del esquema para mongoose
 const Product = mongoose.model("Product", ProductSchema);
-//Export model
+//Exportamos el  modelo
 module.exports = Product;

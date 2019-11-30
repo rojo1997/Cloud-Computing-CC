@@ -1,19 +1,36 @@
+//IMPORTANTE: Importamos el módulo app para poder testearlo
+//con el módulo 'supertest'
 const app = require('../app.js');
 var request = require('supertest');
 var expect = require("chai").expect;
 
-
+//Definición de test para integración de los resolvers definidos
+  //con la BD.
 describe('Test DB Integration ', () => {
-  //Definición de test para integración de los resolvers definidos
-  //con la integración de la BD.
+  
   describe('Should pass if the resolvers integration is valid', () => {
     it('Valid expected query productByName', (done) => {
+      //Debido a que no tenemos múltiples endpoints como tal, sino
+      //que todas las peticiones se procesan desde un único punto,
+      //para poder realizar el test de cada una de las funcionalidades
+      //que en un servicio REST se corresponderían con las diversas rutas,
+      //deberemos ejecutar el comando POST sobre el endpoint de graphql
+      //definido, y mandar las peticiones como parámetros.
+      //Para que funcione, la definición de dichos parámetros tendrá
+      //que presentar la siguiente estructura, donde indicamos definición 
+      //de la consulta, el nombre de ésta, y los valores para cada una de 
+      //las variables en el caso de que sea necesario, tal como se muestra
+      //a continuación:
       const mutationPBN = {
         "query": "query productByName($name: String!) { productByName(name: $name){ name } }",
         "operationName": "productByName",
         "variables": "{ \"name\": \"Pechuga de pollo\" }"
       }
+      //Testeamos el resolver ejecutando un POST al endpoint definido para graphql
+      //en el módulo app, que por convención suele ser /graphql o /graphiql,
+      //y pasamos como parámetro la mutación a testear
       request(app).post('/graphql').send(mutationPBN).end(function(err, res) { 
+        //Comprobamos la respuesta con 'expect' de chai
         expect(res.body.data.productByName[0].name).to.equal('Pechuga de pollo'); 
         done(); 
       })

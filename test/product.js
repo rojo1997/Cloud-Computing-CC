@@ -8,6 +8,10 @@ describe('Test my queries', () => {
   let tester
 
   before(() => {
+    //Antes de todo, se ejecutará la inicialización del tester
+    //a partir del módulo easygraphql-tester, al que deberemos de 
+    //pasarle como argumentos la definición correcta de nuestros
+    //tipos de schemas y resolvers asociados.
     tester = new EasyGraphQLTester(ProductSchema,ProductResolver)
   })
 
@@ -21,7 +25,10 @@ describe('Test my queries', () => {
             }
         }
       `
-
+      //Con la función de test, nos permite comprobar la 
+      //definición del tipo pasada como segundo argumento.
+      //Como primer argumento deberemos indicarle si dicha
+      //definición pasada es correcta (true) o incorrecta (false).
       tester.test(false, invalidQuery)
     })
 
@@ -60,6 +67,9 @@ describe('Test my queries', () => {
             }
         }
       `
+      //En este caso, al tratarse de una definición válida
+      //para la que no debería de fallar, se le pasa
+      //como primer parámetro 'true'.
       tester.test(true, validQuery);
     })
 
@@ -97,6 +107,9 @@ describe('Test my queries', () => {
           }
         }
       `
+      //Como primer argumento deberemos de pasarle la consulta,
+      //y como último argumento, el conjunto de variables de entrada
+      //junto al valor de éstas.
       tester.graphql(validQuery, undefined, undefined, { name: "nombre" })
     })
 
@@ -130,6 +143,8 @@ describe('Test my queries', () => {
 })
 
 //Definición de tests para mutaciones
+//de igual forma que se ha realizado para
+//las queries.
 describe('Test my mutations', () => {
   let testerM
 

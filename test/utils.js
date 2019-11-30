@@ -1,6 +1,8 @@
 const formatErrors = require('../utils/utils')
 const expect = require("chai").expect;
 
+//Definición de test para la función de formateo de 
+//errores empleando 'expect'
 describe("Test de Utils", function(){
     describe("Should pass if the function formatErrors return expected message", function(){
         it("Valid errors format", function(){

@@ -12,7 +12,9 @@ const resolvers = {
                     });
                 });
         },
-        //Obtener una lista de productos por nombre
+        //Obtener una lista de productos por nombre (como
+        //solo se le pasa un argumento, no es necesario
+        //indicar el atributo concreto)
         productByName: async (root, args) => {
                 return new Promise((resolve, reject) => {
                     Product.find(args).exec((err, res) => {
