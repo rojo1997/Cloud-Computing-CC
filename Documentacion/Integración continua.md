@@ -27,6 +27,7 @@ Esta es la ruta donde se definen los archivos de configuración necesarios para 
 * **runs-on**: Indicamos el SO donde ejecutar las acciones. Además podemos definir estrategias donde podemos especificar tanto las versiones del SO, como del lenguaje con las que queremos ejecutar dichas acciones.
 * **uses**: Nos permite importar una acción predefinida, como por ejemplo `actions/setup-node@v1` para especificar la versión con la que ejecutar las acciones.
 * **run**: Nos permite ejeutar las ordenes que hemos definido en nuestra herramienta de construcción, como por ejemplo `npm test` para la ejecución de los tests.
+* **env**: Nos permite emplear **variables de entorno** que podemos definir insitu, u obtenerlas desde el entorno de las variables declaradas en las sección **secrets de GitHub**.
 
 Al igual que antes, el lenguaje empleado sera Node Js, pero en este caso, ejecutaremos los tests sobre la versión mínima para la que actualmente hemos testeado el servicio (8.16.2 Carbon). La forma de definir las diversas acciones a ejecutar es bastante similar a como se definen en .travis.yml, lo que facilita en una primera instancia su integración.
 

@@ -43,11 +43,26 @@ npm install
 Con esta orden, `npm` instalará aquellas dependecias que hallamos indicado en el package.json. de nuestro proyecto. 
 
 ##### Scripts
-Como ya hemos mencionado, en esta sección podremos definir órdenes como una secuencia de comandos que podremos ejecutar con npm. En nuestro caso,por ahora solo hemos definido la orden **`test`**, que se encargará de ejecutar los tests desarrollados empleando las herramientas de test definidas anteriormente.
+Como ya hemos mencionado, en esta sección podremos definir órdenes como una secuencia de comandos que podremos ejecutar con npm. En nuestro caso,por ahora solo hemos definido las órdenes **`start`**, **`stop`**, **`restart`** y **`test`**:
+
+```
+npm start
+```
+Tras ejecutar esta orden, se lanzarán 2 instancias del micro-servicio definido, accesibles en el puerto `8080`.
+
 ```
 npm test 
 ```
-Así tras ejecutar esta orden, se realizarán los test y se enviarán los reportes del test de cobertura adiconal a la plataforma de [**codecov.io**](https://codecov.io/gh/yoskitar/Cloud-Computing-CC).
+Con esta orden, se realizarán los test y se enviarán los reportes del test de cobertura adiconal a la plataforma de [**codecov.io**](https://codecov.io/gh/yoskitar/Cloud-Computing-CC).
 
+```
+npm stop
+```
+Tras ejecutar esta orden, se detendrán las instancias del micro-servicio definido, accesibles en el puerto `8080`.
+
+```
+npm restart
+```
+Tras ejecutar esta orden, volverán a renaudarse las instancias detenidas del micro-servicio definido, accesibles en el puerto `8080`.
 
 > Puede consultar el archivo [**package.json**](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/package.json) si aún no lo ha hecho para una mejor comprensión, donde se encuentran los aspectos detallados anteriormente.
