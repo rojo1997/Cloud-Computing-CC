@@ -1,6 +1,12 @@
 #Imagen y versión que usaremos de base para la 
 #construcción del contenedor.
-FROM node:alpine
+FROM alpine:latest
+#Instalamos node y npm con la orden add ya que no vienen 
+#por defecto instalados en la imagen elegida.
+#Al usar --no-cache, evitamos tener que usar update y no 
+#tener que almacenar los índices localmente, lo que nos 
+#permitirá ahorrar espacio en el contenedor.
+RUN apk add --no-cache nodejs npm 
 #Establecemos el directorio de trabajo.
 WORKDIR /usr/src
 #Copiamos el package.json junto al package-lock.json donde 
