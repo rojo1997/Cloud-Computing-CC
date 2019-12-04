@@ -40,3 +40,16 @@ jobs:
           PORT: ${{ secrets.PORT }}
           DB: ${{ secrets.DB }}
         run: npm test
+      
+      #Publicamos la imagen Docker construida a partir del repositorio
+      #empleando la acción mostrada en la asignatura y que puede ser
+      #consultada en el repositorio https://github.com/JJ/gpr-docker-publish
+      - name: Publish Docker Image to GPR
+        uses: machine-learning-apps/gpr-docker-publish@master
+        with:
+          IMAGE_NAME: 'cc_refood_gestiondeproductos'
+          TAG: 'latest'
+          DOCKERFILE_PATH: 'Dockerfile'
+          BUILD_CONTEXT: '.'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
