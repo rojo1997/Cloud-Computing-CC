@@ -44,16 +44,23 @@ jobs:
       #Publicamos la imagen Docker construida a partir del repositorio
       #empleando la acción mostrada en la asignatura y que puede ser
       #consultada en el repositorio https://github.com/JJ/gpr-docker-publish.
-      #Hemos empleado la de JJ, en lugar de la especificada en la rama forkeada
+      #Se ha empleado la de JJ, en lugar de la especificada en la rama forkeada
       #https://github.com/machine-learning-apps/gpr-docker-publish ya que nos
       #presenta un error al contener un nombre de repositorio con mayúsculas,
-      #debiendo ser todo minúscula para evitarlo.
+      #debiendo ser todo minúscula para evitarlo, como cuando se realiza manualmente.
       - name: Publish Docker Image to GPR
         uses: JJ/gpr-docker-publish@master
         with:
+          #Especificamos el nombre del contenedor, el TAG asociado a la imagen,
+          #la ruta del fichero para la construcción del contenedor Dockerfile,
+          #y el contexto en el que se construirá la imagen.
           IMAGE_NAME: 'cc_refood_gestiondeproductos'
           TAG: 'latest'
           DOCKERFILE_PATH: 'Dockerfile'
           BUILD_CONTEXT: '.'
         env:
+          #Necesitaremos dar permiso para publicar en github packages,
+          #al igual que hacemos cuando lo publicamos de forma manual,
+          #por lo que indicaremos el token de autorización de GitHub
+          #como variable de entorno.
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
