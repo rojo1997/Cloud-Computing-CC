@@ -43,9 +43,13 @@ jobs:
       
       #Publicamos la imagen Docker construida a partir del repositorio
       #empleando la acción mostrada en la asignatura y que puede ser
-      #consultada en el repositorio https://github.com/JJ/gpr-docker-publish
+      #consultada en el repositorio https://github.com/JJ/gpr-docker-publish.
+      #Hemos empleado la de JJ, en lugar de la especificada en la rama forkeada
+      #https://github.com/machine-learning-apps/gpr-docker-publish ya que nos
+      #presenta un error al contener un nombre de repositorio con mayúsculas,
+      #debiendo ser todo minúscula para evitarlo.
       - name: Publish Docker Image to GPR
-        uses: machine-learning-apps/gpr-docker-publish@master
+        uses: JJ/gpr-docker-publish@master
         with:
           IMAGE_NAME: 'cc_refood_gestiondeproductos'
           TAG: 'latest'
