@@ -4,10 +4,10 @@
   "description": "Microservicio de gestión de productos",
   "main": "app.js",
   "scripts": {
-    "start": "pm2-runtime start app.js --name \"gp\" -i 2 ",
+    "start": "pm2-runtime start app/app.js --name \"gp\" -i 2 ",
     "stop": "pm2-runtime stop gp",
     "restart": "pm2-runtime reload gp",
-    "test": "npx nyc --reporter=lcov nyc --reporter=lcov mocha --exit && npx codecov"
+    "test": "npx nyc --reporter=lcov nyc --reporter=lcov mocha app/test/ --exit && npx codecov"
   },
   "author": "Óscar Jiménez Fernández",
   "license": "ISC",
