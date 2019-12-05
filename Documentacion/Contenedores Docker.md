@@ -53,19 +53,29 @@ Para la **construcción** de un **dockerfile** debemos tener en cuenta varias et
 En nuestro caso, el [dockerfile](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/DockerfileAlpine) concreto que hemos definido empleando la imagen de **alpine:latest** tiene la siguiente estructura:
 ```
 FROM alpine:latest
+LABEL maintainer="osc9718@gmail.com"
 RUN apk add --no-cache nodejs npm 
-WORKDIR /usr/src/app
+WORKDIR /usr/src
 COPY package*.json ./
 RUN npm install --production
-COPY . .
+COPY app/graphql app/graphql/
+COPY app/models app/models/
+COPY app/utils app/utils/
+COPY app/app.js app/
+COPY .babelrc .
+COPY LICENSE .
 EXPOSE 8080
+RUN adduser -D dockeruser
+USER dockeruser
 CMD ["npm","start"]
 ```
 * En éste observamos como la **imagen** a partir de la que construiremos el contenedor será la última versión de **alpine** como se ha indicado anteriormente, indicada en la opción `FROM`. 
 
+* Con la instrucción `LABEL` creamos la etiqueta **manteiner**, a la que le asignamos la dirección de correo del encargado de mantener el repositorio.
+
 * Puesto que necesitaremos **node js** para la ejecución del micro-servicio y **npm** para la instalación de las dependencias necesarias, **deberemos** de **instalarlas** ya que no vienen instaladas por defecto en dicha imagen. Esto lo haremos con la opción `RUN`. En ésta llamaremos a la **herramienta de gestión** de paquetes de Alpine Linux denominada `apk`, que nos permitirá **instalar** con la opción `add` los paquetes deseados. El **flag** `--no-cache` nos permitirá reemplazar el update, reduciendo el tamaño del contenedor al **no** emplear ningún **índice** de **cache** local.
 
-* Como **directorio de trabajo** hemos definido la ruta `/usr/src/app` dentro del contenedor, ya que se trata de una ruta 'estandarizada' a lo largo de la literatura y de numerosos [ejemplos](https://docs.docker.com/get-started/part2/), aunque se podría definir cualquier otra.
+* Como **directorio de trabajo** hemos definido la ruta `/usr/src` dentro del contenedor, ya que se trata de una ruta 'estandarizada' a lo largo de la literatura y de numerosos [ejemplos](https://docs.docker.com/get-started/part2/), aunque se podría definir cualquier otra.
 
 * Como deberemos de intalar las dependencias de nuestra aplicación, indicadas en el archivo package.json, lo copiaremos al directorio definido. El asterisco nos permitirá copiar además el package-lock, en caso de que la verisón de npm sea inferior a la 4, con lo que no se generaría. **Nótese**, que en vez de copiar todo el contenido, aprovecharemos la **construcción por capas** que nos ofrece docker para intentar **optimizar la construcción de nuestros contenedores**. Ello se debe a que docker tratará de usar una **capa existente en cache** para la construcción de una nueva capa.
 
@@ -76,6 +86,10 @@ CMD ["npm","start"]
 * A continuación, **copiamos** dentro del directorio de trabajo, el contenido de los **fuentes** de nuestra **aplicación**, localizados en el subdirectorio app.
 
 * Indicamos a modo informativo el **puerto interno expuesto** del contenedor, que en nuestro caso será el `:8080`. Podemos configurar esta opción con una variable de entorno **$PORT** para evitar tener que modificar el dockerfile en caso de necesitar cambiar el puerto.
+
+* Para evitar problemas de seguridad derivados de usar un usuario dentro del contenedor con privilegios de super usuario, se [recomienda crear un nuevo **usuario sin privilegios**](https://devcenter.heroku.com/articles/container-registry-and-runtime#testing-an-image-locally) que asignaremos a continuación como usuario del contenedor. Emplemaos para ello el comando `adduser` para añadir el nuevo usuario, junto a la opción `-D`, para no asignarle ninguna contraseña.
+
+* Para **establecer** dicho usuario creado como el **usuario asignado** al **contenedor**, deberemos de emplear la etiqueta `USER`, seguida del nombre del usuario que acabamos de crear.
 
 * Por último, especificamos la órden que se lanzará cada vez que el contenedor sea ejecutado, a través del comando `CMD`. En nuestro caso, la órden **start** definida en el package.json a través de **npm**, que lanzará con el gestor de procesos pm2, 2 instancias de la aplicación.
 
