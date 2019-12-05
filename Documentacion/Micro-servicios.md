@@ -3,18 +3,18 @@
 Como primer **micro-servicio** se ha desarrollado el relacionado con la **gestión** del catálogo de **productos** disponibles, el cual nos permitirá desde **registrar** nuevos productos, hasta modificar el estado de éstos o **obtener** una lista de los **productos** con la posibilidad de **filtrar** por diversos parámetros.
 
 ### Arquitectura en capas
-Nuestro micro-servicio presenta un modelo de **arquitectura** basada en **capas**, que nos facilita el seguir unas buenas prácticas como el TDD, permitiendonos testear nuestras clases independientemente de los módulos adicionales integrados. En nuestro caso distinguimos dos capas:
+Nuestro micro-servicio presenta un modelo de **arquitectura** basada en **capas**, que nos facilita el seguir unas buenas prácticas como el TDD, permitiendonos testear nuestras clases independientemente de los módulos adicionales integrados. En nuestro caso distinguimos tres capas:
 
-* **Nivel superior**: En esta capa se situaría el **Api-Graph**, que nos seviría de punto de acceso desde el exterior al interior de la lógica del micro-servicio. 
-* **Nivel interno**: En ésta se situarían todos nuestros modelos y esquemas de datos que graphql necesita para gestionar la lógica asociada a las funcionalidades definidas para los productos.
-* **Nivel inferior**: En esta capa situaríamos la **integración** de nuestro micro-servicio con la **base de datos** donde almacenaremos la información relativa a nuestros productos. 
+* **Nivel superior o de interfaz**: En esta capa se situaría el **Api-Graph**, que nos seviría de punto de acceso desde el exterior al interior de la lógica del micro-servicio. 
+* **Nivel interno o de lógica**: En ésta se situarían todos nuestros modelos y esquemas de datos que graphql necesita para gestionar la lógica asociada a las funcionalidades definidas para los productos.
+* **Nivel inferior o de almacenamiento**: En esta capa situaríamos la **integración** de nuestro micro-servicio con la **base de datos** donde almacenaremos la información relativa a nuestros productos. 
 
 Esta organización nos facilita como se ha mencionado la realización de los **test unitarios** referentes a los tipos, schemas y modelos definidos, junto con los **test de integración** descritos para comprobar la integración de nuestra aplicación junto con la base de datos y dichos **modelos** y **schemas graphql** que actuarán de **interfaces**.
 
 ### Api-GraphQL
 Como ya se mencionó en la descripción del servicio junto a la [documentación de su infraestructura](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/Documentacion/Arquitectura%20e%20infraestructura.md), para el micro-servicio de gestión de productos se emplará el framework de aplicaciones web [**express**](https://expressjs.com/es/starter/hello-world.html) para Node Js, junto con el módulo [**express-graphql**](https://graphql.org/graphql-js/running-an-express-graphql-server/) que nos permitirá crear nuestro **GraphQL API server**.
 
->Puede consultar más detalles referentes a la [implementación del módulo app](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/app.js) si desea obtener más información.
+>Puede consultar más detalles referentes a la [implementación del módulo app](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/app/app.js) si desea obtener más información.
 
 #### Schemas
 GrahpQL se basa en la **definición** de una serie de **schemas** que definen la **estructura** y los **tipos** de los **modelos de datos** que podremos encontrar, junto a las **funcionalidades** que tendrán y tipos de éstas.
@@ -52,7 +52,7 @@ type Mutation{
     modifyProductState(_id:String!, state: String!): Response
 }
 ```
-> Puede consultar mas detalles sobre la [definición de tipos](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/graphql/types/Product/index.js) completa si desea obtener más información.
+> Puede consultar mas detalles sobre la [definición de tipos](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/app/graphql/types/Product/index.js) completa si desea obtener más información.
 
 #### Models
 Para la integración de nuestro micro-servicio junto con la base de datos en MongoDB, haremos uso del cliente `mongoose`, para el que deberemos de definir los **modelos** de esquema de los **documentos** para las diferentes **colecciones** que definamos, que en nuestro caso, será la colección 'productos'.
@@ -77,7 +77,7 @@ Para ello, hemos empleado como se puede ver en el ejemplo, el **validador** `isL
 
 >Si desea conocer más detalles, puede consultar las [posibilidades de validación](https://www.npmjs.com/package/mongoose-validator) para obtener más información.
 
->Puede consultar la [definición del modelo](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/models/Product.js) completa si desea obtener más detalles.
+>Puede consultar la [definición del modelo](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/app/models/Product.js) completa si desea obtener más detalles.
 
 #### Resolvers
 Una vez tenemos la definición de `types`, podremos implementar los resolvers atendiendo a su definición de tipo.
@@ -109,10 +109,10 @@ products: async () => {
 ```
 Empleando el **modelo de mongoose** creado para los documentos de la **colección de productos**, ejecutamos el comando `find`, que nos devolverá un array con todos los documentos encontrados en la colección.
 
-> Puede consultar la [implementación de los resolvers](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/graphql/resolvers/Product/index.js) completa si desea conocer más detalles.
+> Puede consultar la [implementación de los resolvers](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/app/graphql/resolvers/Product/index.js) completa si desea conocer más detalles.
 
 ### Arranque automático
-Entre las órdenes declaradas, podemos encontrar la órden `npm start`, definida en el archivo package.json, que a través del uso del gestor de procesos **pm2**, lanzará 2 instancias del micro-servicio empleando la opción `-i`, que recibirán el nombre de gp (gestión de productos).
+Entre las órdenes declaradas, podemos encontrar la órden `npm start`, definida en el archivo package.json, que a través del uso del gestor de procesos **pm2**, lanzará 2 instancias del micro-servicio empleando la opción `-i`, con la orden `start` seguida del módulo de la aplicación que se pretende ejecutar, y que recibirán el nombre de 'gp' (gestión de productos), indicado con el flag `--name` (gestión de productos).
 
 Como **consideración adicional**, deberemos de definir un archivo de **variables de entorno** donde definir las siguientes variables:
 * `PORT`: **Puerto** desde el que se encontrará accesible el micro-serivicio.

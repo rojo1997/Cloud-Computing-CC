@@ -48,21 +48,53 @@ Como ya hemos mencionado, en esta sección podremos definir órdenes como una se
 ```
 npm start
 ```
-Tras ejecutar esta orden, se lanzarán 2 instancias del micro-servicio definido, accesibles en el puerto `8080`.
+Esta orden ha sido definida como:
+```
+pm2-runtime start app/app.js --name \"gp\" -i 2
+```
+Tras ejecutar esta orden, se lanzarán 2 instancias del micro-servicio definido, accesibles en el puerto `8080` definido internamente como variable de entorno.
+* `pm2-runtime`: Gestor de procesos de producción para aplicaciones Node.js con el que levantaremos el micro-servicio.
+* `start`: Ejecutará el módulo indicado.
+* `-i`: Número de instancias del servicio que se lanzarán.
+* `--name`: Nombrará las instancias iniciadas con el nombre indicado. Nos permitirá referirnos facilmente a dichas instancias.
 
 ```
 npm test 
 ```
+
+Esta orden ha sido definida como:
+```
+npx nyc --reporter=lcov mocha app/test/ --exit && npx codecov
+```
+* `npx`: Viene por defeto con +npm@5.2 y nos permitirá ejecutar los binarios necesarios para lanzar los test, junto a la integración con los test de cobertura con una sola línea, sin necesidad de especificar en el .travis.yml, el uso de un nuevo script para que tras la etiqueta `after_success`, sean lanzados dichos tests de cobertura.
+* `nyc`: Cliente de línea de órdenes para Istanbul (indicado arriba).
+* `--reporte=lcov`: Establecemos el reportador del test, que en este caso genera el reporte en formato html que puedes visualizar en el navegador.
+* `mocha`: Como mencionamos anteriormente, será nuestro marco de pruebas con el que realizaremos los test.
+* `--exit`: Finaliza la ejecución del test una vez se han llevado todos a cabo.
+* `codecov`: Herramienta que emplearemos para medir la cobertura de nuestro código en relación a los tests realizados.
+
 Con esta orden, se realizarán los test y se enviarán los reportes del test de cobertura adiconal a la plataforma de [**codecov.io**](https://codecov.io/gh/yoskitar/Cloud-Computing-CC).
 
 ```
 npm stop
 ```
-Tras ejecutar esta orden, se detendrán las instancias del micro-servicio definido, accesibles en el puerto `8080`.
+Esta orden ha sido definida como:
+```
+pm2-runtime stop gp
+```
+* `stop`: Detiene las instancias cuyo nombre sea el inidicado en el parámetro (en nuestro caso, 'gp').
+
+Tras ejecutar esta orden, se detendrán las instancias del micro-servicio definido.
 
 ```
 npm restart
 ```
-Tras ejecutar esta orden, volverán a renaudarse las instancias detenidas del micro-servicio definido, accesibles en el puerto `8080`.
+Esta orden ha sido definida como:
+```
+pm2-runtime reload gp
+```
+* `reload`: Vuelve a iniciar las instancias detenidas con el nombre indicado como parámetro.
+
+Tras ejecutar esta orden, volverán a renaudarse las instancias detenidas del micro-servicio definido.
 
 > Puede consultar el archivo [**package.json**](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/package.json) si aún no lo ha hecho para una mejor comprensión, donde se encuentran los aspectos detallados anteriormente.
