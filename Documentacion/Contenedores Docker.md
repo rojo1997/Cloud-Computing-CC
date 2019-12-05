@@ -143,7 +143,7 @@ Aclararemos que el ID del contenedor tendrá la forma `<nombre de usuario>/<repo
 Tras esto, el contenedor se encontrará accesible en la siguiente dirección:
 
 ```
-https://hub.docker.com/layers/yoskitar/cc-refood-gestiondeproductos/latest/images/sha256-40a7df847e513133cc176e4394175ce07ec1b5da19e7aaf66e885855d0faf122
+Contenedor: https://hub.docker.com/r/yoskitar/cc-refood-gestiondeproductos
 ```
 De este modo, podemos descargarnos y hacer uso del contenedor con el siguiente comando:
 ```
