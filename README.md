@@ -11,7 +11,7 @@ Repositorio para el desarrollo del proyecto y ejercicios pertenecientes a la asi
  1. **REFOOD**  
   1.1. **Descripción**  
   1.2. **Arquitectura**  
-  1.3. **Herramientas**
+  1.3. **Herramientas**  
   1.4. **Micro-servicio: Gestión de productos**  
   1.5. **Contenedores**  
 3. **Justificaciones**
@@ -74,119 +74,22 @@ Tras ejecutar esta orden, se realizarán los test y se enviarán los reportes de
 >Si lo desea, puede obtener más información en la [documentación de integración continua](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/Documentacion/Integraci%C3%B3n%20continua.md).
 
 ### Micro-servicio: Gestión de productos
+#### Gestión de productos
 Como primer **micro-servicio** se ha desarrollado el relacionado con la **gestión** del catálogo de **productos** disponibles, el cual nos permitirá desde **registrar** nuevos productos, hasta modificar el estado de éstos o **obtener** una lista de los **productos** con la posibilidad de **filtrar** por diversos parámetros.
 
-#### Arquitectura en capas
-Nuestro micro-servicio presenta un modelo de **arquitectura** basada en **capas**, que nos facilita el seguir unas buenas prácticas como el TDD, permitiendonos testear nuestras clases independientemente de los módulos adicionales integrados. En nuestro caso distinguimos dos capas:
+##### Arquitectura en capas
+Nuestro micro-servicio presenta un modelo de **arquitectura** basada en **capas**, que nos facilita el seguir unas buenas prácticas como el TDD, permitiendonos testear nuestras clases independientemente de los módulos adicionales integrados. En nuestro caso distinguimos tres capas:
 
-* **Nivel superior**: En esta capa se situaría el **Api-Graph**, que nos seviría de punto de acceso desde el exterior al interior de la lógica del micro-servicio. 
-* **Nivel interno**: En ésta se situarían todos nuestros modelos y esquemas de datos que graphql necesita para gestionar la lógica asociada a las funcionalidades definidas para los productos.
-* **Nivel inferior**: En esta capa situaríamos la **integración** de nuestro micro-servicio con la **base de datos** donde almacenaremos la información relativa a nuestros productos. 
+* **Nivel superior o de interfaz**: En esta capa se situaría el **Api-Graph**, que nos seviría de punto de acceso desde el exterior al interior de la lógica del micro-servicio. 
+* **Nivel interno o de lógica**: En ésta se situarían todos nuestros modelos y esquemas de datos que graphql necesita para gestionar la lógica asociada a las funcionalidades definidas para los productos.
+* **Nivel inferior o de almacenamiento**: En esta capa situaríamos la **integración** de nuestro micro-servicio con la **base de datos** donde almacenaremos la información relativa a nuestros productos. 
 
 Esta organización nos facilita como se ha mencionado la realización de los **test unitarios** referentes a los tipos, schemas y modelos definidos, junto con los **test de integración** descritos para comprobar la integración de nuestra aplicación junto con la base de datos y dichos **modelos** y **schemas graphql** que actuarán de **interfaces**.
 
-#### Api-GraphQL
-Como ya se mencionó en la descripción del servicio junto a la [documentación de su infraestructura](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/Documentacion/Arquitectura%20e%20infraestructura.md), para el micro-servicio de gestión de productos se emplará el framework de aplicaciones web [**express**](https://expressjs.com/es/starter/hello-world.html) para Node Js, junto con el módulo [**express-graphql**](https://graphql.org/graphql-js/running-an-express-graphql-server/) que nos permitirá crear nuestro **GraphQL API server**.
+>Puede consultar la documentación restante referente al [desarrollo del micro-servicio](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/Documentacion/Micro-servicios.md) si desea obtener más información.
 
->Puede consultar más detalles referentes a la [implementación del módulo app](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/app.js) si desea obtener más información.
-
-##### Schemas
-GrahpQL se basa en la **definición** de una serie de **schemas** que definen la **estructura** y los **tipos** de los **modelos de datos** que podremos encontrar, junto a las **funcionalidades** que tendrán y tipos de éstas.
-
-Como ejemplo ilustraremos una de las partes de la definición de schemas para la clase producto:
-```
-type Product{
-    _id: ID!
-    name: String!
-    description: Description!
-    state: String!
-    owner: String!
-    createdAt: String!
-}
-```
-Observamos como haciendo uso de la palabra reservada `type`, seguida del nombre del tipo a definir, podremos establecer los diversos **atributos** que tendrá junto a sus tipos. El uso del caracter `!` nos servirá para establecer **restricciones** de manera que dicho atributo deba de contener un valor, del tipo indicado, sin posibilidad de ser null.
-
-**Destacar** que cuando el **tipo** a definir deba **actuar** como una definición para un tipo de **entrada**, deberemos de emplear la palabra reservada `input`.
-
-Adicional a los tipos de datos que definamos para las clases de nuestro modelo, debremos definir dos tipos adicionales:
-* `Query`: Dentro de este tipo deberemos definir las consultas o resolvers cuya finalidad sea la de obtener unos resultados de una búsqueda. Por ejemplo, en nuestro caso tenemos:
-```
-type Query{
-    productById(_id: String!): Product     
-    productByName(name: String!): [Product]                           
-    products: [Product]                                                
-}
-```
-
-* `Mutation`: En este tipo deberemos definir los resolvers cuya finalidad sea la de realizar algún cambio en el modelo de datos. En nuestro caso:
-
-```
-type Mutation{
-    registerProduct(name: String!, description: iDescription!, state: String, owner: String): Response
-    modifyProductState(_id:String!, state: String!): Response
-}
-```
-> Puede consultar mas detalles sobre la [definición de tipos](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/graphql/types/Product/index.js) completa si desea obtener más información.
-
-##### Models
-Para la integración de nuestro micro-servicio junto con la base de datos en MongoDB, haremos uso del cliente `mongoose`, para el que deberemos de definir los **modelos** de esquema de los **documentos** para las diferentes **colecciones** que definamos, que en nuestro caso, será la colección 'productos'.
-
-Es por ello que atendiendo a la definición de tipos o **types**, crearemos los `schemas` de mongoose. En esta definición emplearemos una herramienta que nos será de gran utilidad a la hora de gestionar pre-condiciones como por ejemplo la seguridad en una contraseña, la longuitud de un nombre de usuario, o la definición de un correo. Esto se puede hacer de una manera extremadamente fácil gracias al módulo `mongoose-validator`.
-
-Como ejemplo, en nuestro caso hemos establecido la restricción de que el nombre del producto deba de ser una cadena de entre 2 y 20 caracteres:
-```
-const ProductSchema = new Schema({
-	name: {
-		type: String,
-		validate: [
-			validate({
-				validator: 'isLength',
-				arguments: [2,20],
-				message: 'El nombre de producto debe contener entre {ARGS[0]} Y {ARGS[1]} caracteres.'
-			})
-		]
-	},
-```
-Para ello, hemos empleado como se puede ver en el ejemplo, el **validador** `isLength` para la longuitud, cuyos **argumentos** son el mínimo y máximo de la longuitud deseada, junto al **mensaje** que se lanzará si no se cumple la **pre-condición**.
-
->Si desea conocer más detalles, puede consultar las [posibilidades de validación](https://www.npmjs.com/package/mongoose-validator) para obtener más información.
-
->Puede consultar la [definición del modelo](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/models/Product.js) completa si desea obtener más detalles.
-
-##### Resolvers
-Una vez tenemos la definición de `types`, podremos implementar los resolvers atendiendo a su definición de tipo.
-
-Deberá presentar la misma estructura que en dicha definición, declarando en un nivel superior, `Query` junto a `Mutation`, dentro de las cuales definiremos las funciones respectivas.
-
-En los resolvers definiremos la **lógica** de nuestra aplicación, por lo que lo que llevemos a cabo en éstos dependerá de las funcionalidades que deseemos implementar en nuestro micro-servicio. De acuerdo a ésto, en nuestro caso hemos desarrollado las siguientes funcionalidades, en consonancia con las [**historias de usuario**](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/Documentacion/Estudio%20del%20dominio%20del%20problema.md) identificadas para la **gestión de productos**:
-* **Consulta de productos**
-    * **productById**: Obtener un **producto** por su **identificador** único.
-    * **productByName**: Obtener una **lista** producto por un **nombre**.        
-    * **products**: Obtener el **catálogo completo** de productos.         
-
-* **Registro de productos**
-    * **registerProduct**: **Registrar** un nuevo **producto**.
-
-* **Modificación del estado de productos**
-    * **modifyProductState**: **Modificar** el **estado** de un producto en caso de que algún usuario lo reserve o lo compre.
-
-Como ejemplo, ilustraremos la implementación de la consulta del catálogo completo de productos:
-```
-products: async () => {
-                return new Promise((resolve, reject) => {
-                    Product.find()
-                    .exec((err, res) => {
-                        err ? reject(err) : resolve(res);
-                    });
-                });
-        }
-```
-Empleando el **modelo de mongoose** creado para los documentos de la **colección de productos**, ejecutamos el comando `find`, que nos devolverá un array con todos los documentos encontrados en la colección.
-
-> Puede consultar la [implementación de los resolvers](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/graphql/resolvers/Product/index.js) completa si desea conocer más detalles.
-
-#### Arranque automático
-Entre las órdenes declaradas, podemos encontrar la órden `npm start`, definida en el archivo package.json, que a través del uso del gestor de procesos **pm2**, lanzará 2 instancias del micro-servicio empleando la opción `-i`, que recibirán el nombre de gp (gestión de productos).
+##### Arranque automático
+Entre las órdenes declaradas, podemos encontrar la órden `npm start`, definida en el archivo package.json, que a través del uso del gestor de procesos **pm2**, lanzará 2 instancias del micro-servicio empleando la opción `-i`, con la orden `start` seguida del módulo de la aplicación que se pretende ejecutar, y que recibirán el nombre de 'gp' (gestión de productos), indicado con el flag `--name` (gestión de productos).
 
 Como **consideración adicional**, deberemos de definir un archivo de **variables de entorno** donde definir las siguientes variables:
 * `PORT`: **Puerto** desde el que se encontrará accesible el micro-serivicio.
@@ -196,46 +99,85 @@ Como **consideración adicional**, deberemos de definir un archivo de **variable
 
 > Puede consultar directamente el arhivo [package.json](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/package.json) si desea obtener más detalles.
 
-
 ### Contenedores
 #### Dockerfiles
 ##### Imagen base
-Para la realización del **contenedor docker** asociado al micro-servicio de **gestión de productos**, se han desarrollado varios **dockerfiles** con el objetivo de **reducir** el **tamaño** del contenedor al **menor espacio** posible.
+Para la realización del **contenedor docker** asociado al micro-servicio de **gestión de productos**, se han desarrollado varios **dockerfiles** con el objetivo de seleccionar aquel que nos ofrezca unas mejores prestaciones.
 
 Para ello, hemos empleado dos **imágenes base** distintas:
 * La primera [imagen](https://hub.docker.com/_/alpine) seleccionada es `alpine:latest`, ya que se trata de una imagen muy básica y ligera basada en **Linux** de tan solo **5 MB**. A partir de ésta será necesario instalar los paquetes y las dependencias necesarias para poder ejecutar nuestro micro-servicio satisfactoriamente.
-* Como segunda imagen hemos empleado `node:latest`, como se mostraba en la [guía](https://nodejs.org/de/docs/guides/nodejs-docker-webapp/) de **node js** junto al uso de **docker**. Para esta segunda imagen no será necesario instalar ningún paquete base, puesto que vienen instaladas por defecto las herramientas necesarias. Tan solo tendremos que instalar las dependencias de nuestra aplicación.
 
-Tras construir los contenedores asociados a cada uno de las imágenes mencionadas, **listamos** con la orden `sudo docker images`, los dos contenedores creados para **comprobar** el **tamaño** de cada uno. Para la imagen de **alpine**, el tamaño del contenedor era de **121 MB**, mientras que para el caso de la imagen de **node** era de **1.05 GB**. Tras comprobar este resultado, seleccionamos la imagen de **alpine** como **imagen base** de nuestro **contenedor**.
+* Como segunda imagen hemos empleado `node:alpine`, como se mostraba en el [repositorio](https://github.com/nodejs/docker-node) de **node js** junto al uso de **docker**. Para esta segunda imagen no será necesario instalar ningún paquete base, puesto que vienen instaladas por defecto las herramientas necesarias. Tan solo tendremos que instalar las dependencias de nuestra aplicación.
+
+Tras construir los contenedores asociados a cada uno de las imágenes mencionadas, **listamos** con la orden `sudo docker images`, los dos contenedores creados para **comprobar** el **tamaño** de cada uno. Para la imagen de **alpine**, el tamaño del contenedor era de **121 MB**, mientras que para el caso de la imagen de **node** era de **176 GB**. 
+
+A continuación, se procedió a emplear la herramienta [Apache Benchmark](https://httpd.apache.org/docs/2.4/programs/ab.html), para comprobar las prestaciones de cada uno de estos contenedores una vez iniciados, haciendo uso de la orden **ab** como se muestra a continuación:
+```
+ab -c <Número de request lanzadas simultáneamente> -n <Número de request en total> <URL>
+```
+Como se observa, con la opción `-c` indicamos el número de **peticiones concurrentes** que se lanzarán contra la **dirección** indicada en el campo `URL`, y con la opción `-n`, el número **total de peticiones** que serán lanzadas.
+
+Los **resutados** de las **pruebas ejecutadas** contra una de las rutas que nos devuelve el **listado** completo de **productos** de la base de datos fueron los siguientes:
+* Imagen **Alpine:latest**
+    * 1000 peticiones, 10 concurrentes.
+![Benchmarking](https://raw.githubusercontent.com/yoskitar/Cloud-Computing-CC/master/Justificaciones/imagenes/C1_E3.png)
+    * 1000 peticiones, 100 concurrentes.
+![Benchmarking](https://raw.githubusercontent.com/yoskitar/Cloud-Computing-CC/master/Justificaciones/imagenes/C1_E2.png)
+    * 10000 peticiones, 1000 concurrentes.
+![Benchmarking](https://raw.githubusercontent.com/yoskitar/Cloud-Computing-CC/master/Justificaciones/imagenes/C1_E1.png)
+
+
+* Imagen **Node:Alpine**
+    * 1000 peticiones, 10 concurrentes.
+![Benchmarking](https://raw.githubusercontent.com/yoskitar/Cloud-Computing-CC/master/Justificaciones/imagenes/C2_E3.png)
+    * 1000 peticiones, 100 concurrentes.
+![Benchmarking](https://raw.githubusercontent.com/yoskitar/Cloud-Computing-CC/master/Justificaciones/imagenes/C2_E2.png)
+    * 10000 peticiones, 1000 concurrentes.
+![Benchmarking](https://raw.githubusercontent.com/yoskitar/Cloud-Computing-CC/master/Justificaciones/imagenes/C2_E1.png)
+
+Tras comparar estos resultados, vemos como la imagen **Node:Alpine** presenta unas mejores prestaciones con unos **mejores tiempos de respuesta** para todos los casos de experimentación realizados. Por esta razón, y puesto que el tamaño de la imagen en nuestro caso apenas es superior, seleccionaremos dicha imagen como base para nuestro contenedor.
+
 
 ##### Construcción del archivo dockerfile
 Para la **construcción** de un **dockerfile** debemos tener en cuenta varias etiquetas que nos permitirán definir desde la imagen base de nuestro contenedor, hasta las acciones o comandos a ejecutar:
 * `FROM`: Nos permite establecer la **imagen base** del contenedor.
+* `LABEL`: Nos permite generar **etiquetas** a las que **asignar** un **valor**, como en nuestro caso, el nombre del encargado de mantener el repositorio.
 * `RUN`: **Ejecuta** la **acción** especificada a continuación de ésta. Nos permitirá por ejemplo, instalar paquetes necesarios para la ejecución de una acción concreta.
 * `WORKDIR`: Servirá para especificar el **directorio de trabajo** dentro del contenedor docker.
 * `COPY`: Permite copiar elementos de una ruta a otra.
 * `EXPOSE`: Se empleará a **modo informativo** para indicar el **puerto expuesto** internamente en nuestro contenedor para la ejecución del micro-servicio.
+* `USER`: Establece el **usuario** asociado dentro del **contenedor**.
 * `CMD`: **Ejecuta** el **comando** indicado como parámetro **cada vez que** el **contenedor es ejecutado**. La emplearemos en nuestro caso para lanzar nuestro micro-servicio.
 
 > Puede consultar más información relativa a las diferentes opciones en la [documentación de docker](https://docs.docker.com/get-started/part2/).
 
 ###### Alpine dockerfile
-En nuestro caso, el [dockerfile](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/Dockerfile) concreto que hemos definido tiene la siguiente estructura:
+En nuestro caso, el [dockerfile](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/DockerfileAlpine) concreto que hemos definido empleando la imagen de **alpine:latest** tiene la siguiente estructura:
 ```
 FROM alpine:latest
+LABEL maintainer="osc9718@gmail.com"
 RUN apk add --no-cache nodejs npm 
-WORKDIR /usr/src/app
+WORKDIR /usr/src
 COPY package*.json ./
 RUN npm install --production
-COPY . .
+COPY app/graphql app/graphql/
+COPY app/models app/models/
+COPY app/utils app/utils/
+COPY app/app.js app/
+COPY .babelrc .
+COPY LICENSE .
 EXPOSE 8080
+RUN adduser -D dockeruser
+USER dockeruser
 CMD ["npm","start"]
 ```
 * En éste observamos como la **imagen** a partir de la que construiremos el contenedor será la última versión de **alpine** como se ha indicado anteriormente, indicada en la opción `FROM`. 
 
+* Con la instrucción `LABEL` creamos la etiqueta **manteiner**, a la que le asignamos la dirección de correo del encargado de mantener el repositorio.
+
 * Puesto que necesitaremos **node js** para la ejecución del micro-servicio y **npm** para la instalación de las dependencias necesarias, **deberemos** de **instalarlas** ya que no vienen instaladas por defecto en dicha imagen. Esto lo haremos con la opción `RUN`. En ésta llamaremos a la **herramienta de gestión** de paquetes de Alpine Linux denominada `apk`, que nos permitirá **instalar** con la opción `add` los paquetes deseados. El **flag** `--no-cache` nos permitirá reemplazar el update, reduciendo el tamaño del contenedor al **no** emplear ningún **índice** de **cache** local.
 
-* Como **directorio de trabajo** hemos definido la ruta `/usr/src/app` dentro del contenedor, ya que se trata de una ruta 'estandarizada' a lo largo de la literatura y de numerosos [ejemplos](https://docs.docker.com/get-started/part2/), aunque se podría definir cualquier otra.
+* Como **directorio de trabajo** hemos definido la ruta `/usr/src` dentro del contenedor, ya que se trata de una ruta 'estandarizada' a lo largo de la literatura y de numerosos [ejemplos](https://docs.docker.com/get-started/part2/), aunque se podría definir cualquier otra.
 
 * Como deberemos de intalar las dependencias de nuestra aplicación, indicadas en el archivo package.json, lo copiaremos al directorio definido. El asterisco nos permitirá copiar además el package-lock, en caso de que la verisón de npm sea inferior a la 4, con lo que no se generaría. **Nótese**, que en vez de copiar todo el contenido, aprovecharemos la **construcción por capas** que nos ofrece docker para intentar **optimizar la construcción de nuestros contenedores**. Ello se debe a que docker tratará de usar una **capa existente en cache** para la construcción de una nueva capa.
 
@@ -243,14 +185,18 @@ CMD ["npm","start"]
 
 * Una vez copiado el package.json, ejecutamos con el comando `RUN` la orden **install** junto con el **flag --production** para instalar solo las **dependencias** del entorno de **producción** y minimizar el tamaño del contenedor, evitando instalar también las dependencias de desarrollo.
 
-* A continuación, **copiamos** en el directorio de trabajo el contenido de los **fuentes** de nuestra **aplicación**, localizados en la misma ruta que el archivo dockerfile.
+* A continuación, **copiamos** dentro del directorio de trabajo, el contenido de los **fuentes** de nuestra **aplicación**, localizados en el subdirectorio app.
 
-* Indicamos a modo informativo el **puerto interno expuesto** del contenedor, que en nuestro caso será el `:8080`.
+* Indicamos a modo informativo el **puerto interno expuesto** del contenedor, que en nuestro caso será el `:8080`. Podemos configurar esta opción con una variable de entorno **$PORT** para evitar tener que modificar el dockerfile en caso de necesitar cambiar el puerto.
+
+* Para evitar problemas de seguridad derivados de usar un usuario dentro del contenedor con privilegios de super usuario, se [recomienda crear un nuevo **usuario sin privilegios**](https://devcenter.heroku.com/articles/container-registry-and-runtime#testing-an-image-locally) que asignaremos a continuación como usuario del contenedor. Emplemaos para ello el comando `adduser` para añadir el nuevo usuario, junto a la opción `-D`, para no asignarle ninguna contraseña.
+
+* Para **establecer** dicho usuario creado como el **usuario asignado** al **contenedor**, deberemos de emplear la etiqueta `USER`, seguida del nombre del usuario que acabamos de crear.
 
 * Por último, especificamos la órden que se lanzará cada vez que el contenedor sea ejecutado, a través del comando `CMD`. En nuestro caso, la órden **start** definida en el package.json a través de **npm**, que lanzará con el gestor de procesos pm2, 2 instancias de la aplicación.
 
 ###### Node dockerfile
-Respecto a la contrucción del segundo [dockerfile](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/DockerfileNode), destacaremos las principales diferencias, que serán en nuestro caso, la imagen base seleccionada (node:latest), que trae por defecto instalados 'Node JS' junto a 'npm', por lo que nos evitaremos tener que instalarlos. Adicional a ello, no habrá ninguna diferencia respecto del dockerfile descrito en el apatado anterior.
+Respecto a la contrucción del [dockerfile](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/Dockerfile) que hemos seleccionado para la construcción del contenedor de nuestro micro-servicio, destacaremos las principales diferencias, que serán en nuestro caso, la imagen base seleccionada (node:alpine), que trae por defecto instalados 'Node JS' junto a 'npm', por lo que nos evitaremos tener que instalarlos. Adicional a ello, no habrá ninguna diferencia respecto a la construcción del dockerfile descrito en el apatado anterior.
 
 #### Construcción y ejecución del contenedor docker
 Una vez tenemos definido nuestro archivo dockerfile, podremos **construir el contenedor**. Para ello, podemos emplear la siguiente orden:
@@ -283,7 +229,7 @@ Como podemos observar, empleamos diversos flags para la ejecución de nuestro co
 #### Publicación del contenedor docker.
 Una vez tenemos creada la imagen del contenedor y hemos comprobado que funciona adecuadamente, podemos publicarla en un repositorio de modo que otros usuarios puedan descargarse nuestra imagen y usarla. Para ello, podemos hacer uso de diversas plataformas que nos brindan dicha posibilidad. 
 
-En nuestro caso, hemos seleccionado dos, [dockerhub](https://docs.docker.com/docker-hub/) y [github packages](https://help.github.com/es/github/managing-packages-with-github-packages/configuring-docker-for-use-with-github-packages), ambas bastante sencillas de utilizar, como explicaremos a continuación.
+En nuestro caso, hemos seleccionado tres, [dockerhub](https://docs.docker.com/docker-hub/) y [github packages](https://help.github.com/es/github/managing-packages-with-github-packages/configuring-docker-for-use-with-github-packages), ambas bastante sencillas de utilizar, como explicaremos a continuación. La tercera ha sido publicada en [Google Cloud](https://cloud.google.com/cloud-build/) para posteriormente poder realizar el despliegue del contenedor en esta misma plataforma.
 
 ##### DockerHub
 Lo primero que deberemos de hacer será de disponer de una cuenta en [dockerhub](https://docs.docker.com/docker-hub/), y crear un repositorio, clickando sobre el botón `create repository`. Una vez creado, deberemos logearnos con el comando `docker login`, que nos solicitará nuestro usuario y contraseña para la cuenta de dockerhub creada. Tras estos primeros pasos, usaremos el siguiente comando, que publicará el contenedor indicado, en el repositorio que especifiquemos:
@@ -298,16 +244,17 @@ Aclararemos que el ID del contenedor tendrá la forma `<nombre de usuario>/<repo
 
 Tras esto, el contenedor se encontrará accesible en la siguiente dirección:
 
-Contenedor: https://hub.docker.com/layers/yoskitar/cc-refood-gestiondeproductos/latest/images/sha256-40a7df847e513133cc176e4394175ce07ec1b5da19e7aaf66e885855d0faf122
-
-
 ```
- https://hub.docker.com/layers/yoskitar/cc-refood-gestiondeproductos/latest/images/sha256-40a7df847e513133cc176e4394175ce07ec1b5da19e7aaf66e885855d0faf122
+Contenedor: https://hub.docker.com/r/yoskitar/cc-refood-gestiondeproductos
 ```
 De este modo, podemos descargarnos y hacer uso del contenedor con el siguiente comando:
 ```
 sudo docker pull yoskitar/cc-refood-gestiondeproductos:latest
 ```
+###### Construcción automática del contenedor en DockerHub
+Una vez realizados los pasos anteriores, podemos configurar nuestro proyecto en Dockerhub para que cada vez que se realice un push al repositorio vinculado en GitHub, se reconstruya automáticamente el contenedor con las modificaciones añadidas. Para ello bastará con vincular dicho repositorio en GitHub, con el de DockerHub, como se muestra en la siguiente imagen:
+
+![DockerHub Auto-Build](https://raw.githubusercontent.com/yoskitar/Cloud-Computing-CC/master/Justificaciones/imagenes/docker-hub-auto-build.png)
 
 ##### GitHub Packages
 Este caso es igual de simple que el anterior, aunque deberemos de tener en cuenta algunas consideraciones a la hora de nombrar los repositorios como las imágenes.
@@ -354,8 +301,38 @@ FROM docker.pkg.github.com/yoskitar/cloud-computing-cc/cc_refood_gestiondeproduc
 
 >Puede consultar más información sobre como trabajar con github packages en la [documentación oficial](https://help.github.com/es/github/managing-packages-with-github-packages/configuring-docker-for-use-with-github-packages).
 
+###### Construcción automática del contenedor en GitHub Packages
+En este caso, si será necesario redactar un par de líneas de código. Deberemos de crear un **workflow** si no lo habíamos creado ya, donde configuraremos la **acción de github** que nos permitirá **construir** el **contenedor** cada vez que se de la condición de activación del workflow, como en nuestro caso, será el **push** al repositorio.
 
+>Puede consultar más información sobre la construcción del workflow elaborado para este proyecto en la documentación sobre [Integración continua](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/Documentacion/Integraci%C3%B3n%20continua.md).
 
+El código que deberemos de añadir a dicho workflow será el siguiente:
+```
+- name: Publish Docker Image to GPR
+        uses: JJ/gpr-docker-publish@master
+        with:
+          IMAGE_NAME: 'cc_refood_gestiondeproductos'
+          TAG: 'latest'
+          DOCKERFILE_PATH: 'Dockerfile'
+          BUILD_CONTEXT: '.'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
+Haremos así uso de la acción localizada en el [repositorio indicado](https://github.com/machine-learning-apps/gpr-docker-publish), aunque concretamente, la versión forkeada por el [repositorio de JJ](https://github.com/JJ/gpr-docker-publish), ya que solventa el error relacionado con la imposibilidad de introducir mayúsculas en el nombre del repositorio o contenedor. En esta acción indicaremos el **nombre** de la imagen, junto al **tag** asociado, la **ruta** donde se encuentre el ****dockerfile**, y el **contexto** donde se construirá la imagen; todos estos parámetros de igual forma a cuando lo construimos manualmente. **Adiconalmente**, recordaremos que era necesario incluir un **token de autorización de GitHub** para permitir la lectura y escritura en GitHub Packages. En este caso lo usaremos a través de la variable de entorno definida en la etiqueta `env`. Si desea obtener más información respecto al uso de cada una de las etiquetas, puede consultar la nota anterior para acceder a la documentación sobre integración continua, donde se detallan.
+
+##### Google Cloud
+###### Construcción automática del contenedor en Google Cloud
+Para este tercer caso, deberemos primeramente disponer de una cuenta en la plataforma con la facturación activada, que en mi caso, al disponer de la beca estudiantil ofrecida por el porfesor JJ para el curso de Cloud Computing, ha resultado suficiente, sin tener que añadir otra cuenta personal adicional.
+
+Una vez tengamos acceso, deberemos de **crear un proyecto**, en el que instalaremos la Api de **Cloud-Build**, siguiendo la siguiente [documentación](https://cloud.google.com/cloud-build/docs/run-builds-on-github), que nos instalará dicha api para el repositorio que indiquemos en GitHub.
+
+Una vez instalada, nos ofrece una herramienta denominada **triggers** o activadores, con los que podemos programar que se ejecute la build del contenedor cada vez que se realice un push al repositorio, como se muestra en la [documentación oficial](https://cloud.google.com/cloud-build/docs/running-builds/automate-builds). Para ello podemos emplear un archivo **dockerfile**, o bien, elaborar un archivo **cloudbuild.yml** y subirlo a nuestro repositorio, que la api empleará por defecto en lugar del dockerfile, donde podremos programar las acciones a realizar, como la construcción del contenedor, y posteriormente, su despliegue.
+
+En nuestro caso por ahora, hemos usado el dockerfile, ya que para el uso de variables de entorno secretas será necesario elaborar lo que ellos denominan, un **llavero**, junto con una **clave de encriptación**, con el que haciendo uso de una de las herramientas que ofrecen denominada [KMS](https://cloud.google.com/cloud-build/docs/securing-builds/use-encrypted-secrets-credentials), podremos encriptar y desencriptar nuestro archivo `.env` para usar dichas variables de entorno dentro de nuestro contenedor de forma segura. Por todo ello y por motivos de tiempo, no hemos podido desplegar el contenedor de forma automática siguiendo este procedimiento, aunque se llevará a cabo para actualizaciones del repositorio.
+
+Siguiendo con la construcción automática del contenedor, una vez llevado a cabo todas las acciones anteriores, cada vez que realizemos un push en el repositorio, podremos consultar el estado de la build del contenedor en la sección de **actions de GitHub**, que nos mostrará si todo ha salido bien, o se han producido fallos en la construcción.
+
+>Puede consultar más información sobre como trabajar con github packages en la [documentación oficial](https://help.github.com/es/github/managing-packages-with-github-packages/configuring-docker-for-use-with-github-packages).
 
 > Si desea obtener más información, consulte la [**documentación completa del proyecto**](https://github.com/yoskitar/Cloud-Computing-CC/tree/master/Documentacion).
 
