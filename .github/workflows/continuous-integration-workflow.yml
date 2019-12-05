@@ -51,9 +51,11 @@ jobs:
       - name: Publish Docker Image to GPR
         uses: JJ/gpr-docker-publish@master
         with:
-          #Especificamos el nombre del contenedor, el TAG asociado a la imagen,
+          #Especificamos el nombre del contenedor, 
           #la ruta del fichero para la construcción del contenedor Dockerfile,
           #y el contexto en el que se construirá la imagen.
+          #Como TAG se emplearán los primeros 12 caracteres del SHA
+          #generado tras la construcción del contenedor, por defecto.
           IMAGE_NAME: 'cc_refood_gestiondeproductos'
           DOCKERFILE_PATH: 'Dockerfile'
           BUILD_CONTEXT: '.'
@@ -62,5 +64,8 @@ jobs:
           #al igual que hacemos cuando lo publicamos de forma manual,
           #por lo que indicaremos el token de autorización de GitHub
           #como variable de entorno.
+          #Al establecer como variable de entorno INPUT_TAG, con el valor
+          #latest, se publicará la imagen con el tag asociado como latest.
+          #¡OJO! el tag como he dicho, no será 'latest'.
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           INPUT_TAG: latest
