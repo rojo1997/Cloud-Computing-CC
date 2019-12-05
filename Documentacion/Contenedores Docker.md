@@ -113,7 +113,7 @@ Como podemos observar, empleamos diversos flags para la ejecución de nuestro co
 ## Publicación del contenedor docker.
 Una vez tenemos creada la imagen del contenedor y hemos comprobado que funciona adecuadamente, podemos publicarla en un repositorio de modo que otros usuarios puedan descargarse nuestra imagen y usarla. Para ello, podemos hacer uso de diversas plataformas que nos brindan dicha posibilidad. 
 
-En nuestro caso, hemos seleccionado dos, [dockerhub](https://docs.docker.com/docker-hub/) y [github packages](https://help.github.com/es/github/managing-packages-with-github-packages/configuring-docker-for-use-with-github-packages), ambas bastante sencillas de utilizar, como explicaremos a continuación.
+En nuestro caso, hemos seleccionado tres, [dockerhub](https://docs.docker.com/docker-hub/) y [github packages](https://help.github.com/es/github/managing-packages-with-github-packages/configuring-docker-for-use-with-github-packages), ambas bastante sencillas de utilizar, como explicaremos a continuación. La tercera ha sido publicada en [Google Cloud](https://cloud.google.com/cloud-build/) para posteriormente poder realizar el despliegue del contenedor en esta misma plataforma.
 
 ### DockerHub
 Lo primero que deberemos de hacer será de disponer de una cuenta en [dockerhub](https://docs.docker.com/docker-hub/), y crear un repositorio, clickando sobre el botón `create repository`. Una vez creado, deberemos logearnos con el comando `docker login`, que nos solicitará nuestro usuario y contraseña para la cuenta de dockerhub creada. Tras estos primeros pasos, usaremos el siguiente comando, que publicará el contenedor indicado, en el repositorio que especifiquemos:
@@ -135,6 +135,10 @@ De este modo, podemos descargarnos y hacer uso del contenedor con el siguiente c
 ```
 sudo docker pull yoskitar/cc-refood-gestiondeproductos:latest
 ```
+#### Construcción automática del contenedor en DockerHub
+Una vez realizados los pasos anteriores, podemos configurar nuestro proyecto en Dockerhub para que cada vez que se realice un push al repositorio vinculado en GitHub, se reconstruya automáticamente el contenedor con las modificaciones añadidas. Para ello bastará con vincular dicho repositorio en GitHub, con el de DockerHub, como se muestra en la siguiente imagen:
+
+![DockerHub Auto-Build](https://raw.githubusercontent.com/yoskitar/Cloud-Computing-CC/master/Justificaciones/imagenes/docker-hub-auto-build.png)
 
 ### GitHub Packages
 Este caso es igual de simple que el anterior, aunque deberemos de tener en cuenta algunas consideraciones a la hora de nombrar los repositorios como las imágenes.
@@ -180,3 +184,34 @@ FROM docker.pkg.github.com/yoskitar/cloud-computing-cc/cc_refood_gestiondeproduc
 ```
 
 >Puede consultar más información sobre como trabajar con github packages en la [documentación oficial](https://help.github.com/es/github/managing-packages-with-github-packages/configuring-docker-for-use-with-github-packages).
+
+#### Construcción automática del contenedor en GitHub Packages
+En este caso, si será necesario redactar un par de líneas de código. Deberemos de crear un **workflow** si no lo habíamos creado ya, donde configuraremos la **acción de github** que nos permitirá **construir** el **contenedor** cada vez que se de la condición de activación del workflow, como en nuestro caso, será el **push** al repositorio.
+
+>Puede consultar más información sobre la construcción del workflow elaborado para este proyecto en la documentación sobre [Integración continua](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/Documentacion/Integraci%C3%B3n%20continua.md).
+
+El código que deberemos de añadir a dicho workflow será el siguiente:
+```
+- name: Publish Docker Image to GPR
+        uses: JJ/gpr-docker-publish@master
+        with:
+          IMAGE_NAME: 'cc_refood_gestiondeproductos'
+          TAG: 'latest'
+          DOCKERFILE_PATH: 'Dockerfile'
+          BUILD_CONTEXT: '.'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
+Haremos así uso de la acción localizada en el [repositorio indicado](https://github.com/machine-learning-apps/gpr-docker-publish), aunque concretamente, la versión forkeada por el [repositorio de JJ](https://github.com/JJ/gpr-docker-publish), ya que solventa el error relacionado con la imposibilidad de introducir mayúsculas en el nombre del repositorio o contenedor. En esta acción indicaremos el **nombre** de la imagen, junto al **tag** asociado, la **ruta** donde se encuentre el ****dockerfile**, y el **contexto** donde se construirá la imagen; todos estos parámetros de igual forma a cuando lo construimos manualmente. **Adiconalmente**, recordaremos que era necesario incluir un **token de autorización de GitHub** para permitir la lectura y escritura en GitHub Packages. En este caso lo usaremos a través de la variable de entorno definida en la etiqueta `env`. Si desea obtener más información respecto al uso de cada una de las etiquetas, puede consultar la nota anterior para acceder a la documentación sobre integración continua, donde se detallan.
+
+### Google Cloud
+#### Construcción automática del contenedor en Google Cloud
+Para este tercer caso, deberemos primeramente disponer de una cuenta en la plataforma con la facturación activada, que en mi caso, al disponer de la beca estudiantil ofrecida por el porfesor JJ para el curso de Cloud Computing, ha resultado suficiente, sin tener que añadir otra cuenta personal adicional.
+
+Una vez tengamos acceso, deberemos de **crear un proyecto**, en el que instalaremos la Api de **Cloud-Build**, siguiendo la siguiente [documentación](https://cloud.google.com/cloud-build/docs/run-builds-on-github), que nos instalará dicha api para el repositorio que indiquemos en GitHub.
+
+Una vez instalada, nos ofrece una herramienta denominada **triggers** o activadores, con los que podemos programar que se ejecute la build del contenedor cada vez que se realice un push al repositorio, como se muestra en la [documentación oficial](https://cloud.google.com/cloud-build/docs/running-builds/automate-builds). Para ello podemos emplear un archivo **dockerfile**, o bien, elaborar un archivo **cloudbuild.yml** y subirlo a nuestro repositorio, que la api empleará por defecto en lugar del dockerfile, donde podremos programar las acciones a realizar, como la construcción del contenedor, y posteriormente, su despliegue.
+
+En nuestro caso por ahora, hemos usado el dockerfile, ya que para el uso de variables de entorno secretas será necesario elaborar lo que ellos denominan, un **llavero**, junto con una **clave de encriptación**, con el que haciendo uso de una de las herramientas que ofrecen denominada [KMS](https://cloud.google.com/cloud-build/docs/securing-builds/use-encrypted-secrets-credentials), podremos encriptar y desencriptar nuestro archivo `.env` para usar dichas variables de entorno dentro de nuestro contenedor de forma segura. Por todo ello y por motivos de tiempo, no hemos podido desplegar el contenedor de forma automática siguiendo este procedimiento, aunque se llevará a cabo para actualizaciones del repositorio.
+
+Siguiendo con la construcción automática del contenedor, una vez llevado a cabo todas las acciones anteriores, cada vez que realizemos un push en el repositorio, podremos consultar el estado de la build del contenedor en la sección de **actions de GitHub**, que nos mostrará si todo ha salido bien, o se han producido fallos en la construcción.
