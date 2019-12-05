@@ -55,7 +55,6 @@ jobs:
           #la ruta del fichero para la construcción del contenedor Dockerfile,
           #y el contexto en el que se construirá la imagen.
           IMAGE_NAME: 'cc_refood_gestiondeproductos'
-          TAG: ${{ INPUT_TAG }}
           DOCKERFILE_PATH: 'Dockerfile'
           BUILD_CONTEXT: '.'
         env:
