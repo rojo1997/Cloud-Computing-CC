@@ -115,27 +115,9 @@ A continuación, se procedió a emplear la herramienta [Apache Benchmark](https:
 ```
 ab -c <Número de request lanzadas simultáneamente> -n <Número de request en total> <URL>
 ```
-Como se observa, con la opción `-c` indicamos el número de **peticiones concurrentes** que se lanzarán contra la **dirección** indicada en el campo `URL`, y con la opción `-n`, el número **total de peticiones** que serán lanzadas.
+>Puede consultar los [experimentos realizados junto a los resultados](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/Documentacion/Contenedores%20Docker.md) si desea conocer más detalles.
 
-Los **resutados** de las **pruebas ejecutadas** contra una de las rutas que nos devuelve el **listado** completo de **productos** de la base de datos fueron los siguientes:
-* Imagen **Alpine:latest**
-    * 1000 peticiones, 10 concurrentes.
-![Benchmarking](https://raw.githubusercontent.com/yoskitar/Cloud-Computing-CC/master/Justificaciones/imagenes/C1_E3.png)
-    * 1000 peticiones, 100 concurrentes.
-![Benchmarking](https://raw.githubusercontent.com/yoskitar/Cloud-Computing-CC/master/Justificaciones/imagenes/C1_E2.png)
-    * 10000 peticiones, 1000 concurrentes.
-![Benchmarking](https://raw.githubusercontent.com/yoskitar/Cloud-Computing-CC/master/Justificaciones/imagenes/C1_E1.png)
-
-
-* Imagen **Node:Alpine**
-    * 1000 peticiones, 10 concurrentes.
-![Benchmarking](https://raw.githubusercontent.com/yoskitar/Cloud-Computing-CC/master/Justificaciones/imagenes/C2_E3.png)
-    * 1000 peticiones, 100 concurrentes.
-![Benchmarking](https://raw.githubusercontent.com/yoskitar/Cloud-Computing-CC/master/Justificaciones/imagenes/C2_E2.png)
-    * 10000 peticiones, 1000 concurrentes.
-![Benchmarking](https://raw.githubusercontent.com/yoskitar/Cloud-Computing-CC/master/Justificaciones/imagenes/C2_E1.png)
-
-Tras comparar estos resultados, vemos como la imagen **Node:Alpine** presenta unas mejores prestaciones con unos **mejores tiempos de respuesta** para todos los casos de experimentación realizados. Por esta razón, y puesto que el tamaño de la imagen en nuestro caso apenas es superior, seleccionaremos dicha imagen como base para nuestro contenedor.
+Tras comparar los resultados, vimos como la imagen **Node:Alpine** presenta unas mejores prestaciones con unos **mejores tiempos de respuesta** para todos los casos de experimentación realizados. Por esta razón, y puesto que el tamaño de la imagen en nuestro caso apenas es superior, seleccionaremos dicha imagen como base para nuestro contenedor.
 
 
 ##### Construcción del archivo dockerfile
@@ -171,60 +153,9 @@ RUN adduser -D dockeruser
 USER dockeruser
 CMD ["npm","start"]
 ```
-* En éste observamos como la **imagen** a partir de la que construiremos el contenedor será la última versión de **alpine** como se ha indicado anteriormente, indicada en la opción `FROM`. 
 
-* Con la instrucción `LABEL` creamos la etiqueta **manteiner**, a la que le asignamos la dirección de correo del encargado de mantener el repositorio.
+>Si lo desea, puede otener toda la información relativa al [detalle de la construcción de los diversos dockerfiles](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/Documentacion/Contenedores%20Docker.md) elaborados en la documentación de contenedores del repositorio.
 
-* Puesto que necesitaremos **node js** para la ejecución del micro-servicio y **npm** para la instalación de las dependencias necesarias, **deberemos** de **instalarlas** ya que no vienen instaladas por defecto en dicha imagen. Esto lo haremos con la opción `RUN`. En ésta llamaremos a la **herramienta de gestión** de paquetes de Alpine Linux denominada `apk`, que nos permitirá **instalar** con la opción `add` los paquetes deseados. El **flag** `--no-cache` nos permitirá reemplazar el update, reduciendo el tamaño del contenedor al **no** emplear ningún **índice** de **cache** local.
-
-* Como **directorio de trabajo** hemos definido la ruta `/usr/src` dentro del contenedor, ya que se trata de una ruta 'estandarizada' a lo largo de la literatura y de numerosos [ejemplos](https://docs.docker.com/get-started/part2/), aunque se podría definir cualquier otra.
-
-* Como deberemos de intalar las dependencias de nuestra aplicación, indicadas en el archivo package.json, lo copiaremos al directorio definido. El asterisco nos permitirá copiar además el package-lock, en caso de que la verisón de npm sea inferior a la 4, con lo que no se generaría. **Nótese**, que en vez de copiar todo el contenido, aprovecharemos la **construcción por capas** que nos ofrece docker para intentar **optimizar la construcción de nuestros contenedores**. Ello se debe a que docker tratará de usar una **capa existente en cache** para la construcción de una nueva capa.
-
->Si desea obtener más información relativa a la construcción de dockerfiles de una manera eficiente, puede consultar el siguiente [recurso](http://bitjudo.com/blog/2014/03/13/building-efficient-dockerfiles-node-dot-js/).
-
-* Una vez copiado el package.json, ejecutamos con el comando `RUN` la orden **install** junto con el **flag --production** para instalar solo las **dependencias** del entorno de **producción** y minimizar el tamaño del contenedor, evitando instalar también las dependencias de desarrollo.
-
-* A continuación, **copiamos** dentro del directorio de trabajo, el contenido de los **fuentes** de nuestra **aplicación**, localizados en el subdirectorio app.
-
-* Indicamos a modo informativo el **puerto interno expuesto** del contenedor, que en nuestro caso será el `:8080`. Podemos configurar esta opción con una variable de entorno **$PORT** para evitar tener que modificar el dockerfile en caso de necesitar cambiar el puerto.
-
-* Para evitar problemas de seguridad derivados de usar un usuario dentro del contenedor con privilegios de super usuario, se [recomienda crear un nuevo **usuario sin privilegios**](https://devcenter.heroku.com/articles/container-registry-and-runtime#testing-an-image-locally) que asignaremos a continuación como usuario del contenedor. Emplemaos para ello el comando `adduser` para añadir el nuevo usuario, junto a la opción `-D`, para no asignarle ninguna contraseña.
-
-* Para **establecer** dicho usuario creado como el **usuario asignado** al **contenedor**, deberemos de emplear la etiqueta `USER`, seguida del nombre del usuario que acabamos de crear.
-
-* Por último, especificamos la órden que se lanzará cada vez que el contenedor sea ejecutado, a través del comando `CMD`. En nuestro caso, la órden **start** definida en el package.json a través de **npm**, que lanzará con el gestor de procesos pm2, 2 instancias de la aplicación.
-
-###### Node dockerfile
-Respecto a la contrucción del [dockerfile](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/Dockerfile) que hemos seleccionado para la construcción del contenedor de nuestro micro-servicio, destacaremos las principales diferencias, que serán en nuestro caso, la imagen base seleccionada (node:alpine), que trae por defecto instalados 'Node JS' junto a 'npm', por lo que nos evitaremos tener que instalarlos. Adicional a ello, no habrá ninguna diferencia respecto a la construcción del dockerfile descrito en el apatado anterior.
-
-#### Construcción y ejecución del contenedor docker
-Una vez tenemos definido nuestro archivo dockerfile, podremos **construir el contenedor**. Para ello, podemos emplear la siguiente orden:
-```
-sudo docker build -t <ID del contenedor> <ruta del dockerfile>
-```
-En nuestro caso:
-```
-sudo docker build -t yoskitar/cc-refood-gestiondeproductos .
-```
-
-Tras ejecutar la orden de construcción anterior, docker construirá el contenedor a partir de la dockerfile creado, y podremos **listarla** con el comando `sudo docker images`.
-
-En el caso de que todo se haya realizado correctamente y la imagen nos aparezca al listarla, podremos ejecutarla con la orden:
-```
-sudo docker run -it --env-file=<ENV> -p <puerto externo>:<puerto interno> <ID del contenedor>:<version>
-```
-En nuestro caso:
-```
-sudo docker run -it --env-file=.env -p 8080:8080 yoskitar/cc-refood-gestiondeproductos:latest
-```
-Como podemos observar, empleamos diversos flags para la ejecución de nuestro contenedor:
-* `-t`: Ejecuta el contenedor en **modo pseudo-terminal**.
-* `-i`: Ejecuta el contenedor en **modo interactivo**.
-* `--env-file`: Nos permite pasarle mediante un nombre de fichero, las [**variables de entorno**](https://docs.docker.com/compose/env-file/) necesarias para la correcta ejecución de nuestra aplicación dentro del contenedor.
-* `-p`: Establece la **conexión** entre el **puerto externo** del contenedor, con el puerto **interno** que empleará nuestra aplicación.
-
->Si desea obtener más información relativa a las diferentes opciones disponibles para la construcción y ejecución de contenedores docker, puede consultar la [doumentación oficial](https://docs.docker.com/engine/reference/run/).
 
 #### Publicación del contenedor docker.
 Una vez tenemos creada la imagen del contenedor y hemos comprobado que funciona adecuadamente, podemos publicarla en un repositorio de modo que otros usuarios puedan descargarse nuestra imagen y usarla. Para ello, podemos hacer uso de diversas plataformas que nos brindan dicha posibilidad. 
@@ -312,13 +243,13 @@ El código que deberemos de añadir a dicho workflow será el siguiente:
         uses: JJ/gpr-docker-publish@master
         with:
           IMAGE_NAME: 'cc_refood_gestiondeproductos'
-          TAG: 'latest'
           DOCKERFILE_PATH: 'Dockerfile'
           BUILD_CONTEXT: '.'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          INPUT_TAG: latest
 ```
-Haremos así uso de la acción localizada en el [repositorio indicado](https://github.com/machine-learning-apps/gpr-docker-publish), aunque concretamente, la versión forkeada por el [repositorio de JJ](https://github.com/JJ/gpr-docker-publish), ya que solventa el error relacionado con la imposibilidad de introducir mayúsculas en el nombre del repositorio o contenedor. En esta acción indicaremos el **nombre** de la imagen, junto al **tag** asociado, la **ruta** donde se encuentre el ****dockerfile**, y el **contexto** donde se construirá la imagen; todos estos parámetros de igual forma a cuando lo construimos manualmente. **Adiconalmente**, recordaremos que era necesario incluir un **token de autorización de GitHub** para permitir la lectura y escritura en GitHub Packages. En este caso lo usaremos a través de la variable de entorno definida en la etiqueta `env`. Si desea obtener más información respecto al uso de cada una de las etiquetas, puede consultar la nota anterior para acceder a la documentación sobre integración continua, donde se detallan.
+Haremos así uso de la acción localizada en el [repositorio indicado](https://github.com/machine-learning-apps/gpr-docker-publish), aunque concretamente, la versión forkeada por el [repositorio de JJ](https://github.com/JJ/gpr-docker-publish), ya que solventa el error relacionado con la imposibilidad de introducir mayúsculas en el nombre del repositorio o contenedor. En esta acción indicaremos el **nombre** de la imagen, la **ruta** donde se encuentre el ****dockerfile**, y el **contexto** donde se construirá la imagen; todos estos parámetros de igual forma a cuando lo construimos manualmente. Como **tag** se emplearán los 12 primeros caracteres del código SHA generado tras la construcción del contenedor. Con la etiqueta `INPUT_TAG` establecemos la imagen del contenedor publicada como la versión **latest**. **Adiconalmente**, recordaremos que era necesario incluir un **token de autorización de GitHub** para permitir la lectura y escritura en GitHub Packages. En este caso lo usaremos a través de la variable de entorno definida en la etiqueta `env`. Si desea obtener más información respecto al uso de cada una de las etiquetas, puede consultar la nota anterior para acceder a la documentación sobre integración continua, donde se detallan.
 
 ##### Google Cloud
 ###### Construcción automática del contenedor en Google Cloud
