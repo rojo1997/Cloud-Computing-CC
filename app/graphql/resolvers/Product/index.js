@@ -47,7 +47,7 @@ const resolvers = {
                 // de la BD.
                 const stored = await newProduct.save();
                 const productList = await Product.distinct("name");
-                require('dotenv').config();
+                /*require('dotenv').config();
                 const AMQP_SERVER = process.env.URI_AMQP_SERVER;
                 amqp.connect(AMQP_SERVER, function(error0, connection){
                     if(error0){
@@ -67,7 +67,7 @@ const resolvers = {
                     setTimeout(function() {
                         connection.close();
                     }, 5000);
-                });
+                });*/
                 //Devolvemos el estado de éxito y el objeto creado
                 return {
                     success:true,

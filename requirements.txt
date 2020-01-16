@@ -6,3 +6,4 @@ pymongo
 codecov
 invoke
 dnspython
+python-dotenv
