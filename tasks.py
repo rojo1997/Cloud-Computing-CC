@@ -14,7 +14,7 @@ def start(ctx, ms='all'):
 @task
 def test(ctx, ms='all'):
     if(ms=='all'):
-        ctx.run("npm test & coverage run -m unittest src/test")
+        ctx.run("npm test & coverage run -m unittest src/test/app_test.py")
     if(ms=='gp'):
         ctx.run("npm test")
     if(ms=='ar'):

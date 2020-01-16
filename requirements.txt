@@ -5,3 +5,4 @@ coverage
 pymongo
 codecov
 invoke
+dnspython

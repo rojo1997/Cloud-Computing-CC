@@ -25,7 +25,6 @@ class DbManager:
                 res = self.collection.find()
             elif(param == 'id'):
                 res = self.collection.find_one({'_id':ObjectId(value)})
-                print(res)
                 lista=False
             elif(param == 'ingredients'):
                 res = self.collection.find({'ingredients':{'$elemMatch':{'$in':value}}})
@@ -41,7 +40,6 @@ class DbManager:
             if(lista):
                 docs=[]
                 for doc in res:
-                    print(doc)
                     docs.append(doc)
                 resp['data']=docs
             else:

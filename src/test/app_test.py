@@ -16,7 +16,7 @@ class TestApp(Tester):
         self.assertEqual(result.status, HTTP_200)
     
     def test_get_productById(self):
-        result = self.simulate_get('/receipes?method=byId&value=5e19c8ab73b430389a823a14')
+        result = self.simulate_get('/receipes?method=byId&value=5e20e60d6859cdc7b2517b60')
         self.assertEqual(result.status, HTTP_200)
         self.assertEqual(result.json['name'], "Pollo con almendras")
 
