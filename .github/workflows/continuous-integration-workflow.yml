@@ -39,6 +39,7 @@ jobs:
         env:
           PORT: ${{ secrets.PORT }}
           DB: ${{ secrets.DB }}
+          URI_AMQP_SERVER: ${{ secrets.URI_AMQP_SERVER }}
         run: npm test
       
       #Publicamos la imagen Docker construida a partir del repositorio
