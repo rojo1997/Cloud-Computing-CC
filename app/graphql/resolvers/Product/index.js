@@ -1,6 +1,8 @@
 const Product = require('../../../models/Product');
 const formatErrors = require ('../../../utils/utils');
 const ObjectID = require('mongodb').ObjectID;
+const amqp = require('amqplib/callback_api')
+const codec = require('codec');
 
 const resolvers = {
     Query: {
@@ -44,7 +46,28 @@ const resolvers = {
                 // Guardamos el producto en la colección Products
                 // de la BD.
                 const stored = await newProduct.save();
-                
+                const productList = await Product.distinct("name");
+                require('dotenv').config();
+                const AMQP_SERVER = process.env.URI_AMQP_SERVER;
+                amqp.connect(AMQP_SERVER, function(error0, connection){
+                    if(error0){
+                        throw error0;
+                    }
+                    connection.createChannel(function(error1, channel){
+                        if(error1){
+                            throw error1;
+                        }
+                        var queue = 'analyze_queue';
+                        channel.assertQueue(queue, {
+                            durable: false
+                        });
+
+                        channel.sendToQueue(queue, Buffer.from(codec.json.encode(productList)));
+                    });
+                    setTimeout(function() {
+                        connection.close();
+                    }, 5000);
+                });
                 //Devolvemos el estado de éxito y el objeto creado
                 return {
                     success:true,
