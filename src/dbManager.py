@@ -3,7 +3,7 @@
 import pymongo
 from bson.objectid import ObjectId
 import json
-from falcon import HTTP_200, HTTP_400
+from falcon import HTTP_200, HTTP_201, HTTP_400
 from bson import json_util
 
 class DbManager:
@@ -49,14 +49,14 @@ class DbManager:
 
     def insert(self,newReceipe):
         resp = {
-            "status": HTTP_200, 
+            "status": HTTP_201, 
             "data": None,
             "msg": "Success"
         }
 
         lista = True
         try:
-            res = self.collection.insert(newReceipe)
+            res = self.collection.insert_one(newReceipe).inserted_id
         except Exception as ex:
             self.logger.error(ex)
 
