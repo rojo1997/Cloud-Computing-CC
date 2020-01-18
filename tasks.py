@@ -7,7 +7,7 @@ def start(ctx, ms='all'):
     if(ms=='gp'):
         ctx.run("npm start")
     if(ms=='ar'):
-            ctx.run("gunicorn -w 4 -b 0.0.0.0:8080 --chdir src app:api & python src/analyzer.py")
+            ctx.run("gunicorn --chdir src app:api & python src/analyzer.py")
         
         
 
