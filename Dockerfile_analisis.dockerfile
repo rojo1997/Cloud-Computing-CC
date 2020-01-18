@@ -5,6 +5,11 @@ FROM python:3.7-slim-buster
 #mantener el repositorio, con la etiqueta LABEL, ya que 
 #MAINTAINER se encuentra [deprecated]
 LABEL maintainer="osc9718@gmail.com"
+#Definimos las variables de entorno necesarias
+ENV PORT ${PORT}
+ENV DB_RECEIPES ${DB_RECEIPES}
+ENV URI_AMQP_SERVER ${URI_AMQP_SERVER}
+
 #Establecemos el directorio de trabajo.
 WORKDIR /usr/service/
 #Copiamos el package.json junto al package-lock.json donde 
