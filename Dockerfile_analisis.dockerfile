@@ -15,8 +15,7 @@ COPY tasks.py .
 #package.json gracias al flag --production. Si simplemente 
 #install, npm instalaría las dependencias especificadas en el 
 #apartado de dependencias de desarrollo. 
-RUN pip install invoke
-RUN invoke install --ms ar
+RUN pip install -r requirements.txt
 #Copiamos el contenido del código de la aplicación 
 #al directorio de trabajo definido dentro del contenedor.
 #El segundo argumento hace referencia a la dirección donde se copiará
