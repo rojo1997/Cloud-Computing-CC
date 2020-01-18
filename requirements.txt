@@ -4,6 +4,5 @@ gunicorn
 coverage
 pymongo
 codecov
-invoke
 dnspython
 python-dotenv
