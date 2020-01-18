@@ -2,6 +2,7 @@
 
 import falcon
 import json
+import sys
 from bson import ObjectId
 from falcon import HTTP_400, HTTP_501
 from dotenv import load_dotenv
@@ -63,7 +64,7 @@ class Receipe(object):
         resp.body = JSONEncoder().encode(res['data'])
 
     def on_post(self, req, resp):
-        data = json.loads(req.stream.read().decode('utf-8'))
+        data = json.loads(req.stream.read(sys.maxsize).decode('utf-8'))
         res = self.post(data=data)
 
         resp.status = res['status']
