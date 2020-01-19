@@ -1,14 +1,16 @@
 from invoke import task
 
 @task 
-def start(ctx, ms='all'):
+def start(ctx, ms='all', w=4, p=3003):
     if(ms=='all'):
-        ctx.run("npm start & gunicorn --chdir src app:api & python src/analyzer.py")
+        ctx.run("npm start & " + "gunicorn -w " + str(w) + " -b :" + str(p) + " --chdir src app:api & python src/analyzer.py")
     if(ms=='gp'):
         ctx.run("npm start")
-    if(ms=='ar'):
-            ctx.run("gunicorn --chdir src app:api & python src/analyzer.py")
-        
+    if(ms=='ar' and p != 3003):
+        ctx.run("gunicorn -w " + str(w) + " -b :" + str(p) + " --chdir src app:api & python src/analyzer.py")
+    else:
+        ctx.run("gunicorn -w " + str(w) + " --chdir src app:api & python src/analyzer.py")
+
         
 
 @task

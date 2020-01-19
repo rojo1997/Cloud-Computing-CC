@@ -1,0 +1,15 @@
+execution:
+- concurrency: 1000
+  ramp-up: 10s
+  hold-for: 50s
+  scenario: analisis-getter-test
+
+scenarios:
+  analisis-getter-test:
+    default-address: http://localhost:8000
+    requests:
+    - url: /receipes?method=byIngredients&value=alemendras&value=pollo
+      method: GET
+    - url: /receipes?method=receipes&value=all
+      method: GET
+
