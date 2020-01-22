@@ -1,3 +1,8 @@
 build:
+    #Indicamos que se trata de un docker.
     docker:
+        #Se indica el nombre del dockerfile. Cuando se despliegue,
+        #al no haber indicado ninguna acción o comando a ejecutar,
+        #se empleará por defecto la acción definida en el CMD, localizada 
+        #en el archivo dockerfile.
         web: Dockerfile_analisis.dockerfile
