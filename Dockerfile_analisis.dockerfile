@@ -12,14 +12,14 @@ ENV URI_AMQP_SERVER ${URI_AMQP_SERVER}
 
 #Establecemos el directorio de trabajo.
 WORKDIR /usr/service/
-#Copiamos el package.json junto al package-lock.json donde 
-#hemos especificado las dependencias de nuestro microservicio.
+#Copiamos el requirements donde hemos especificado
+#las dependencias de nuestro microservicio.
+#Copiamos el buildtool del micro-servicio con la
+#que podremos llamar a las diferentes funciones definidas.
 COPY requirements.txt .
 COPY tasks.py .
-#Instalamos las dependencias de producción especificadas en el 
-#package.json gracias al flag --production. Si simplemente 
-#install, npm instalaría las dependencias especificadas en el 
-#apartado de dependencias de desarrollo. 
+#Instalamos las dependencias especificadas en el 
+#requirements.txt.
 RUN pip install -r requirements.txt
 #Copiamos el contenido del código de la aplicación 
 #al directorio de trabajo definido dentro del contenedor.
@@ -32,7 +32,7 @@ COPY src/dbManager.py src/
 COPY src/receipe.py src/
 #Indicamos a modo informativo el puerto interno
 #de nuestro microservicio. 
-EXPOSE 8080
+EXPOSE 8000
 #Creamos un usuario sin privilegios de root para ejecutar
 #el contenedor
 RUN useradd -m dockeruser
@@ -42,8 +42,10 @@ RUN useradd -m dockeruser
 #derivados de los permisos de un usuario root.
 USER dockeruser
 #Definimos la acción a ejecutar, que en nuestro caso,
-#será el comando start definido en los scripts del 
-#package.json de nuestro microservicio, encargado de 
-#iniciar el microservicio. Esta acción se ejecutará
-#automáticamente al ejecutar el contenedor.
+#será el comando start definido en las tareas del 
+#tasks.py de nuestro microservicio, encargado de 
+#iniciar el microservicio indicado como argumento,
+#que en este caso, sería el ms de análisis.
+#Esta acción se ejecutará automáticamente 
+#al ejecutar el contenedor.
 CMD ["invoke","start", "--ms", "ar"]
