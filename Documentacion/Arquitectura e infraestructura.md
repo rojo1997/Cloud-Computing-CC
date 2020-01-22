@@ -9,23 +9,18 @@ Nos basaremos así en una **comunicación asíncrona** implementando una **cola 
 
 Como se ha mencionado, se planea que se puedan usar diferentes lenguajes en el servicio, por lo que la idea será emplear **Node JS** para los 2 primeros micro-servicios y **Python** para el 3º de los micro-servicios, aprovechando las ventajas de cada uno de estos lenguajes en relación a las funcionalidades de los micro-servicios, como se definen a continuación:
 
-* **Microsercicio 1**: Gestión de usuarios (tipos supermercado y comprador)
-  * Registro de usuarios
-  * Borrado de usuarios
-  * Consulta de usuarios
-  * Autenticación de usuarios
-* **Microservicio 2**: Gestión de productos
+
+* **Microservicio 1**: Gestión de productos
   * Registrar producto rebajado
   * Modificar estado de producto rebajado ([disponible - reservado - comprado])
   * Consultar productos
-* **Microservicio 3**: Gestión de alertas a usuarios de tipo comprador
+* **Microservicio 2**: Gestión de alertas a usuarios de tipo comprador
   * Registrar alertas de productos
   * Registrar alertas de posibles recetas
-* **Microservicio 4**: Análisis de productos
+* **Microservicio 3**: Análisis de productos
   * Buscar posibles recetas con productos rebajados disponibles
-* **Microservicio 5**: Log del servicio
-  * Registro de operación
-  * Consulta de log del servicio
+  * Gestión del catálogo de recetas (Registro y consulta)
+
 
 A continuación se muestra un diagrama donde se refleja la arquitectura descrita:
 ![Arquitectura del servicio](https://raw.githubusercontent.com/yoskitar/Cloud-Computing-CC/master/Justificaciones/imagenes/Arquitectura%20CC-Project-ReFood.png)

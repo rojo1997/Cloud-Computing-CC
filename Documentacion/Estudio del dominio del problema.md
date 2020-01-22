@@ -33,6 +33,6 @@ En nuestro problema encontramos 3 entidades principales:
 * **Receta**: Una receta atiende a una serie de pasos en los que intervienen un conjunto de productos para la elaboración de una comida. El interés de esta entidad en el dominio de nuestro problema será poder analizar que recetas se pueden realizar en función de los productos rebajados, con el objetivo de incentivar a su compra a través de estas sugerencias.
 
   * Un usuario introduce un producto en el catálogo y se analiza si existe alguna receta que se pueda elaborar con los productos rebajados disponibles.
-    * [Issue #34](https://github.com/yoskitar/Cloud-Computing-CC/issues/34): Creación de API GRAPH para micro-servicio de análisis de productos.
+    * [Issue #34](https://github.com/yoskitar/Cloud-Computing-CC/issues/34): Creación de API REST para micro-servicio de análisis de productos.
     * [Issue #35](https://github.com/yoskitar/Cloud-Computing-CC/issues/35): Implementación de 'get receta'.
     * [Issue #36](https://github.com/yoskitar/Cloud-Computing-CC/issues/36): Implementación de función de análisis.
