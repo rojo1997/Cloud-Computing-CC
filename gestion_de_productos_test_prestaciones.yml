@@ -1,24 +1,27 @@
 execution:
+  #Definimos el siguiente escenario, donde establecemos:
+  #concurrency: número de usuario simultáneaos.
+  #ramp-up: tiempo en alcanzar el número de usuarios establecido.
+  #hold-for: tiempo que se mantendrán los usuarios.
+  #scenario: nombre asociado al escenario.
 - concurrency: 3000
   ramp-up: 10s
   hold-for: 50s
   scenario: gestion-de-productos-getter-test
-- concurrency: 3
-  ramp-up: 10s
-  hold-for: 20s
-  scenario: gestion-de-productos-post-test
 
+#Declaramos las consultas que se realizarán atendiendo a cada uno de 
+#los escenarios definidos.
 scenarios:
   gestion-de-productos-getter-test:
+    #Establecemos la dirección base de las consultas.
+    #No es algo necesario, pero puede ser considerado una
+    #buena práctica, en el caso de que dicha dirección base
+    #cambie,lo que nos permite tener que cambiarla solo en un sitio.
     default-address: http://localhost:8080
+    #Definimos las peticiones indicando la url y el método a ejecutar
+    #sobre dicha URL.
     requests:
     - url: /graphql?query=query%7B%0A%20%20productById(_id%3A%225e1f6018e4a329146184c32e%22)%7B%0A%20%20%09%20name%0A%20%20%20%20_id%0A%20%20%20%20description%7B%0A%20%20%20%20%20%20reducedPrice%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D
       method: GET
     - url: /graphql?query=query%7B%0A%20%20productByName(name%3A%22Producto%20de%20test%22)%7B%0A%20%20%09%20name%0A%20%20%20%20_id%0A%20%20%20%20description%7B%0A%20%20%20%20%20%20reducedPrice%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D
       method: GET
-
-  gestion-de-productos-post-test:
-    default-address: http://localhost:8080
-    requests:
-    - url: /graphql?query=mutation%7B%0A%20%20registerProduct(name%3A%22Prestaciones%22%2Cowner%3A%22Taurus%22%2Cdescription%3A%7BtextDescription%3A%22prestaciones%22%2Cprice%3A0.0%2CreducedPrice%3A0.0%2Cexpiration%3A%22ahora%22%7D%2Cstate%3A%22test%22)%7B%0A%20%20%20%20success%0A%20%20%20%20productResponse%7B%0A%20%20%20%20%20%20name%0A%20%20%20%20%20%20_id%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D
-      method: POST
