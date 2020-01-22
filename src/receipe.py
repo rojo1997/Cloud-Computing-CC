@@ -49,10 +49,16 @@ class Receipe(object):
             "msg": "Default"
         }
 
-        #Comprobar que existe 'name' e 'ingredients' y son correctos.
-
-        newReceipe = dict(name=data['name'], ingredients=data['ingredients'])
-        res = self.dbManager.insert(newReceipe)
+        #Comprobamos si el json recibido esta bien formado
+        if ('name' in data and 'ingredients' in data):
+            ingredientsValue = data['ingredients']
+            if(isinstance(ingredientsValue,list)):
+                newReceipe = dict(name=data['name'], ingredients=ingredientsValue)
+                res = self.dbManager.insert(newReceipe)
+            else:
+                res['msg'] = "Invalid query params type"
+        else:
+            res['msg'] = "Invalid query params"
 
         return res
 
