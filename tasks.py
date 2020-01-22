@@ -5,7 +5,7 @@ from invoke import task
 
 #Tarea definida para la ejecución del servicio desarrollado.
 #Si no se especifica, se ejecutará el servicio completo.
-#Opción --ms: indicar el micro-servicio a testear:
+#Opción --ms: indicar el micro-servicio a ejecutar:
 #   gp: ms de gestión de productos.
 #   ar: ms de análisis de recetas.
 #Opción -w: indicar el número de workers para gunicorn.
@@ -25,6 +25,19 @@ def start(ctx, ms='all', w=4, p=-1):
         ctx.run("gunicorn -w " + str(w) + " -b :" + str(p) + " --chdir src app:api & python src/analyzer.py")
     else:
         ctx.run("gunicorn -w " + str(w) + " --chdir src app:api & python src/analyzer.py")
+
+#Tarea definida para detener la ejecución del servicio desarrollado.
+#Opción --ms: indicar el micro-servicio a detener:
+#   gp: ms de gestión de productos.
+#   ar: ms de análisis de recetas.
+@task 
+def stop(ctx, ms='all'):
+    if(ms=='all' and p != -1):
+        ctx.run("npm stop & " + "pkill gunicorn")
+    if(ms=='gp'):
+        ctx.run("npm stop")
+    if(ms=='ar'):
+        ctx.run("pkill gunicorn")
 
         
 #Tarea definida para la realización de los tests y reportes de cobertura
