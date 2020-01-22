@@ -1,12 +1,25 @@
 execution:
+  #Definimos el siguiente escenario, donde establecemos:
+  #concurrency: número de usuario simultáneaos.
+  #ramp-up: tiempo en alcanzar el número de usuarios establecido.
+  #hold-for: tiempo que se mantendrán los usuarios.
+  #scenario: nombre asociado al escenario.
 - concurrency: 1000
   ramp-up: 10s
   hold-for: 50s
   scenario: analisis-getter-test
 
+#Declaramos las consultas que se realizarán atendiendo a cada uno de 
+#los escenarios definidos. 
 scenarios:
   analisis-getter-test:
+    #Establecemos la dirección base de las consultas.
+    #No es algo necesario, pero puede ser considerado una
+    #buena práctica, en el caso de que dicha dirección base
+    #cambie,lo que nos permite tener que cambiarla solo en un sitio.
     default-address: http://localhost:8000
+    #Definimos las peticiones indicando la url y el método a ejecutar
+    #sobre dicha URL.
     requests:
     - url: /receipes?method=byIngredients&value=alemendras&value=pollo
       method: GET
