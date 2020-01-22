@@ -27,7 +27,7 @@ class TestApp(Tester):
     def test_get_productById(self):
         result = self.simulate_get('/receipes?method=byId&value=5dffa8001348e798acaeff54')
         self.assertEqual(result.status, HTTP_200)
-        self.assertEqual(result.json['name'], "Katsudon")
+        self.assertEqual(result.json['name'], "Pollo con almendras")
 
     #Función para testear la obtención de recetas atendiendo a sus ingredientes
     def test_get_productByIngredients(self):
