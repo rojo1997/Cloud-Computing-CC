@@ -25,7 +25,7 @@ class TestApp(Tester):
     #5dffa8001348e798acaeff54
     #5e20e60d6859cdc7b2517b60
     def test_get_productById(self):
-        result = self.simulate_get('/receipes?method=byId&value=5dffa8001348e798acaeff54')
+        result = self.simulate_get('/receipes?method=byId&value=5e20e60d6859cdc7b2517b60')
         self.assertEqual(result.status, HTTP_200)
         self.assertEqual(result.json['name'], "Pollo con almendras")
 
