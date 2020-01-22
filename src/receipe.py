@@ -49,6 +49,8 @@ class Receipe(object):
             "msg": "Default"
         }
 
+        #Comprobar que existe 'name' e 'ingredients' y son correctos.
+
         newReceipe = dict(name=data['name'], ingredients=data['ingredients'])
         res = self.dbManager.insert(newReceipe)
 
