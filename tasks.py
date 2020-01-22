@@ -6,6 +6,7 @@ from invoke import task
 #Tarea definida para la ejecución del servicio desarrollado.
 #Si no se especifica, se ejecutará el servicio completo.
 #Opción --ms: indicar el micro-servicio a ejecutar:
+#   all: Valor por defecto -> Todos los micro-servicios
 #   gp: ms de gestión de productos.
 #   ar: ms de análisis de recetas.
 #Opción -w: indicar el número de workers para gunicorn.
@@ -17,33 +18,35 @@ from invoke import task
 def start(ctx, ms='all', w=4, p=-1):
     if(ms=='all' and p != -1):
         ctx.run("npm start & " + "gunicorn -w " + str(w) + " -b :" + str(p) + " --chdir src app:api & python src/analyzer.py")
-    else:
+    elif(ms=='all'):
         ctx.run("npm start & " + "gunicorn -w " + str(w) + " --chdir src app:api & python src/analyzer.py")
     if(ms=='gp'):
         ctx.run("npm start")
     if(ms=='ar' and p != -1):
         ctx.run("gunicorn -w " + str(w) + " -b :" + str(p) + " --chdir src app:api & python src/analyzer.py")
-    else:
+    elif(ms=='ar'):
         ctx.run("gunicorn -w " + str(w) + " --chdir src app:api & python src/analyzer.py")
 
-#Tarea definida para detener la ejecución del servicio desarrollado.
+#Tarea definida para detener la parada del servicio desarrollado.
 #Opción --ms: indicar el micro-servicio a detener:
+#   all: Valor por defecto -> Todos los micro-servicios
 #   gp: ms de gestión de productos.
 #   ar: ms de análisis de recetas.
 @task 
 def stop(ctx, ms='all'):
-    if(ms=='all' and p != -1):
-        ctx.run("npm stop & " + "pkill gunicorn")
+    if(ms=='all'):
+        ctx.run("npm stop & " + "pkill gunicorn & pkill python")
     if(ms=='gp'):
         ctx.run("npm stop")
     if(ms=='ar'):
-        ctx.run("pkill gunicorn")
+        ctx.run("pkill gunicorn & pkill python")
 
         
 #Tarea definida para la realización de los tests y reportes de cobertura
 #de los micro-servicios desarrollados.
 #Si no se especifica, se realizarán los tests del servicio completo.
 #Opción --ms: indicar el micro-servicio a testear:
+#   all: Valor por defecto -> Todos los micro-servicios
 #   gp: ms de gestión de productos.
 #   ar: ms de análisis de recetas.
 @task
@@ -60,6 +63,7 @@ def test(ctx, ms='all'):
 #Si no se especifica, instalará las dependecias necesarias para la 
 #ejecución del servicio completo.
 #Opción --ms: indicar las dependencias del micro-servicio a instalar:
+#   all: Valor por defecto -> Todos los micro-servicios
 #   gp: ms de gestión de productos.
 #   ar: ms de análisis de recetas.
 @task
