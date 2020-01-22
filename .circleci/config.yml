@@ -2,18 +2,27 @@ version: 2
 jobs:
   build:
     docker:
+      #Se obtiene la imagen docker ofrecida por circleci
+      #con la versión indicada de python como base para 
+      #ejecutar los test y completar la integración.
       - image: circleci/python:3.6.1
 
     steps:
       - checkout
-      
+      #Instalamos las dependencias necesarias para la ejecución del los
+      #test. Se creará y activará un entorno virtual para llevar a cabo
+      #la ejecución de dichos tests.
       - run:
           name: Instalando dependencias
           command: |
             python3 -m venv venv
             . venv/bin/activate
             pip install -r requirements.txt
-
+      #Ejecutamos los test sobre el micro-servicio de análisis de recetas,
+      #llamando a la tarea definida como 'test' en el tasks.py a través de 
+      #invoke, y ejecutamos codecov para subir los reportes de cobertura 
+      #a la plataforma codecov.io, todo ello sobre el entorno virtual creado
+      #y que volvemos a activar.
       - run:
           name: run tests
           command: |
