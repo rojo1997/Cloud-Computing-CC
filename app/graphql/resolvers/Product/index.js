@@ -47,27 +47,35 @@ const resolvers = {
                 // de la BD.
                 const stored = await newProduct.save();
                 const productList = await Product.distinct("name");
-                /*require('dotenv').config();
+                //Obtenemos la dirección del servidor AMQP
+                require('dotenv').config();
                 const AMQP_SERVER = process.env.URI_AMQP_SERVER;
+                //Establecemos la conexión con el servidor
                 amqp.connect(AMQP_SERVER, function(error0, connection){
                     if(error0){
                         throw error0;
                     }
+                    //Creamos un canal para la conexión establecida
                     connection.createChannel(function(error1, channel){
                         if(error1){
                             throw error1;
                         }
+                        //Inicializamos la cola para evitar errores en caso
+                        //de que no exista, y ponemos el campo 'durable' 
+                        //a false, por motivos de restricciones del uso 
+                        //gratuito del servicio.
                         var queue = 'analyze_queue';
                         channel.assertQueue(queue, {
                             durable: false
                         });
-
+                        //Enviamos los datos deseados a la cola indicada.
                         channel.sendToQueue(queue, Buffer.from(codec.json.encode(productList)));
                     });
+                    //Cerramos la conexión establecida.
                     setTimeout(function() {
                         connection.close();
                     }, 5000);
-                });*/
+                });
                 //Devolvemos el estado de éxito y el objeto creado
                 return {
                     success:true,
