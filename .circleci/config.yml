@@ -23,7 +23,7 @@ jobs:
           command: |
             python3 -m venv venv
             . venv/bin/activate
-            pip install -r requirements.txt
+            pip3 install -r requirements.txt
       #Ejecutamos los test sobre el micro-servicio de análisis de recetas,
       #llamando a la tarea definida como 'test' en el tasks.py a través de 
       #invoke, y ejecutamos codecov para subir los reportes de cobertura 

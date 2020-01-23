@@ -70,9 +70,9 @@ def test(ctx, ms='all'):
 @task
 def install(ctx, ms='all'):
     if(ms=='all'):
-        ctx.run("npm install --production & pip install requirements.txt")
+        ctx.run("npm install --production & pip3 install requirements.txt")
     if(ms=='gp'):
         ctx.run("npm install --production")
     if(ms=='ar'):
-        ctx.run("pip install -r requirements.txt")
+        ctx.run("pip3 install -r requirements.txt")
 
