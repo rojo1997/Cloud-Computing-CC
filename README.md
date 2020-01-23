@@ -2,7 +2,6 @@
 [![Build Status](https://travis-ci.org/yoskitar/Cloud-Computing-CC.svg?branch=master)](https://travis-ci.org/yoskitar/Cloud-Computing-CC)
 [![CircleCI](https://circleci.com/gh/yoskitar/Cloud-Computing-CC/tree/master.svg?style=svg)](https://circleci.com/gh/yoskitar/Cloud-Computing-CC/tree/master)
 [![codecov](https://codecov.io/gh/yoskitar/Cloud-Computing-CC/branch/master/graph/badge.svg)](https://codecov.io/gh/yoskitar/Cloud-Computing-CC)
-![HerokuDeploy](https://raw.githubusercontent.com/yoskitar/Cloud-Computing-CC/master/Justificaciones/imagenes/Succeeded.svg)
 [![DevQAGRX](https://img.shields.io/badge/DevQAGRX-blueviolet?style=svg&logo=Git)](https://github.com/JJ/curso-tdd)
 
 
@@ -111,10 +110,6 @@ En la siguiente dirección encontramos desplegado el contenedor del micro-servic
 ```
 Despliegue: https://cc-refood-analisis.herokuapp.com/
 ```
-Algunas de las rutas disponibles para el recurso son:
-* https://cc-refood-analisis.herokuapp.com/receipes?method=receipes&value=all
-* https://cc-refood-analisis.herokuapp.com/receipes?method=byIngredients&value=Setas
-
 
 > Puede obtener la documentación completa referente a la [construcción de **Dockerfiles** y la automatización de la construcción y despliegue de los contenedores](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/Documentacion/Contenedores%20Docker.md) si desea obtener más información.
 

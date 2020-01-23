@@ -253,3 +253,7 @@ A continuación se muestra un ejemplo de como debería de quedar:
 ![Despliegue automático en heroku](https://raw.githubusercontent.com/yoskitar/Cloud-Computing-CC/master/Justificaciones/imagenes/Deploy_heroku.png)
 
 Tras todos estos pasos, todo estará listo para que nuestro contenedor sea construido y desplegado cada vez que se realice un push sobre nuestro repositorio, siempre y cuando se completen los tests de forma satisfactoria.
+
+Algunas de las rutas disponibles para el recurso son:
+* https://cc-refood-analisis.herokuapp.com/receipes?method=receipes&value=all
+* https://cc-refood-analisis.herokuapp.com/receipes?method=byIngredients&value=Setas
