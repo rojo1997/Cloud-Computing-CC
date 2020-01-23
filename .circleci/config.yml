@@ -1,13 +1,19 @@
 version: 2
+#Definición de trabajos, en nuestro caso, 'build'
 jobs:
+  #Cada trabajo debe declarar un ejecutor que podrá ser o bien un docker,
+  #o una máquina windows o macos.
   build:
+    #En nuestro caso, empleamos una imagen docker.
     docker:
       #Se obtiene la imagen docker ofrecida por circleci
-      #con la versión indicada de python como base para 
+      #con la versión 3.6.1 indicada de python como base para 
       #ejecutar los test y completar la integración.
       - image: circleci/python:3.6.1
-
+    #Se definen las acciones a ejecutar en el trabajo.
     steps:
+      #Verificamos el código fuente de la ruta, que por defecto es el 
+      #directorio raíz del proyecto.
       - checkout
       #Instalamos las dependencias necesarias para la ejecución del los
       #test. Se creará y activará un entorno virtual para llevar a cabo
