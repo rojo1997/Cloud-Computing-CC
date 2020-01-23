@@ -4,7 +4,7 @@
 
 * Adicionalmente se ha empleado como segundo sistema de integración continua [**GitHub Actions**](https://github.com/yoskitar/Cloud-Computing-CC/actions), con el que hemos testeado sobre la versión mínima para la que hemos ejecutado nuestros tests (8.16.2 Carbon).
 
-#### .travis.yml
+### .travis.yml
 En este archivo de configuración encontramos diferentes secciones:
 * **languaje**: En ésta se especifica el lenguaje con el que se ha desarrollado el proyecto.
 * **<lenguaje indicado en `languaje`>**: En esta sección se indican las versiones del lenguaje sobre las que se ejecutarán las órdenes especificadas en el apartado `script`, que en nuestro caso, es la ejecución de los tests.
@@ -19,7 +19,7 @@ En nuestro caso, el lenguaje será `node_js`, y las **versiones mínima y máxim
 
 > Puede consultar el archivo [**.travis.yml**](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/.travis.yml) si aún no lo ha hecho para una mejor comprensión, donde se encuentran los aspectos detallados anteriormente.
 
-#### .github/workflows/IC-workflow.yml
+### .github/workflows/IC-workflow.yml
 Esta es la ruta donde se definen los archivos de configuración necesarios para ejecutar nuestros test empleando GitHub Actions. En este archivo de configuración podremos definir diferentes [**acciones**](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/configuring-a-workflow) tales como se muestran a continuación:
 
 * **name**: Nombre asignado al workflow o acción definida en este archivo.
@@ -35,3 +35,18 @@ Al igual que antes, el lenguaje empleado sera Node Js, pero en este caso, ejecut
   * v8.16.2 --> Carbon
 
 > Puede consultar el archivo [**IC-workflow.yml**](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/.github/workflows/continuous-integration-workflow.yml) si aún no lo ha hecho para una mejor comprensión, donde se encuentran los aspectos detallados anteriormente.
+
+### .circleci/config.yml
+Como **tercer sistema de integración continua** empleado en nuestro servicio, trabajaremos con [CircleCI](https://circleci.com/docs/2.0/getting-started/#section=getting-started), de cara a poder realizar los tests del micro-servicio de **análisis de recetas**, desarrollado en **python**.
+
+En este archivo podemos encontrar las siguientes secciones:
+* Jobs: Definición de trabajos.
+* Build: Nombre que recibe en nuestro caso el trabajo creado.
+* Docker: Ejecutor declarado para cada trabajo. En nuestro caso es Docker debido a que empleamos una imagen docker.
+* Steps: Define las acciones a ejecutar en un trabajo.
+* Run: Paso encargado de ejecutar comandos.
+    * Name: Nombre asociado al 'run' definido.
+    * Command: Secuencia de comandos a ejecutar en éste.
+
+> Puede consultar el archivo [**config.yml**](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/.circleci/config.yml) si aún no lo ha hecho para una mejor comprensión, donde se encuentran los aspectos detallados anteriormente.
+
