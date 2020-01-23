@@ -37,6 +37,10 @@ Los **resutados** de las **pruebas ejecutadas** contra una de las rutas que nos 
 
 Tras comparar estos resultados, vemos como la imagen **Node:Alpine** presenta unas mejores prestaciones con unos **mejores tiempos de respuesta** para todos los casos de experimentación realizados. Por esta razón, y puesto que el tamaño de la imagen en nuestro caso apenas es superior, seleccionaremos dicha imagen como base para nuestro contenedor.
 
+Tras esta experimentación, se decidió realizar varios test de prestaciones adicionales con el objetivo de mejorar dicha experimentación y poder tomar las consideraciones oportunas con el fin de mejorar las prestaciones de nuestro servicio, ya que los resultados arrojados por ahora distan mucho de ser buenos, empleando la herramienta OpenSource denominada **Taurus**, que nos permite de manera sencilla diseñar tests de prestaciones a la vez que ofrece la posibilidad de obtener un reporte del test de forma muy visual en html. 
+
+> Puede consultar los [tests de prestaciones adiconales realizados en el siguiente enlace](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/Documentacion/Prestaciones.md).
+
 
 ### Construcción del archivo dockerfile
 Para la **construcción** de un **dockerfile** debemos tener en cuenta varias etiquetas que nos permitirán definir desde la imagen base de nuestro contenedor, hasta las acciones o comandos a ejecutar:
@@ -127,7 +131,7 @@ Como podemos observar, empleamos diversos flags para la ejecución de nuestro co
 ## Publicación del contenedor docker.
 Una vez tenemos creada la imagen del contenedor y hemos comprobado que funciona adecuadamente, podemos publicarla en un repositorio de modo que otros usuarios puedan descargarse nuestra imagen y usarla. Para ello, podemos hacer uso de diversas plataformas que nos brindan dicha posibilidad. 
 
-En nuestro caso, hemos seleccionado tres, [dockerhub](https://docs.docker.com/docker-hub/) y [github packages](https://help.github.com/es/github/managing-packages-with-github-packages/configuring-docker-for-use-with-github-packages), ambas bastante sencillas de utilizar, como explicaremos a continuación. La tercera ha sido publicada en [Google Cloud](https://cloud.google.com/cloud-build/) para posteriormente poder realizar el despliegue del contenedor en esta misma plataforma.
+En nuestro caso, hemos seleccionado cuatro, [dockerhub](https://docs.docker.com/docker-hub/) y [github packages](https://help.github.com/es/github/managing-packages-with-github-packages/configuring-docker-for-use-with-github-packages), ambas bastante sencillas de utilizar, como explicaremos a continuación. La tercera ha sido publicada en [Google Cloud](https://cloud.google.com/cloud-build/) para posteriormente poder realizar el despliegue del contenedor en esta misma plataforma. Como última opción, hemos utilizado [Heroku](https://www.heroku.com), que nos permitirá de manera muy sencilla la construcción y despliegue automáticos del contenedor.
 
 ### DockerHub
 Lo primero que deberemos de hacer será de disponer de una cuenta en [dockerhub](https://docs.docker.com/docker-hub/), y crear un repositorio, clickando sobre el botón `create repository`. Una vez creado, deberemos logearnos con el comando `docker login`, que nos solicitará nuestro usuario y contraseña para la cuenta de dockerhub creada. Tras estos primeros pasos, usaremos el siguiente comando, que publicará el contenedor indicado, en el repositorio que especifiquemos:
@@ -229,3 +233,23 @@ Una vez instalada, nos ofrece una herramienta denominada **triggers** o activado
 En nuestro caso por ahora, hemos usado el dockerfile, ya que para el uso de variables de entorno secretas será necesario elaborar lo que ellos denominan, un **llavero**, junto con una **clave de encriptación**, con el que haciendo uso de una de las herramientas que ofrecen denominada [KMS](https://cloud.google.com/cloud-build/docs/securing-builds/use-encrypted-secrets-credentials), podremos encriptar y desencriptar nuestro archivo `.env` para usar dichas variables de entorno dentro de nuestro contenedor de forma segura. Por todo ello y por motivos de tiempo, no hemos podido desplegar el contenedor de forma automática siguiendo este procedimiento, aunque se llevará a cabo para actualizaciones del repositorio.
 
 Siguiendo con la construcción automática del contenedor, una vez llevado a cabo todas las acciones anteriores, cada vez que realizemos un push en el repositorio, podremos consultar el estado de la build del contenedor en la sección de **actions de GitHub**, que nos mostrará si todo ha salido bien, o se han producido fallos en la construcción.
+
+### Heroku
+Lo primero que deberemos de hacer es instalar el cliente de heroku y logearnos con nuestra cuenta asociada. Tras ello, deberemos de crear una aplicación de heroku empleando el comando `heroku create <nombre de aplicación>`.
+
+El siguiente paso será definir un archivo `heroku.yml`, en el que configuraremos la construcción del contenedor docker y los comandos a ejecutar. 
+
+Una vez tenemos el fichero `heroku.yml` en nuestro repositorio, deberemos de ejecutar el comando `heroku stack:set container` de manera que indicaremos que la imagen del SO estará basada en un contenedor.
+
+Adicionalmente, podremos configurar las variables de entorno necesarias para la ejecución de nuestro micro-servicio de dos maneras. La primera es directamente desde el dashboard para la aplicación de heroku. La segunda forma empleando el comando `heroku config:set <VAR>=<VALUE>`.
+
+Por último, ejecutamos `git push heroku master`, con lo que se construirá y desplegará el contenedor creado.
+
+#### Construcción y despliegue automático del contenedor en Heroku
+Para permitir que el contenedor sea construido y desplegado cada vez que ejecutemos un push sobre nuestro repositorio, deberemos de conectar la aplicación de GitHub con la aplicación creada en Heroku, además de conectarla con el repositorio indicado. Tras ello, deberemos de **'habilitar el despliegue automático'**, seleccionado la rama master, y asegurandonos de que seleccionamos la opción de esperar a pasar los test de integración antes de realizar el despliegue para asegurarnos de que todo funcionará de manera esperada.
+
+A continuación se muestra un ejemplo de como debería de quedar:
+
+![Despliegue automático en heroku](https://raw.githubusercontent.com/yoskitar/Cloud-Computing-CC/master/Justificaciones/imagenes/Deploy_heroku.png)
+
+Tras todos estos pasos, todo estará listo para que nuestro contenedor sea construido y desplegado cada vez que se realice un push sobre nuestro repositorio, siempre y cuando se completen los tests de forma satisfactoria.
