@@ -19,7 +19,7 @@ class JSONEncoder(json.JSONEncoder):
 #gestionar las peticiones al endpoint '/receipes'.
 class Receipe(object):
     #Establecemos el manejador de la BD para respetar la
-    #'Single source od true'.
+    #'Single source of truth'.
     def __init__(self, dbManager):
         #Inyección de dependencia
         self.dbManager = dbManager

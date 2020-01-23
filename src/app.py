@@ -16,7 +16,7 @@ load_dotenv()
 dbReceipesManager = DbManager(os.getenv("DB_RECEIPES"),'ReceipesDB','receipes')
 #Creamos la instancia del recurso para la gestión de recetas, pasándole
 #como parámetro la instancia del manejador de la BD con el objetivo
-#de respetar la 'single source of true' con la inyección de dependencias.
+#de respetar la 'single source of truth' con la inyección de dependencias.
 receipes = Receipe(dbReceipesManager)
 #Definimos la ruta 'receipes', sobre la que se ejecutarán los request
 #definidos en el recurso de la clase 'Receipe' creado.
