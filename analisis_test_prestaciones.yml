@@ -4,9 +4,9 @@ execution:
   #ramp-up: tiempo en alcanzar el número de usuarios establecido.
   #hold-for: tiempo que se mantendrán los usuarios.
   #scenario: nombre asociado al escenario.
-- concurrency: 1000
+- concurrency: 3000
   ramp-up: 10s
-  hold-for: 50s
+  hold-for: 60s
   scenario: analisis-getter-test
 
 #Declaramos las consultas que se realizarán atendiendo a cada uno de 

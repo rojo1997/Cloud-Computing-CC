@@ -6,7 +6,7 @@ execution:
   #scenario: nombre asociado al escenario.
 - concurrency: 3000
   ramp-up: 10s
-  hold-for: 50s
+  hold-for: 60s
   scenario: gestion-de-productos-getter-test
 
 #Declaramos las consultas que se realizarán atendiendo a cada uno de 
