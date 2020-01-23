@@ -65,3 +65,5 @@ package-lock.json
 __pycache__
 
 .coverage
+
+2020-01-23_*
