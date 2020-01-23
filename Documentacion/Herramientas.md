@@ -2,6 +2,7 @@
 
 ## Herramientas
 ### Tests
+### Gestión de productos
 Para el desarrollo y ejecución de los tests elaborados, se han empleado las siguientes herramientas o paquetes:
 
 En primer lugar, hemos utilizado [**easygraphql-tester**](https://easygraphql.com/docs/getting-started/overview) que es una librería para Node Js creada para realizar **tests de GraphQL** basados en los **schemas**, que nos permitirá testear tanto estos schemas, como los **resolvers** (queries y mutaciones) que hallamos definido y desarrollado. Podremos comprobar así que las definiciones de tipos, campos requeridos o argumentos sean los correctos, entre otros.
@@ -14,10 +15,15 @@ Adicionalmente, se han llevado a cabo **tests de cobertura**, que nos permitirá
 
 Para ello hemos utilizado [**Nyc**](https://github.com/istanbuljs/nyc) como cliente de línea de órdenes para [**Istanbul**](https://istanbul.js.org/) que trabaja bien con **mocha**, y que hemos integrado con [**Codecov**](https://github.com/istanbuljs/nyc/blob/master/docs/setup-codecov.md), que nos permitirá **reportar** los **resultados** del test de **cobertura** a la plataforma, desde la que podremos obtener información de un modo más visual en relación a dichos test realizados.
 
+### Análisis de recetas
+En relación a las tecnologías para el desarrollo y ejecución de los **tests** desarrollados para el micro-servicio de **análisis de recetas** elaborado en **python**, se ha empleado en primera instancia el módulo **'testing'** ofrecido por el framework **Falcon**. Este ofrece una serie de funciones que nos permite simular las peticiones sobre una instancia de un módulo API importado.
+
+Para la **ejecución** de dichos **tests**, se ha utilizado **unittest** en un segundo nivel superior, junto con **coverage** al igual que el anterior micro-servicio, para realizar los reportes de cobertura.
+
 Puede consultar [**más información sobre los test**](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/Documentacion/Tests.md) que se han desarrollado.
 
 ### Construcción
-
+#### Gestión de productos
 buildtool: package.json
 
 #### Package.json
@@ -98,3 +104,40 @@ pm2-runtime reload gp
 Tras ejecutar esta orden, volverán a renaudarse las instancias detenidas del micro-servicio definido.
 
 > Puede consultar el archivo [**package.json**](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/package.json) si aún no lo ha hecho para una mejor comprensión, donde se encuentran los aspectos detallados anteriormente.
+
+#### Servicio completo y análisis de recetas
+buildtool: tasks.py
+
+#### Tasks.py
+Como herramienta de construcción para el servicio completo, emplearemos tasks.py, donde definiremos las tareas necesarias, que podemos llamar empleando el comando **invoke**.
+
+Las tareas definidas en este archivo son las siguientes:
+* Install: Nos permitirá instalar las dependencias necesarias para la ejecución del servicio.
+```
+npm install --production & pip install requirements.txt
+```
+
+* Start: Nos permitirá ejecutar el servicio.
+```
+npm start & gunicorn -w <nº workers> --threads=<nº threads> --worker-class gevent  -b :<port> --chdir src app:api & python src/analyzer.py
+```
+* Con la opción --chdir indicamos el directorio donde se encuenta el módulo del API rest.
+
+* Con la opción --worker-class indicamos el tipo de worker, que en este caso se trata de un tipo de worker asincrono (gevent), con el que trataremos de obtener un mejor valor de prestaciones para el servicio.
+
+* Stop: Nos permitirá detener el servicio.
+```
+npm stop & pkill gunicorn & pkill python
+```
+* Test: Nos permitirá ejecutar los test y subir los reportes de cobertura del servicio.
+```
+npm test & coverage run -m unittest src/test/app_test.py
+```
+
+Adicionalmente, para cada una de estas tareas definidas, se podrá indicar una serie de parámetros:
+* --ms: Nos permitirá especificar el micro-servicio sobre el que ejecutar la tarea seleccionada.
+* -p: Para la tarea 'Start', nos permitirá indicar el puerto sobre el que lanzará gunicorn el micro-servicio de análisis de recetas.
+* -w: Indicar el número de workers con el que se ejecutará gunicorn.
+* -t: Indicar el número de hebras que procesaran las peticiones.
+
+> Puede consultar el archivo [**tasks.py**](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/tasks.py) si aún no lo ha hecho para una mejor comprensión, donde se encuentran los aspectos detallados anteriormente.
