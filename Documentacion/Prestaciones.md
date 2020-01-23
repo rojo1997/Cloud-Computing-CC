@@ -22,6 +22,12 @@ Para la **experimentación** realizada sobre el micro-servicio de gestión de pr
 
 El **test** fue diseñado incrementando la concurrencia de usuarios, hata llegar a **4000 usuarios concurrentes**, con un tiempo de ramp-up de 10 segundos, mantenidos **durante 60 segundos**. Las peticiones realizadas fueron peticiones `GET`, sobre dos recursos diferentes, uno para la obtención de un **producto mediante su identificador**, y la segunda para obtener una **lista** completa de **productos** disponibles dado un **nombre** específico.
 
+Para su ejecución, deberemos de emplear el siguiente comando:
+```
+bzt -report <nombre del fichero .yml del test> 
+```
+Con la opción `-report` indicamos que nos genere un reporte en html de manera que los resultados se presenten de una manera más visual y atractiva.
+
 Los resultados obtenidos fueron los siguientes:
 
 #### 10 usuarios concurrentes

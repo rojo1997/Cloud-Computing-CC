@@ -16,7 +16,7 @@ from invoke import task
 #       plataforma donde ha sido desplegado.
 
 @task 
-def start(ctx, ms='all', w=4, t=2, p=-1):
+def start(ctx, ms='all', w=4, t=1, p=-1):
     if(ms=='all' and p != -1):
         ctx.run("npm start & " + "gunicorn -w " + str(w) + " --threads=" + str(t) + " --worker-class=gevent" + " -b :" + str(p) + " --chdir src app:api & python src/analyzer.py")
     elif(ms=='all'):
