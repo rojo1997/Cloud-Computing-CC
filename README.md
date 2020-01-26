@@ -105,11 +105,22 @@ En la siguiente dirección encontramos publicado el contenedor del micro-servici
 Contenedor: https://hub.docker.com/r/yoskitar/cc-refood-gestiondeproductos
 ```
 
+Adicionalmente, además de en heroku, se ha desplegado el segundo micro-servicio con la finalidad de en un futuro
+poder realizar el provisionamiento de las máquinas virtuales de manera sencilla empleando los contenedore docker
+publicados en dockerhub.
+```
+Contenedor ms análisis: https://hub.docker.com/r/yoskitar/cc-refood-analisisderecetas
+```
+
 ##### Heroku
 En la siguiente dirección encontramos desplegado el contenedor del micro-servicio de análisis de recetas:
 ```
 Despliegue: https://cc-refood-analisis.herokuapp.com/
 ```
+
+Algunas de las rutas disponibles para el recurso son:
+* https://cc-refood-analisis.herokuapp.com/receipes?method=receipes&value=all
+* https://cc-refood-analisis.herokuapp.com/receipes?method=byIngredients&value=Setas&value=Pollo
 
 > Puede obtener la documentación completa referente a la [construcción de **Dockerfiles** y la automatización de la construcción y despliegue de los contenedores](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/Documentacion/Contenedores%20Docker.md) si desea obtener más información.
 

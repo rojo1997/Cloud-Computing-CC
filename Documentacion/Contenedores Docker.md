@@ -256,4 +256,4 @@ Tras todos estos pasos, todo estará listo para que nuestro contenedor sea const
 
 Algunas de las rutas disponibles para el recurso son:
 * https://cc-refood-analisis.herokuapp.com/receipes?method=receipes&value=all
-* https://cc-refood-analisis.herokuapp.com/receipes?method=byIngredients&value=Setas
+* https://cc-refood-analisis.herokuapp.com/receipes?method=byIngredients&value=Setas&value=Pollo
