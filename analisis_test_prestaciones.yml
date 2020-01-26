@@ -4,7 +4,7 @@ execution:
   #ramp-up: tiempo en alcanzar el número de usuarios establecido.
   #hold-for: tiempo que se mantendrán los usuarios.
   #scenario: nombre asociado al escenario.
-- concurrency: 3000
+- concurrency: 100
   ramp-up: 10s
   hold-for: 60s
   scenario: analisis-getter-test
@@ -21,8 +21,10 @@ scenarios:
     #Definimos las peticiones indicando la url y el método a ejecutar
     #sobre dicha URL.
     requests:
-    - url: /receipes?method=byIngredients&value=alemendras&value=pollo
+    #- url: /receipes?method=byIngredients&value=alemendras&value=pollo
+    - url: /receipes?method=byIngredients&value=Alemendras&value=Pollo
       method: GET
+    #- url: /receipes?method=receipes&value=all
     - url: /receipes?method=receipes&value=all
       method: GET
 

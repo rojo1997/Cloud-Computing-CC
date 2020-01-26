@@ -4,7 +4,7 @@ execution:
   #ramp-up: tiempo en alcanzar el número de usuarios establecido.
   #hold-for: tiempo que se mantendrán los usuarios.
   #scenario: nombre asociado al escenario.
-- concurrency: 3000
+- concurrency: 10
   ramp-up: 10s
   hold-for: 60s
   scenario: gestion-de-productos-getter-test
@@ -21,7 +21,9 @@ scenarios:
     #Definimos las peticiones indicando la url y el método a ejecutar
     #sobre dicha URL.
     requests:
-    - url: /graphql?query=query%7B%0A%20%20productById(_id%3A%225e1f6018e4a329146184c32e%22)%7B%0A%20%20%09%20name%0A%20%20%20%20_id%0A%20%20%20%20description%7B%0A%20%20%20%20%20%20reducedPrice%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D
+    #- url: /graphql?query=query%7B%0A%20%20productById(_id%3A%225e1f6018e4a329146184c32e%22)%7B%0A%20%20%09%20name%0A%20%20%20%20_id%0A%20%20%20%20description%7B%0A%20%20%20%20%20%20reducedPrice%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D
+    - url: /graphql?query=query%7B%0A%20%20productByName(name%3A%22Pollo%22)%7B%0A%20%20%20%20state%0A%20%20%20%20name%0A%20%20%20%20description%7B%0A%20%20%20%20%20%20reducedPrice%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D
       method: GET
-    - url: /graphql?query=query%7B%0A%20%20productByName(name%3A%22Producto%20de%20test%22)%7B%0A%20%20%09%20name%0A%20%20%20%20_id%0A%20%20%20%20description%7B%0A%20%20%20%20%20%20reducedPrice%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D
+    #- url: /graphql?query=query%7B%0A%20%20productByName(name%3A%22Producto%20de%20test%22)%7B%0A%20%20%09%20name%0A%20%20%20%20_id%0A%20%20%20%20description%7B%0A%20%20%20%20%20%20reducedPrice%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D
+    - url: /graphql?query=query%7B%0A%20%20productById(_id%3A%225e2dc9424be873004897180b%22)%7B%0A%20%20%20%20name%0A%20%20%20%20_id%0A%20%20%7D%0A%7D
       method: GET
