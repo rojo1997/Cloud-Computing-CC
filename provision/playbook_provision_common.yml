@@ -1,27 +1,61 @@
+# Playbook definido para el provisionamiento de los 
+# recursos comunes a ambos micro-servicios.
+# En hosts se especifica el grupo definido en el inventario
+# sobre el que aplicar dicho provisionamiento. En nuestro caso,
+# al emplear el provisionamiento con ansible directamente desde
+# la definición del vagrantfile, nos reporta un error indicando que 
+# no puede encontrar el host que definimos, por lo que me he visto 
+# obligado a poner 'all', para que realice el provisionamiento de
+# manera satisfactoria.
 - hosts: all
   become: yes
+  # Ruta para el fichero de versiones para las
+  # variables establecidas en cada uno de los
+  # roles, que nos permite decidir por ejemplo 
+  # que versión de node instalar.
   vars_files:
     - vars/main.yml
+  # Roles descargados de la galaxia que emplearemos
+  # para el provisionamiento de nuestra VM. En nuestro
+  # caso, provisionaremos empleando docker, de modo que nos
+  # facilitará esta tarea, al no necesitar nada más que 
+  # un rol que nos permitiá trabajar con docker, y otro para 
+  # el uso en local de la BD, con la finalidad de mejorar las 
+  # prestaciones, como se observó en el análisis de prestaciones
+  # con el uso de la BD en remoto como servicio.
   roles:
     - enix.mongodb
     - geerlingguy.docker
     
+  #Definición de las tareas a realizar. Cada una de estas tareas deberá ser definida
+  # mediante '- name', seguido del nombre asignado a la tarea.
   tasks:
+    # Instalamos python3-pip empleando apt.
+    # Con el parámetro 'name' incluido en apt, indicamos el nombre del módulo
+    # a instalar. Con el parámetro 'state', se indica que el paquete es requerido,
+    # aunque esta opción es OPCIONAL. Su uso viene más indicado para emplear con opciones
+    #como 'latest' o 'absent' para indicar la versión o que sea eliminado.
     - name: Instalar python3-pip
       apt:
         name: python3-pip
         state: present
 
-    - name: Instalar módulo de python para docker
+    # Instalamos docker empleando pip.
+    # Con el parámetro 'name' incluido en pip, indicamos el nombre del módulo
+    # a instalar. 
+    - name: Instalar módulo docker
       pip:
         name: docker
 
-    - name: Copiar archivo de variables de entorno
+    # Empleamos la orden 'copy' para copiar el archivo con las variables de entorno
+    # desde la máquina anfitriona a la VM, indicando las rutas mediante las opciones
+    # 'src' y 'dest'. En este caso, las del ms de gestión de productos. 
+    - name: Copiar archivo de variables de entorno para ms de gestión
       copy:
         src: ../.env
         dest: /etc/.env
-
-    - name: Copiar archivo de variables de entorno
+    # Copiamos en este caso, las del ms de análisis de recetas.
+    - name: Copiar archivo de variables de entorno para ms análisis
       copy:
         src: ../.env_ar
         dest: /etc/.env_ar
