@@ -67,3 +67,7 @@ __pycache__
 .coverage
 
 2020-01-23_*
+
+.vagrant
+
+roles/
