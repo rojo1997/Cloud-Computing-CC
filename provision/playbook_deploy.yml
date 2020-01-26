@@ -1,0 +1,26 @@
+- hosts: all
+  become: yes
+  tasks:
+    - name: MongoDB 
+      service:
+        name: mongod
+        state: started
+    
+    - name: Run docker productos
+      docker_container:
+        name: productos
+        image: yoskitar/cc-refood-gestiondeproductos:latest
+        auto_remove: yes
+        detach: yes
+        network_mode: host
+        env_file: /etc/env/.env
+
+    - name: Run docker analisis
+      docker_container:
+        name: analisis
+        image: yoskitar/cc-refood-analisisderecetas:latest
+        auto_remove: yes
+        detach: yes
+        network_mode: host
+        env_file: /etc/env/.env
+
