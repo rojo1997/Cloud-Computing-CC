@@ -68,16 +68,12 @@ Vagrant.configure("2") do |config|
     ansible.playbook = "playbook_provision_common.yml"
   end
 
-  config.vm.define "provision gestion de productos" do |deploy|
-    deploy.vm.provision :ansible do |ansible|
-      ansible.playbook = "playbook_provision_gp.yml"
-    end
+  config.vm.provision :ansible do |ansible|
+    ansible.playbook = "playbook_provision_gp.yml"
   end
 
-  config.vm.define "provision análisis de recetas" do |deploy|
-    deploy.vm.provision :ansible do |ansible|
-      ansible.playbook = "playbook_provision_ar.yml"
-    end
+  config.vm.provision :ansible do |ansible|
+    ansible.playbook = "playbook_provision_ar.yml"
   end
 
   config.vm.define "deploy" do |deploy|

@@ -13,7 +13,7 @@
         auto_remove: yes
         detach: yes
         network_mode: host
-        env_file: /etc/env/.env
+        env_file: /etc/.env
 
     - name: Run docker analisis
       docker_container:
@@ -22,5 +22,5 @@
         auto_remove: yes
         detach: yes
         network_mode: host
-        env_file: /etc/env/.env
+        env_file: /etc/.env
 

@@ -20,7 +20,7 @@ COPY requirements.txt .
 COPY tasks.py .
 #Instalamos las dependencias especificadas en el 
 #requirements.txt.
-RUN pip install -r requirements.txt
+RUN pip3 install -r requirements.txt
 #Copiamos el contenido del código de la aplicación 
 #al directorio de trabajo definido dentro del contenedor.
 #El segundo argumento hace referencia a la dirección donde se copiará
