@@ -18,15 +18,15 @@ from invoke import task
 @task 
 def start(ctx, ms='all', w=4, t=1, p=-1):
     if(ms=='all' and p != -1):
-        ctx.run("npm start & " + "gunicorn -w " + str(w) + " --threads=" + str(t) + " --worker-class=gevent" + " -b :" + str(p) + " --chdir src app:api & python src/analyzer.py")
+        ctx.run("npm start & " + "gunicorn -w " + str(w) + " --threads=" + str(t) + " --worker-class=gevent" + " -b :" + str(p) + " --chdir src app:api & python3 src/analyzer.py")
     elif(ms=='all'):
-        ctx.run("npm start & " + "gunicorn -w " + str(w) + " --threads=" + str(t) + " --worker-class=gevent" + " --chdir src app:api & python src/analyzer.py")
+        ctx.run("npm start & " + "gunicorn -w " + str(w) + " --threads=" + str(t) + " --worker-class=gevent" + " --chdir src app:api & python3 src/analyzer.py")
     if(ms=='gp'):
         ctx.run("npm start")
     if(ms=='ar' and p != -1):
-        ctx.run("gunicorn -w " + str(w) + " --threads=" + str(t) + " -b :" + str(p) + " --worker-class=gevent" + " --chdir src app:api & python src/analyzer.py")
+        ctx.run("gunicorn -w " + str(w) + " --threads=" + str(t) + " -b :" + str(p) + " --worker-class=gevent" + " --chdir src app:api & python3 src/analyzer.py")
     elif(ms=='ar'):
-        ctx.run("gunicorn -w " + str(w) + " --threads=" + str(t) + " --worker-class=gevent" + " --chdir src app:api & python src/analyzer.py")
+        ctx.run("gunicorn -w " + str(w) + " --threads=" + str(t) + " --worker-class=gevent" + " --chdir src app:api & python3 src/analyzer.py")
 
 #Tarea definida para detener la parada del servicio desarrollado.
 #Opción --ms: indicar el micro-servicio a detener:
