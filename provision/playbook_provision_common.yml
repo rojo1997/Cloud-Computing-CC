@@ -1,0 +1,22 @@
+- hosts: all
+  become: yes
+  vars_files:
+    - vars/main.yml
+  roles:
+    - enix.mongodb
+    - geerlingguy.docker
+    
+  tasks:
+    - name: Instalar python3-pip
+      apt:
+        name: python3-pip
+        state: present
+
+    - name: Instalar módulo de python para docker
+      pip:
+        name: docker
+
+    - name: Copiar archivo de variables de entorno
+      copy:
+        src: ../.env
+        dest: /etc/env/.env

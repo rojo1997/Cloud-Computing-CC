@@ -1,0 +1,7 @@
+- hosts: all
+  become: yes
+  tasks:
+    - name: Pull productos image
+      docker_image:
+        name: yoskitar/cc-refood-gestiondeproductos:latest
+        source: pull
