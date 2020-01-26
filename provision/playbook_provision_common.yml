@@ -20,3 +20,8 @@
       copy:
         src: ../.env
         dest: /etc/.env
+
+    - name: Copiar archivo de variables de entorno
+      copy:
+        src: ../.env_ar
+        dest: /etc/.env_ar
