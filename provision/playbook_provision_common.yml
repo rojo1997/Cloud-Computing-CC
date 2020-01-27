@@ -7,14 +7,20 @@
 # no puede encontrar el host que definimos, por lo que me he visto 
 # obligado a poner 'all', para que realice el provisionamiento de
 # manera satisfactoria.
+# Con la opción become establecemos que use un usuario distinto del 
+# que se logeará en el sistema anfitrión para ejecutar las tareas,
+# indicando que es necesario adquirir privilegios para dicha ejecución.
 - hosts: all
   become: yes
   # Ruta para el fichero de versiones para las
   # variables establecidas en cada uno de los
   # roles, que nos permite decidir por ejemplo 
-  # que versión de node instalar.
-  vars_files:
-    - vars/main.yml
+  # que versión de node instalar. En nuestro caso
+  # lo usamos para un rol adicional que incluimos,
+  # pero ya no nos será necesario, por lo que lo 
+  # dejaremos comentado.
+  # vars_files:
+  #  - vars/main.yml
   # Roles descargados de la galaxia que emplearemos
   # para el provisionamiento de nuestra VM. En nuestro
   # caso, provisionaremos empleando docker, de modo que nos
@@ -22,7 +28,8 @@
   # un rol que nos permitiá trabajar con docker, y otro para 
   # el uso en local de la BD, con la finalidad de mejorar las 
   # prestaciones, como se observó en el análisis de prestaciones
-  # con el uso de la BD en remoto como servicio.
+  # con el uso de la BD en remoto como servicio. Es necesario que
+  # los roles usados se encuentren en la ruta ./roles.
   roles:
     - enix.mongodb
     - geerlingguy.docker

@@ -1,7 +1,14 @@
+# Playbook definido para el provisionamiento del micro-servicio
+# de gestón de productos. Los parámetros comunes mostrados se encuentran
+# descritos en el playbook de provisionamiento common.
 - hosts: all
   become: yes
   tasks:
+    # En este caso tan solo encontramos una tarea, que se encargará
+    # de hacer un pull de la imagen indicada en 'name', que deberá de
+    # estar como repositorio público y disponible en los respositorios
+    # de dockerhub. Por defecto no viene configurado, por lo que es
+    # importante recordarlo de cara a posibles fallos. 
     - name: Pull productos image
       docker_image:
         name: yoskitar/cc-refood-gestiondeproductos:latest
-        source: pull
