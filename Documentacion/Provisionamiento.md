@@ -94,3 +94,7 @@ Como ocurrió en experimentaciones anteriores, el micro-servicio de análisis de
 
 Destacamos además el comportamiento de la carga de hits/s, que muestra un patrón regular, cayendo drásticamente sobre 300 hits/s para después volver a alcanzar unos 1300 hits/s, oscilando regularmente entre estos valores. Desconozco que puede llevar a esto, habiendo realizado experimentos con un mayor número de usuarios simultáneos, y repitiéndose el mismo patrón. Pensé que pudiera ser debido a una limitación por defecto de la máquina virtual o del docker, pero en dicho caso, el patrón se mantendría entorno a los mismos valores de oscilación. 
 
+> Puede obtener información adicional en la [documentación ofrecida en el repositorio de la asignatura](http://jj.github.io/CC/documentos/temas/Provision.html).  
+> Puede consultar más información sobre vagrant en su [documentación oficial](https://www.vagrantup.com/docs/index.html).  
+> Puede consultar más información sobre ansible en su [documentación oficial](https://docs.ansible.com/ansible/latest/index.html).  
+
