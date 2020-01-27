@@ -24,6 +24,7 @@ Para el despliegue del servicio emplearemos una máquina virtual, que deberemos 
     vb.cpus = "4"
  end
 ```
+Debemos de considerar las prestaciones de la máquina anfitriona por dos motivos. El primero de ellos, para no agotar los recursos de la máquina anfitriona, lo que podría desencadenar en un error fatal, o relentizar gravemente el servicio. En segundo lugar, si empleamos un servicio de cloud para la creación de las máquinas virtuales, el uso innecesario de recursos puede llevar a un gasto económico considerable, por lo que será importante conocer las capacidades adecuadas para no tener un gasto innecesario de recursos cuando no es necesario tanto. En nuestro caso, al realizarlo de manera local, estableceremos 6GB de RAM y 4 cpus ya que las condiciones de la máquina anfitriona lo permiten adecuadamente, y así trataremos de ver si las pretaciones de nuestro servicio resultan adecuadas.
 
 Vagrant nos ofrece la posibilidad de provisionar empleando diversos proveedores como Ansible, a través de los denominados playbooks, directamente desde el vagrantfile, sin necesidad de invocar `ansible-playbook`.
 ```
