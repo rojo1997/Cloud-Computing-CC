@@ -16,6 +16,7 @@ Repositorio para el desarrollo del proyecto y ejercicios pertenecientes a la asi
   1.4. **Micro-servicios**  
   1.5. **Prestaciones**  
   1.6. **Contenedores**  
+  1.7. **Provisionamiento**
 2. **Justificaciones**
 3. **Licencia**  
 
@@ -123,6 +124,11 @@ Algunas de las rutas disponibles para el recurso son:
 * https://cc-refood-analisis.herokuapp.com/receipes?method=byIngredients&value=Setas&value=Pollo
 
 > Puede obtener la documentación completa referente a la [construcción de **Dockerfiles** y la automatización de la construcción y despliegue de los contenedores](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/Documentacion/Contenedores%20Docker.md) si desea obtener más información.
+
+### Provisionamiento
+Se ha llevado a cabo la configuración de una máquina virtual empleando virtualbox, empleando la herramienta Vagrant, junto con Ansible para llevar a cabo el provisionamiento de la VM y despliegue en ésta del servicio. Además se ha vuelto a realizar un análisis de prestaciones para poder compararlas con las experimentaciones anteriores realizadas y poder obtener conclusiones de cara a mejorar su rendimiento.
+
+> Puede consultar toda la información relativa a la [configuración y provisionamiento de máquinas virtuales](https://github.com/yoskitar/Cloud-Computing-CC/blob/master/Documentacion/Provisionamiento.md) si desea conocer más.
 
 ## Justificaciones
 [Justificaciones adicionales de la asignatura.](https://github.com/yoskitar/Cloud-Computing-CC/tree/master/Justificaciones)
