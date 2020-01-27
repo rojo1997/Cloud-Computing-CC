@@ -2,6 +2,9 @@
 # En nuestro caso tenemos 'refoodbox', aunque solo tenemos una máquina dentro
 # de este grupo (refood). La configuración especificada es la siguiente:
 # Nombre de la VM (refood).
+# ansible_ssh_host: Establecemos la dirección de la máquina. En este caso usamos
+# la dirección de localhost, pero podríamos especificar la dirección de una máquina
+# creada en cualquier proveedor cloud como Azure, AWS O Google Cloud entre otros.
 # ansible_ssh_port: Al usar vagrant, el puerto ssh es el 2222 por defecto.
 # ansible_ssh_user: Nombre del usuario para la conexión ssh con la VM.
 # ansible_ssh_private_key_file: Ruta de la clave privada para acceder por ssh empleando Vagrant a la VM.
