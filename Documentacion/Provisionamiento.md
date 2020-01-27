@@ -68,6 +68,8 @@ Por último, nos queda el playbook definido de cara al despliegue del servicio, 
 
 Una vez tenemos definidos cada uno de los playbooks necesarios, además del resto de fichero de configuración, sin olvidar incluir los roles empleados en la ruta `./roles`, podemos desplegar nuestro servicio empleando `vagrant up`, sin necesidad de ejecutar ansible de manera adicional, gracias a que hemos usado la opción que ofrece vagrant de provisionar desde el vagrantfile.
 
+En relación a la obtención de los roles, podemos encontrarlos en la [galaxia](https://galaxy.ansible.com/search?deprecated=false&keywords=&order_by=-relevance), e instalarlos con el comando `ansible-galaxy install <nombre del rol>`. Por defecto, los descarga en la ruta `/home/user/.ansible/roles`, por lo que será necesario copiar los roles a la carpeta `./roles` donde tengamos el fichero vagrantfile.
+
 Tras ejecutar dicha orden, podremos conectarnos al servicio empleando las rutas habituales en el navegador:
 * Gestión de productos -> localhost:8080/graphql
 * Análisis de recetas -> localhost:8000/receipes
