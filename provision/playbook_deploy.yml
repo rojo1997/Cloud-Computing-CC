@@ -1,25 +1,38 @@
+# Playbook definido para el despliegue del servicio denominado refood
+# Los parámetros comunes mostrados se encuentran descritos en el playbook 
+# de provisionamiento common.
 - hosts: all
   become: yes
   tasks:
+    # La primera tarea iniciará el servicio indicado en el parámetro
+    # 'name', en este caso mongod, en caso de que no estuviera ya iniciado,
+    # empleando para ello el parámetro 'state' con el valor started.
     - name: MongoDB 
       service:
         name: mongod
         state: started
     
+    # Con las dos tareas siguientes, iniciaremos los dos contenedores que hemos
+    # provisionado con los anteriores playbooks. En este caso usamos la 
+    # imagen del ms de gestión de productos, mediante el parámetro 'image'. Con 'name'
+    # asignamos un nombre al contenedor. Para que la ejecución sea satisfactoria, debemos
+    # de pasarle los valores de las variables de entorno necesarias, empleando el 
+    # parámetro 'env_file' y la ruta del fichero de variables. Conectamos el contenedor
+    # a la red local empleando el 'network_mode' con el valor host. Adicionalmente habilitamos
+    # con 'detach' la ejecución del contenedor en segundo plano.
     - name: Run docker productos
       docker_container:
         name: productos
         image: yoskitar/cc-refood-gestiondeproductos:latest
-        auto_remove: yes
         detach: yes
         network_mode: host
         env_file: /etc/.env
 
+    # Ejecución del contenedor del ms de análisis de recetas.
     - name: Run docker analisis
       docker_container:
         name: analisis
         image: yoskitar/cc-refood-analisisderecetas:latest
-        auto_remove: yes
         detach: yes
         network_mode: host
         env_file: /etc/.env_ar
